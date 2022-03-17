@@ -10,4 +10,5 @@ public class ChaintractApplication {
 		SpringApplication.run(ChaintractApplication.class, args);
 	}
 
+
 }
