@@ -3,6 +3,8 @@ import { useQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { userState } from '@/states/user';
 
+import { Navbar } from '@/components/molecules';
+
 const index = () => {
   // recoil 사용 예시
   const [user, setUser] = useRecoilState(userState);
@@ -22,6 +24,7 @@ const index = () => {
 
   return (
     <>
+      <Navbar />
       <div>
         <h1>{data.name}</h1>
         <p>{data.description}</p>
