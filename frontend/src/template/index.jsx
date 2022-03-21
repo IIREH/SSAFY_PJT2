@@ -18,8 +18,10 @@ const index = () => {
   if (error) return 'An error has occurred: ' + error.message;
 
   const addBtn = (e) => {
-    const word = user;
-    setUser(word + '1');
+    setUser((user) => ({
+      ...user,
+      name: user.name + '1',
+    }));
   };
 
   return (
@@ -31,7 +33,8 @@ const index = () => {
         <strong>👀 {data.subscribers_count}</strong> <strong>✨ {data.stargazers_count}</strong>{' '}
         <strong>🍴 {data.forks_count}</strong>
       </div>
-      <div>recoil state = {user}</div>
+      <div>recoil state = {user.name}</div>
+      <div>recoil state = {user.id}</div>
       <button onClick={addBtn}>추가버튼</button>
     </>
   );

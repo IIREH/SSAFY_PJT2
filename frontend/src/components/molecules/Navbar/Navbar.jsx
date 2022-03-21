@@ -1,22 +1,43 @@
 import React from 'react';
 import Styled from './Navbar.styled';
-
-import { NavButton, Heading } from '@/components/atoms';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { NavButton } from '@/components/atoms';
+import { userState } from '@/states/user';
 
 const Navbar = () => {
+  const user = useRecoilValue(userState);
   return (
     <Styled.MainContainer>
       <>
-        <Heading children="ChainTract" />
+        <NavButton bgColor="inherit" color="#e0f2f1" href="/">
+          ChainTract
+        </NavButton>
       </>
       <>
-        <NavButton children="Contract" bgColor="inherit" color="#fafafa" onClick="" />
-        <NavButton children="FAQ" bgColor="inherit" color="#e0f2f1" />
-        <NavButton children="MyPage" bgColor="inherit" color="#e0f2f1" />
+        <NavButton bgColor="inherit" color="#e0f2f1" href="/contractpage">
+          Contract
+        </NavButton>
+        <NavButton bgColor="inherit" color="#e0f2f1" href="/faq">
+          FAQ
+        </NavButton>
       </>
-      <>
-        <NavButton children="Login" bgColor="inherit" color="#e0f2f1" />
-      </>
+      {user ? (
+        <>
+          <NavButton bgColor="inherit" color="#e0f2f1" href={`/user/${user.id}`}>
+            MyPage
+          </NavButton>
+          {/* logout 처리 추가 해야함 */}
+          <NavButton bgColor="inherit" color="#e0f2f1" href="/login">
+            Logout
+          </NavButton>
+        </>
+      ) : (
+        <>
+          <NavButton bgColor="inherit" color="#e0f2f1" href="/login">
+            Login
+          </NavButton>
+        </>
+      )}
     </Styled.MainContainer>
   );
 };

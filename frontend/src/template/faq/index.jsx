@@ -2,7 +2,7 @@ import React from 'react';
 import Styled from './styled';
 import { Navbar } from 'components/molecules';
 
-const faqTemplate = () => {
+const FaqTemplate = () => {
   return (
     <>
       <Navbar />
@@ -14,4 +14,4 @@ const faqTemplate = () => {
   );
 };
 
-export default faqTemplate;
+export default FaqTemplate;

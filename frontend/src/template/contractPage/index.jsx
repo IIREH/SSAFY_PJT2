@@ -2,7 +2,7 @@ import React from 'react';
 import Styled from './styled';
 import { Navbar } from 'components/molecules';
 
-const contractPageTemplate = () => {
+const ContractPageTemplate = () => {
   return (
     <>
       <Navbar />
@@ -15,4 +15,4 @@ const contractPageTemplate = () => {
   );
 };
 
-export default contractPageTemplate;
+export default ContractPageTemplate;
