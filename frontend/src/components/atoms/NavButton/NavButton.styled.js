@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const NavButton = styled.button`
+const NavButton = styled.a`
   border: none;
   outline: none;
   cursor: pointer;
