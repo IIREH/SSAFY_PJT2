@@ -33,8 +33,6 @@ const index = () => {
         <strong>👀 {data.subscribers_count}</strong> <strong>✨ {data.stargazers_count}</strong>{' '}
         <strong>🍴 {data.forks_count}</strong>
       </div>
-      <div>recoil state = {user.name}</div>
-      <div>recoil state = {user.id}</div>
       <button onClick={addBtn}>추가버튼</button>
     </>
   );
