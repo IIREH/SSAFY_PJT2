@@ -1,11 +1,12 @@
 import React from 'react';
 import Styled from './Navbar.styled';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { NavButton } from '@/components/atoms';
 import { userState } from '@/states/user';
+import { KakaoLoginBtn } from '@/components/molecules';
 
 const Navbar = () => {
-  const user = useRecoilValue(userState);
+  const [user, setUser] = useRecoilState(userState);
   return (
     <Styled.MainContainer>
       <>
@@ -13,7 +14,7 @@ const Navbar = () => {
           ChainTract
         </NavButton>
       </>
-      {user ? (
+      {user.id ? (
         <>
           <NavButton bgColor="inherit" color="#e0f2f1" href="/contractpage">
             Contract
@@ -24,19 +25,14 @@ const Navbar = () => {
           <NavButton bgColor="inherit" color="#e0f2f1" href={`/user/${user.id}`}>
             MyPage
           </NavButton>
-          {/* logout 처리 추가 해야함 */}
-          <NavButton bgColor="inherit" color="#e0f2f1" href="/login">
-            Logout
-          </NavButton>
+          <KakaoLoginBtn />
         </>
       ) : (
         <>
           <NavButton bgColor="inherit" color="#e0f2f1" href="/faq">
             FAQ
           </NavButton>
-          <NavButton bgColor="inherit" color="#e0f2f1" href="/login">
-            Login
-          </NavButton>
+          <KakaoLoginBtn />
         </>
       )}
     </Styled.MainContainer>
