@@ -1,9 +1,9 @@
 import React from 'react';
 import Styled from './styled';
 import { Navbar } from 'components/molecules';
-import { ContractPageList } from 'components/organisms';
 import { useRecoilValue } from 'recoil';
 import { contractPageState } from '@/states/contractPage';
+import { ContractPageList } from 'components/organisms';
 import { Basic, Complete, Ongoing, Sign, Write } from './renderPages';
 
 const ContractPageTemplate = () => {
@@ -28,8 +28,12 @@ const ContractPageTemplate = () => {
     <>
       <Navbar />
       <Styled.MainContainer>
-        <ContractPageList />
-        <>{renderPage()}</>
+        <Styled.ListContainer>
+          <ContractPageList />
+        </Styled.ListContainer>
+        <Styled.ViewContainer>
+          <>{renderPage()}</>
+        </Styled.ViewContainer>
       </Styled.MainContainer>
       ;
     </>

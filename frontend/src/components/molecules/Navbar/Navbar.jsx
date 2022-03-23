@@ -1,6 +1,6 @@
 import React from 'react';
 import Styled from './Navbar.styled';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { NavButton } from '@/components/atoms';
 import { userState } from '@/states/user';
 
@@ -13,16 +13,14 @@ const Navbar = () => {
           ChainTract
         </NavButton>
       </>
-      <>
-        <NavButton bgColor="inherit" color="#e0f2f1" href="/contractpage">
-          Contract
-        </NavButton>
-        <NavButton bgColor="inherit" color="#e0f2f1" href="/faq">
-          FAQ
-        </NavButton>
-      </>
       {user ? (
         <>
+          <NavButton bgColor="inherit" color="#e0f2f1" href="/contractpage">
+            Contract
+          </NavButton>
+          <NavButton bgColor="inherit" color="#e0f2f1" href="/faq">
+            FAQ
+          </NavButton>
           <NavButton bgColor="inherit" color="#e0f2f1" href={`/user/${user.id}`}>
             MyPage
           </NavButton>
@@ -33,6 +31,9 @@ const Navbar = () => {
         </>
       ) : (
         <>
+          <NavButton bgColor="inherit" color="#e0f2f1" href="/faq">
+            FAQ
+          </NavButton>
           <NavButton bgColor="inherit" color="#e0f2f1" href="/login">
             Login
           </NavButton>

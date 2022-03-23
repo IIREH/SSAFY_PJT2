@@ -8,7 +8,7 @@ import { contractPageState } from '@/states/contractPage';
 import { useRecoilState } from 'recoil';
 
 const ContractPageList = () => {
-  const [pageState, setPageState] = useRecoilState(contractPageState);
+  const [, setPageState] = useRecoilState(contractPageState);
   const changePage = (e) => {
     setPageState(e.target.innerText);
   };

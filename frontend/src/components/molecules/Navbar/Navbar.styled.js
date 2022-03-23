@@ -9,6 +9,7 @@ const MainContainer = styled.div`
   background-color: #15534c;
   height: 5vh;
   padding: 0vh 15vw 0vh 15vw;
+  min-width: 500px;
 `;
 
 export default { MainContainer };
