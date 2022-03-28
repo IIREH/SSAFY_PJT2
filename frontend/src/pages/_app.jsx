@@ -7,7 +7,6 @@ import { RecoilRoot } from 'recoil';
 function MyApp({ Component, pageProps }) {
   const [queryClient] = React.useState(() => new QueryClient());
 
-  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>;
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
