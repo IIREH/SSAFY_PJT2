@@ -42,4 +42,8 @@ module.exports = {
       },
     },
   },
+  globals: {
+    window: false,
+    sessionStorage: false,
+  },
 };

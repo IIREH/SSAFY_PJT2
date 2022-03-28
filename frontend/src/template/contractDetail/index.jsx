@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar } from 'components/molecules';
+import { Navbar } from 'components/organisms';
 import { PDFReader } from 'reactjs-pdf-reader';
 import Styled from './styled';
 import { Heading } from '@/components/atoms';

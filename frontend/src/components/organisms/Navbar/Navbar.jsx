@@ -4,8 +4,9 @@ import { NavButton } from '@/components/atoms';
 import { KakaoLoginBtn } from '@/components/molecules';
 
 const Navbar = () => {
-  if (typeof window !== 'undefined') {
-    const userInfo = sessionStorage.getItem('loginInfo');
+  let userInfo = '';
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    userInfo = sessionStorage.getItem('loginInfo');
   }
 
   return (

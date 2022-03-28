@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { Navbar } from '@/components/molecules';
+import { Navbar } from '@/components/organisms';
 
 const index = () => {
   // react쿼리 예시
