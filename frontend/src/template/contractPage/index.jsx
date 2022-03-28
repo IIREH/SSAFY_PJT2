@@ -1,6 +1,6 @@
 import React from 'react';
 import Styled from './styled';
-import { Navbar } from 'components/molecules';
+import { Navbar } from 'components/organisms';
 import { useRecoilValue } from 'recoil';
 import { contractPageState } from '@/states';
 import { ContractListMenu } from 'components/molecules';

@@ -7,11 +7,11 @@ import { authInstance } from '@/libs/axios';
 import { KAKAO_OAUTH_APIKEY } from '@/config';
 
 const KakaoLoginBtn = () => {
-  //url 변경 필요
   const api = authInstance();
   const mutation = useMutation((token) => api.post('/auth/login', token));
-  if (typeof window !== 'undefined') {
-    const userInfo = sessionStorage.getItem('loginInfo');
+  let userInfo = '';
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    userInfo = sessionStorage.getItem('loginInfo');
   }
 
   return (
@@ -29,9 +29,7 @@ const KakaoLoginBtn = () => {
         mutation.mutate(res.response.access_token);
         router.push('/');
       }}
-      onFail={() => {
-        alert('다시 로그인 해주세요');
-      }}
+      onFail={() => {}}
       render={({ onClick }) => (
         <Styled.MainContainer
           onClick={(e) => {
