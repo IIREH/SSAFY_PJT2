@@ -32,11 +32,11 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 
 	// web3.j
-	implementation("com.squareup.okhttp3:okhttp:4.9.3")
-	implementation ('org.web3j:core:4.8.7')
+	implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+	implementation 'org.web3j:core:4.8.7'
 
 	// swagger
-	implementation "io.springfox:springfox-boot-starter:3.0.0"
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
 	// DB
 	//runtimeOnly 'mysql:mysql-connector-java'
@@ -49,13 +49,6 @@ dependencies {
 	implementation 'org.apache.httpcomponents:httpclient:4.5'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.1'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
-
-	// Swagger
-	implementation 'io.springfox:springfox-swagger2:2.9.2'
-	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-
-
-
 }
 
 tasks.named('test') {
