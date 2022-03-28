@@ -1,5 +1,4 @@
-// const API_BASE_URL = 'http://localhost:8080';
-// const KAKAO_CALLBACK_URL = process.env.NEXT_PUBLIC_KAKAO_CALLBACK_URL || '/';
-// const KAKAO_MAP_APIKEY = process.env.NEXT_PUBLIC_KAKAO_MAP_APIKEY;
+const API_BASE_URL = 'http://localhost:8080';
+const KAKAO_OAUTH_APIKEY = process.env.NEXT_PUBLIC_KAKAO_OAUTH_APIKEY;
 
-// export { API_BASE_URL, KAKAO_CALLBACK_URL, KAKAO_MAP_APIKEY };
+export { API_BASE_URL, KAKAO_OAUTH_APIKEY };
