@@ -2,12 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Styled from './styled';
 import KakaoLogin from 'react-kakao-login';
 import { useRecoilState } from 'recoil';
-import { userState } from '@/states/user';
+import { userState } from '@/states';
 import router from 'next/router';
 
 const KakaoLoginBtn = () => {
   const [user, setUser] = useRecoilState(userState);
-  useEffect(() => {}, [user]);
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   // env처리 해야함
   const appKey = '06feb16c270318fcb8dda5b89a3b9f1d';
@@ -22,6 +24,7 @@ const KakaoLoginBtn = () => {
         router.push('/');
       }}
       onSuccess={(res) => {
+        console.log(res);
         setUser({
           id: res.profile.kakao_account.email,
           name: res.profile.kakao_account.profile.nickname,
@@ -32,16 +35,14 @@ const KakaoLoginBtn = () => {
         alert('다시 로그인 해주세요');
       }}
       render={({ onClick }) => (
-        <div
+        <Styled.MainContainer
           onClick={(e) => {
             e.preventDefault();
             onClick();
           }}
         >
           {user.id ? <>로그아웃</> : <>로그인</>}
-          {user.name}
-          {user.id}
-        </div>
+        </Styled.MainContainer>
       )}
     />
   );

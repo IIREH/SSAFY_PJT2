@@ -1,10 +1,8 @@
 import styled from '@emotion/styled';
 
 const MainContainer = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  text-align: center;
-  color: green;
+  color: #e0f2f1;
+  cursor: pointer;
 `;
 
 export default {

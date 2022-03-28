@@ -2,7 +2,7 @@ import React from 'react';
 import Styled from './Navbar.styled';
 import { useRecoilState } from 'recoil';
 import { NavButton } from '@/components/atoms';
-import { userState } from '@/states/user';
+import { userState } from '@/states';
 import { KakaoLoginBtn } from '@/components/molecules';
 
 const Navbar = () => {
@@ -21,9 +21,6 @@ const Navbar = () => {
           </NavButton>
           <NavButton bgColor="inherit" color="#e0f2f1" href="/faq">
             FAQ
-          </NavButton>
-          <NavButton bgColor="inherit" color="#e0f2f1" href={`/user/${user.id}`}>
-            MyPage
           </NavButton>
           <KakaoLoginBtn />
         </>
