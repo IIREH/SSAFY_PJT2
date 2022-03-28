@@ -2,8 +2,8 @@ import React from 'react';
 import Styled from './styled';
 import { Navbar } from 'components/molecules';
 import { useRecoilValue } from 'recoil';
-import { contractPageState } from '@/states/contractPage';
-import { ContractPageList } from 'components/organisms';
+import { contractPageState } from '@/states';
+import { ContractPageList } from 'components/molecules';
 import { Basic, Complete, Ongoing, Sign, Write } from './renderPages';
 
 const ContractPageTemplate = () => {
