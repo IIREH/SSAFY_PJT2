@@ -2,7 +2,7 @@ import { atom, selector } from 'recoil';
 
 export const userState = atom({
   key: 'userState', // unique ID (with respect to other atoms/selectors)
-  default: { id: '', name: '' }, // default value (aka initial value)
+  default: { id: null, name: null }, // default value (aka initial value)
 });
 
 // export const userStateSelector = selector({
@@ -12,3 +12,8 @@ export const userState = atom({
 //     return user.name;
 //   },
 // });
+
+export const contractPageState = atom({
+  key: 'contractPageState',
+  default: 0,
+});
