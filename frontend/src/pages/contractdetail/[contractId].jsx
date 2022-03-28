@@ -2,11 +2,11 @@ import React from 'react';
 // import ContractViewPageTemplate from 'template/contractViewPage';
 import dynamic from 'next/dynamic';
 
-const NoSSR = dynamic(() => import('@/template/contractViewPage'), {
+const NoSSR = dynamic(() => import('template/contractDetail'), {
   ssr: false,
 });
 
-const ContractViewPage = ({ contractId }) => {
+const ContractDetail = ({ contractId }) => {
   return <NoSSR contractId={contractId} />;
 };
 
@@ -18,4 +18,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default ContractViewPage;
+export default ContractDetail;

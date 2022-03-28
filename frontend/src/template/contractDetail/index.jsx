@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Navbar } from 'components/molecules';
 import { PDFReader } from 'reactjs-pdf-reader';
 import Styled from './styled';
@@ -6,7 +6,7 @@ import { Heading } from '@/components/atoms';
 import Button from '@material-ui/core/Button';
 import router from 'next/router';
 
-const ContractViewPageTemplate = ({ contractId }) => {
+const ContractDetailTemplate = ({ contractId }) => {
   // 승인해야하는 계약인지 상태값 부여
   const isApprove = false;
 
@@ -42,4 +42,4 @@ const ContractViewPageTemplate = ({ contractId }) => {
   );
 };
 
-export default ContractViewPageTemplate;
+export default ContractDetailTemplate;
