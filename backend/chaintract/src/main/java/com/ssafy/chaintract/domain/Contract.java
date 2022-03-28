@@ -1,13 +1,17 @@
 package com.ssafy.chaintract.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
-@Entity
-@Getter @Setter
+@Entity(name = "contract")
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Contract {
     @Id @GeneratedValue
     @Column(name = "contract_id")
@@ -17,13 +21,17 @@ public class Contract {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Enumerated(EnumType.STRING)
-    private ContractState state;
+//    @Enumerated(EnumType.STRING)
+//    private ContractState state;
+    private boolean isEstablished;
 
     private String name;
-    private LocalDate est_date;
-    private LocalDate exp_date;
-    private String file_path;
+    private Date est_date;
+    private Date exp_date;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "file_id")
+    private File file;
 
 
 }

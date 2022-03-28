@@ -31,9 +31,9 @@ import org.web3j.protocol.http.HttpService;
  * 스마트 컨트랙트를 호출하는 실습으로, 후에 스마트 컨트랙트가 배포되면 본 코드를
  * 바탕으로 재작성할 것임.
  *
- * 참고:
- * https://sabarada.tistory.com/21
- * http://docs.web3j.io/4.8.7/transactions/transactions_and_smart_contracts/
+ * <p>
+ * <a href="https://sabarada.tistory.com/21">참고 1</a>
+ * <a href="http://docs.web3j.io/4.8.7/transactions/transactions_and_smart_contracts/">참고 2</a>
  */
 
 @Component
