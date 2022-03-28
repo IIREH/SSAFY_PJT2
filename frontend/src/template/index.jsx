@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { userState } from '@/states/user';
+import { userState } from '@/states';
 
 import { Navbar } from '@/components/molecules';
 
@@ -33,6 +33,7 @@ const index = () => {
         <strong>👀 {data.subscribers_count}</strong> <strong>✨ {data.stargazers_count}</strong>{' '}
         <strong>🍴 {data.forks_count}</strong>
       </div>
+      {user.name}
       <button onClick={addBtn}>추가버튼</button>
     </>
   );
