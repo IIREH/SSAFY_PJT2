@@ -1,5 +1,5 @@
 import React from 'react';
-import Styled from './ContractPageList.styled';
+import Styled from './ContractListMenu.styled';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { contractPageState } from '@/states';
 import { useRecoilState } from 'recoil';
 
-const ContractPageList = () => {
+const ContractListMenu = () => {
   const [, setPageState] = useRecoilState(contractPageState);
   const changePage = (e) => {
     setPageState(e.target.innerText);
@@ -50,4 +50,4 @@ const ContractPageList = () => {
   );
 };
 
-export default ContractPageList;
+export default ContractListMenu;

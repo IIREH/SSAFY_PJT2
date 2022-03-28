@@ -1,5 +1,5 @@
 import Navbar from './Navbar/Navbar';
 import KakaoLoginBtn from './KakaoLoginBtn/KakaoLoginBtn';
-import ContractPageList from './ContractPageList/ContractPageList';
+import ContractListMenu from './ContractListMenu/ContractListMenu';
 
-export { Navbar, KakaoLoginBtn, ContractPageList };
+export { Navbar, KakaoLoginBtn, ContractListMenu };

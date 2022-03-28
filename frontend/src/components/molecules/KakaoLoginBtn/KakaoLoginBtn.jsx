@@ -1,35 +1,33 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import Styled from './styled';
+import React from 'react';
+import Styled from './KakaoLoginBtn.styled';
 import KakaoLogin from 'react-kakao-login';
-import { useRecoilState } from 'recoil';
-import { userState } from '@/states';
 import router from 'next/router';
+import { useMutation } from 'react-query';
+import { authInstance } from '@/libs/axios';
+import { KAKAO_OAUTH_APIKEY } from '@/config';
 
 const KakaoLoginBtn = () => {
-  const [user, setUser] = useRecoilState(userState);
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  //url 변경 필요
+  const api = authInstance();
+  const mutation = useMutation((token) => api.post('/auth/login', token));
+  if (typeof window !== 'undefined') {
+    const userInfo = sessionStorage.getItem('loginInfo');
+  }
 
-  // env처리 해야함
-  const appKey = '06feb16c270318fcb8dda5b89a3b9f1d';
   return (
     <KakaoLogin
-      token={appKey}
+      token={KAKAO_OAUTH_APIKEY}
       onLogout={() => {
-        setUser({
-          id: '',
-          name: '',
-        });
+        sessionStorage.removeItem('loginInfo');
         router.push('/');
       }}
       onSuccess={(res) => {
-        console.log(res);
-        setUser({
+        sessionStorage.setItem('loginInfo', {
           id: res.profile.kakao_account.email,
           name: res.profile.kakao_account.profile.nickname,
         });
-        router.replace(router.asPath);
+        mutation.mutate(res.response.access_token);
+        router.push('/');
       }}
       onFail={() => {
         alert('다시 로그인 해주세요');
@@ -41,7 +39,7 @@ const KakaoLoginBtn = () => {
             onClick();
           }}
         >
-          {user.id ? <>로그아웃</> : <>로그인</>}
+          {userInfo ? <>로그아웃</> : <>로그인</>}
         </Styled.MainContainer>
       )}
     />
