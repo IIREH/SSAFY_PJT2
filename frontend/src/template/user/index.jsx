@@ -1,7 +1,7 @@
 import React from 'react';
 import Styled from './styled';
-import { Navbar } from '@/components/molecules';
-import { userState } from 'states/user';
+import { Navbar } from '@/components/organisms';
+import { userState } from '@/states';
 import { useRecoilState } from 'recoil';
 
 const UserTemplate = ({ userId }) => {

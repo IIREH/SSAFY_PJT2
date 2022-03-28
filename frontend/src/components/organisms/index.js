@@ -1,3 +1,3 @@
-import ContractPageList from './ContractPageList/ContractPageList';
+import Navbar from './Navbar/Navbar';
 
-export { ContractPageList };
+export { Navbar };

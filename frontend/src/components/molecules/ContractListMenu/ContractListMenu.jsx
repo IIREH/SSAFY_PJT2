@@ -1,14 +1,14 @@
 import React from 'react';
-import Styled from './ContractPageList.styled';
+import Styled from './ContractListMenu.styled';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { contractPageState } from '@/states/contractPage';
+import { contractPageState } from '@/states';
 import { useRecoilState } from 'recoil';
 
-const ContractPageList = () => {
-  const [pageState, setPageState] = useRecoilState(contractPageState);
+const ContractListMenu = () => {
+  const [, setPageState] = useRecoilState(contractPageState);
   const changePage = (e) => {
     setPageState(e.target.innerText);
   };
@@ -46,17 +46,8 @@ const ContractPageList = () => {
           <ListItemText primary="완료" disableTypography />
         </ListItem>
       </List>
-
-      <ListSubheader component="div" disableGutters>
-        계약번호조회
-      </ListSubheader>
-      <List component="div">
-        <ListItem button onClick={changePage}>
-          <ListItemText primary="조회" disableTypography />
-        </ListItem>
-      </List>
     </Styled.MainContainer>
   );
 };
 
-export default ContractPageList;
+export default ContractListMenu;
