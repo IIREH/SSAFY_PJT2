@@ -35,13 +35,12 @@ public class UserServiceImpl implements UserService{
         return false;
     }
 
-    @Override
-    public boolean modifyUserInfo() {
-        return false;
-    }
 
     @Override
+    @Transactional
     public void deleteUser(User user) {
-        userRepository.deleteUser(user);
+        List<User> userList = userRepository.findUserBySocialId(user.getSocialId());
+        userRepository.deleteUser(userList.get(0));
     }
+
 }
