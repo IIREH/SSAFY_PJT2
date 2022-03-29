@@ -18,13 +18,11 @@ public class LoginCheckInterceptor implements HandlerInterceptor{
 
         log.info("인증 체크 인터셉터 실행 {}", requestURI);
 
+        // 인증 관련 수정 필요.
         HttpSession session = request.getSession();
 
         if(session == null || session.getAttribute("loginUser") == null){
             log.info("미인증 사용자 요청");
-
-            // 로그인 화면으로 redirect
-            response.sendRedirect(request.getContextPath() + "/auth/login");
 
             return false;
         }
