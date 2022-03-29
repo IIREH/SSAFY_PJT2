@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Axios from 'axios';
 import { Heading } from '@/components/atoms';
 import { useRecoilValue, useRecoilState } from 'recoil';
@@ -12,14 +12,17 @@ const Write = () => {
   const user = useRecoilValue(userState);
   let formData = new FormData();
 
-  const onFileChange = (e) => {
-    console.log(e.target.files[0]);
-    if (e.target && e.target.files[0]) {
-      formData.append('file', e.target.files[0]);
-    }
-  };
+  const onFileChange = useCallback(
+    (e) => {
+      if (e.target && e.target.files[0]) {
+        formData.append('file', e.target.files[0]);
+      }
+    },
+    [formData],
+  );
 
   const SubmitContract = () => {
+    //API 헤더 설정해서 수정해야 함
     Axios.post('https://v2.convertapi.com/upload', { formData, user })
       .then((res) => {
         console.log(res);
@@ -35,17 +38,26 @@ const Write = () => {
   const [covenantee, setCovenantee] = useState();
   const [contractContent, setContractContent] = useState();
 
-  const ChangeContractName = (event) => {
-    setContractName(event.target.value);
-  };
+  const ChangeContractName = useCallback(
+    (event) => {
+      setContractName(event.target.value);
+    },
+    [contractName],
+  );
 
-  const ChangeCovenantee = (event) => {
-    setCovenantee(event.target.value);
-  };
+  const ChangeCovenantee = useCallback(
+    (event) => {
+      setCovenantee(event.target.value);
+    },
+    [covenantee],
+  );
 
-  const ChangeContractContent = (event) => {
-    setContractContent(event.target.value);
-  };
+  const ChangeContractContent = useCallback(
+    (event) => {
+      setContractContent(event.target.value);
+    },
+    [contractContent],
+  );
 
   return (
     <>
