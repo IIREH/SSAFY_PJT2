@@ -27,7 +27,7 @@ public class Contract {
 
     private String name;
     private Date est_date;
-    private Date exp_date;
+//    private Date exp_date;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id")
