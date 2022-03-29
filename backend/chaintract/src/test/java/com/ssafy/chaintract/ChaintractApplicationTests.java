@@ -21,6 +21,7 @@ class ChaintractApplicationTests {
 		// given
 		User user = new User();
 		user.setName("KGS");
+		user.setSocialId("1");
 		em.persist(user);
 
 		// when
