@@ -1,42 +1,27 @@
 import React, { useState, useCallback } from 'react';
-import Axios from 'axios';
+
 import { Heading } from '@/components/atoms';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { userState, contractPageState } from '@/states';
+import { useRecoilState } from 'recoil';
+import { contractPageState } from '@/states';
+import { fileInstance } from '@/libs/axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
 // 파일 첨부시 pdf 미리보기 처리 하는거 추가
 const Write = () => {
+  const fileApi = fileInstance();
   const [pageState, setPageState] = useRecoilState(contractPageState);
-  const user = useRecoilValue(userState);
-  let formData = new FormData();
-
-  const onFileChange = useCallback(
-    (e) => {
-      if (e.target && e.target.files[0]) {
-        formData.append('file', e.target.files[0]);
-      }
-    },
-    [formData],
-  );
-
-  const SubmitContract = () => {
-    //API 헤더 설정해서 수정해야 함
-    Axios.post('https://v2.convertapi.com/upload', { formData, user })
-      .then((res) => {
-        console.log(res);
-        alert('계약생성완료');
-        setPageState(0);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const [contractName, setContractName] = useState();
   const [covenantee, setCovenantee] = useState();
   const [contractContent, setContractContent] = useState();
+  const [files, setFile] = useState([]);
+
+  const onFileChange = useCallback(
+    (e) => {
+      setFile([...Array.from(e.target.files)]);
+    },
+    [files],
+  );
 
   const ChangeContractName = useCallback(
     (event) => {
@@ -58,6 +43,41 @@ const Write = () => {
     },
     [contractContent],
   );
+
+  const SubmitContract = () => {
+    if (!contractName) {
+      alert('제목을 입력해주세요');
+      return;
+    } else if (!covenantee) {
+      alert('계약자를 입력해주세요');
+      return;
+    } else if (!contractContent) {
+      alert('계약 내용을 입력해주세요');
+      return;
+    }
+    let formData = new FormData();
+    formData.append('files', '');
+    files.forEach((file) => formData.append('files', file));
+    const request = {
+      contractName: contractName,
+      covenantee: covenantee,
+      contractContent: contractContent,
+    };
+    formData.append('request', new Blob([JSON.stringify(request)], { type: 'application/json' }));
+
+    console.log(formData);
+
+    fileApi
+      .post('https://v2.convertapi.com/upload', formData)
+      .then((res) => {
+        console.log(res);
+        alert('계약생성완료');
+        setPageState(0);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -95,7 +115,7 @@ const Write = () => {
         <div>
           <TextField
             id="standard-multiline-flexible"
-            label="내용"
+            label="계약 내용"
             multiline
             maxRows={10}
             value={contractContent}
@@ -105,7 +125,7 @@ const Write = () => {
         </div>
       </Box>
       <div>
-        <input type="file" name="file_upload" accept=".pdf" onChange={onFileChange} />
+        <input type="file" name="file_upload" accept=".pdf" onChange={onFileChange} multiple />
       </div>
       <div>
         <button onClick={SubmitContract}>Submit</button>
