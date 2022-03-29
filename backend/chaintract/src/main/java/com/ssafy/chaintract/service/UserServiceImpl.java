@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,10 +30,14 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    // 수정 하기 : not file -> url
     @Override
-    public boolean registerSign() {
+    @Transactional
+    public void registerSign(User user, String path) {
+        List<User> userList = userRepository.findUserBySocialId(user.getSocialId());
+        // 유저 찾아서 정보 수정하기
+        userList.get(0).setFile_path(path);
 
-        return false;
     }
 
 
