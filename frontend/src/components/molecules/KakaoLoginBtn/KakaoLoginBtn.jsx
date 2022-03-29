@@ -11,18 +11,18 @@ const KakaoLoginBtn = () => {
   const mutation = useMutation((token) => api.post('/auth/login', token));
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {
-    userInfo = sessionStorage.getItem('loginInfo');
+    userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
 
   return (
     <KakaoLogin
       token={KAKAO_OAUTH_APIKEY}
       onLogout={() => {
-        sessionStorage.removeItem('loginInfo');
+        sessionStorage.removeItem('chainTractLoginInfo');
         router.push('/');
       }}
       onSuccess={(res) => {
-        sessionStorage.setItem('loginInfo', {
+        sessionStorage.setItem('chainTractLoginInfo', {
           id: res.profile.kakao_account.email,
           name: res.profile.kakao_account.profile.nickname,
         });

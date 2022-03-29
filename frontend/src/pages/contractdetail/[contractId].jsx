@@ -1,13 +1,25 @@
 import React from 'react';
-// import ContractViewPageTemplate from 'template/contractViewPage';
 import dynamic from 'next/dynamic';
+import GuideTemplate from '@/template/guideTemplate';
 
 const NoSSR = dynamic(() => import('template/contractDetail'), {
   ssr: false,
 });
 
 const ContractDetail = ({ contractId }) => {
-  return <NoSSR contractId={contractId} />;
+  let userInfo = false;
+  if (typeof window !== 'undefined' && window.sessionStorage.chainTractLoginInfo) {
+    userInfo = true;
+  }
+
+  const privateRoute = () => {
+    if (userInfo === false) {
+      return <GuideTemplate />;
+    }
+    return <NoSSR contractId={contractId} />;
+  };
+
+  return privateRoute();
 };
 
 export async function getServerSideProps(context) {
