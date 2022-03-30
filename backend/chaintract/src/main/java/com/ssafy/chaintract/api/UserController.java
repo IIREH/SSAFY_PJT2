@@ -10,10 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,6 +20,7 @@ import java.io.IOException;
 @Slf4j
 @Api(tags = {"api"})
 @RestController
+@CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RequiredArgsConstructor
 public class UserController {
 
