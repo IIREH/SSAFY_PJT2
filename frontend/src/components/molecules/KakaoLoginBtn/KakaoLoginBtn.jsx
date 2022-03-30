@@ -8,7 +8,7 @@ import { KAKAO_OAUTH_APIKEY } from '@/config';
 
 const KakaoLoginBtn = () => {
   const api = authInstance();
-  const mutation = useMutation((token) => api.post('/auth/login', { accessToken: token }));
+  const mutation = useMutation((token) => api.post('/auth/login', { access_token: token }));
 
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {

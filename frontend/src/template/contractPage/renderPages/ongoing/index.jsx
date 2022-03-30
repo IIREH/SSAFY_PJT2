@@ -13,6 +13,14 @@ import Paper from '@material-ui/core/Paper';
 import { useRouter } from 'next/router';
 import Styled from './styled';
 
+// const { isLoading, error, data } = useQuery('repoData', () =>
+//     fetch('https://api.github.com/repos/tannerlinsley/react-query').then((res) => res.json()),
+//   );
+
+//   if (isLoading) return 'Loading...';
+
+//   if (error) return 'An error has occurred: ' + error.message;
+
 function createData(id, name, date, users) {
   return { id, name, date, users };
 }

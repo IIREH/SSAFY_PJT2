@@ -9,20 +9,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry){
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000");
-    }
+    @Override public void addCorsMappings(CorsRegistry registry){ registry.addMapping("/**") .allowedOrigins("http://localhost:3000"); }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
-        /**
-         * swagger path : 개발 끝나고 배포전에 지워야함
-         * "/swagger-ui/**","/swagger-resources/**","/v3/api-docs"
-         * */
 
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(1)
