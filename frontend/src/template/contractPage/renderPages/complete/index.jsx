@@ -17,6 +17,7 @@ function createData(id, name, date, users) {
   return { id, name, date, users };
 }
 
+// useQuery로 데이터 형식에 맞게 설정(테이블 헤더도 수정)
 const rows = [
   createData(1, 'aa', '2020.02.02', [1, 4, 56, 23]),
   createData(2, 'bb', '2020.01.02', [65, 34, 56, 23, 123]),
@@ -119,7 +120,7 @@ const Complete = () => {
   };
 
   const handleClick = (event, id) => {
-    router.push(`/contractviewpage/${id}`);
+    router.push(`/contractdetail/${id}`);
   };
 
   const handleChangePage = (event, newPage) => {

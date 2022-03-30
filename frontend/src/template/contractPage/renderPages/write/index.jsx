@@ -65,10 +65,9 @@ const Write = () => {
     };
     formData.append('request', new Blob([JSON.stringify(request)], { type: 'application/json' }));
 
-    console.log(formData);
-
     fileApi
-      .post('https://v2.convertapi.com/upload', formData)
+      // url변경
+      .post('/contract', formData)
       .then((res) => {
         console.log(res);
         alert('계약생성완료');
