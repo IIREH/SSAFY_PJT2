@@ -20,10 +20,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/webjars/**",
                 "/swagger-resources/**"};
 
-        http.authorizeRequests()
-                .antMatchers(swagger).permitAll()
-                .and()
+        http.httpBasic().disable()
                 .cors().configurationSource(corsConfigurationSource())
+                .and().authorizeRequests()
+                .antMatchers(swagger).permitAll()
                 .and()
                 .csrf().disable();
 
