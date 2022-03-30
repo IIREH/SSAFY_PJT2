@@ -20,7 +20,6 @@ import java.io.IOException;
 @Slf4j
 @Api(tags = {"api"})
 @RestController
-@CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RequiredArgsConstructor
 public class UserController {
 
