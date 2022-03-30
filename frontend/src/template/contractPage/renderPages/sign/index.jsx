@@ -118,7 +118,7 @@ const Sign = () => {
   };
 
   const handleClick = (event, id) => {
-    router.push(`/contractviewpage/${id}`);
+    router.push(`/contractdetail/${id}`);
   };
 
   const handleChangePage = (event, newPage) => {
