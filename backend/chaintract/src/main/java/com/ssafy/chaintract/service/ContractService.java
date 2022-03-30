@@ -7,9 +7,16 @@ import com.ssafy.chaintract.domain.dto.ContractDto;
 import com.ssafy.chaintract.domain.mapper.ContractMapper;
 import com.ssafy.chaintract.repository.ContractRepository;
 import com.ssafy.chaintract.repository.ParticipantRepository;
+import com.ssafy.chaintract.repository.UserRepository;
+import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -17,28 +24,44 @@ import java.util.Optional;
 @Service
 public class ContractService {
     @Autowired
+    HttpServletRequest request;
+
+    @Autowired
     ContractRepository contractRepository;
 
     @Autowired
     ParticipantRepository participantRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     ContractMapper contractMapper;
 
-    public void createContract(ContractDto contractDto) {
+    @Transactional
+    public Contract createContract(ContractDto contractDto) {
         // TODO: file 처리
-        List<Participant> participants = null;//contractDto.getParticipantIds().stream().filter(p -> )
-        Contract contract = contractMapper.toEntity(contractDto, participants);
-        Contract savedContract = contractRepository.save(contract);
+        Contract contract = contractRepository.save(contractMapper.toEntity(contractDto));
 
+        List<Participant> participants = new ArrayList<>();
+        for(long id : contractDto.getParticipantIds()) {
+            User user = userRepository.findOne(id);
+            Participant participant = Participant.builder()
+                    .contract(contract)
+                    .user(user)
+                    .isSigned(false)
+                    .build();
+            participants.add(participant);
+        }
         participantRepository.saveAll(participants);
+
+        return contract;
     }
 
+    @Transactional
     public void toggleSignature(long contractId) {
-//      TODO: jwt를 이용해 user 정보 받아오는 걸로
-        User user = new User();
-        user.setId(0L);
         Contract contract = contractRepository.findById(contractId).get();
+        User user = (User)request.getSession().getAttribute("loginUser");
 //        List<Participant> participants = participantRepository.findAllByContract(contract);
         participantRepository.toggleSigning(contractId, user.getId());
         if(participantRepository.existsByContractAndIsSigned(contract, false) == false) {
@@ -46,6 +69,7 @@ public class ContractService {
         }
     }
 
+    @Transactional
     public void completeContract(Contract contract) {
         // TODO: 블록체인 호출
         Date date = new Date();
@@ -53,9 +77,8 @@ public class ContractService {
     }
 
     public Optional<List<Contract>> getContracts(boolean isEstablished, boolean isSigned) {
-        // TODO:
-        long userId = 0;
-        return contractRepository.getContracts(userId, isEstablished, isSigned);
+        User user = (User)request.getSession().getAttribute("loginUser");
+        return contractRepository.getContracts(user.getId(), isEstablished, isSigned);
     }
 
     public ContractDto getContract(long contractId) {
