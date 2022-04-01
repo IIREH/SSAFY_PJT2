@@ -12,9 +12,14 @@ const ContractDetailTemplate = ({ contractId }) => {
   const api = apiInstance();
   // 승인해야하는 계약인지 상태값 부여
   const isApprove = false;
+  let userInfo = '';
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    userInfo = sessionStorage.getItem('chainTractLoginInfo');
+  }
 
   const { isLoading, error, data } = useQuery('repoData', () =>
-    fetch(`http://localhost:8080/api/contract/${contractId}`),
+    // 성립된 계약인지 확인하는값 ~~~date 확인해서 isApprove값 변경하는 then작성해야함
+    api.get(`/contract/${contractId}`, { email: userInfo }),
   );
   if (isLoading) return 'Loading...';
   if (error) return 'An error has occurred: ' + error.message;

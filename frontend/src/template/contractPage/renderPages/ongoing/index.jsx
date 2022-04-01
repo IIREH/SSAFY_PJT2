@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import { useRouter } from 'next/router';
 import Styled from './styled';
 import { useQuery } from 'react-query';
+import { apiInstance } from '@/libs/axios';
 
 function createData(id, name, date, users) {
   return { id, name, date, users };
@@ -98,10 +99,14 @@ const Ongoing = () => {
   const [orderBy, setOrderBy] = React.useState('calories');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const api = apiInstance();
+  let userInfo = '';
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    userInfo = sessionStorage.getItem('chainTractLoginInfo');
+  }
   //
   const { isLoading, error, data } = useQuery('repoData', () =>
-    fetch('http://localhost:8080/api/contracts/complete').then((res) => res.json()),
+    api.get('/contracts/ongoing', { email: userInfo }).then((res) => res.json()),
   );
 
   if (isLoading) return 'Loading...';
@@ -189,6 +194,7 @@ const Ongoing = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      <div>데이터! : {data}</div>
     </div>
   );
 };

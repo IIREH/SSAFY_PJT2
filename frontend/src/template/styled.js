@@ -1,33 +1,27 @@
 import styled from '@emotion/styled';
-import blockImg from '/public/blockChain.jpg';
 
 const MainContainer = styled.div`
   width: 100%;
+  height: 95vh;
+  background-color: green;
   overflow: hidden;
-  min-height: 4000px;
 `;
 
-const ImageContainer = styled.div`
-  width: 100vw;
-  height: 50vh;
+const ContentContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: blueviolet;
   position: relative;
-  margin-top: 10vh;
 `;
 
-const styleP = styled.p`
-  position: relative;
-  padding: 32px;
-  background-color: hotpink;
-  font-size: 24px;
-  border-radius: 4px;
+const styleH1 = styled.h1`
+  position: absolute;
+  top: 50%;
   left: 50%;
-  &:hover {
-    color: green;
-  }
+  transform: translate(-50%, -50%);
+  font-size: 20em;
+  font-weight: bold;
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.6);
 `;
 
-const test = styled.div`
-  background: url('/public/blockChain.jpg');
-`;
-
-export default { MainContainer, ImageContainer, styleP, test };
+export default { MainContainer, ContentContainer, styleH1 };

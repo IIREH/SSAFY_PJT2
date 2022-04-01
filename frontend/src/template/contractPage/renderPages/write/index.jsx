@@ -51,7 +51,6 @@ const Write = () => {
       name: contractName,
       participantIds: covenantee,
     };
-    // contractContent: contractContent,
     formData.append('request', new Blob([JSON.stringify(request)], { type: 'application/json' }));
 
     fileApi

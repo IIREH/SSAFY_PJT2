@@ -110,6 +110,19 @@ const Sign = () => {
   const [orderBy, setOrderBy] = React.useState('calories');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  let userInfo = '';
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    userInfo = sessionStorage.getItem('chainTractLoginInfo');
+  }
+  //
+  const { isLoading, error, data } = useQuery('repoData', () =>
+    api.get('/contracts/ongoing/need', { email: userInfo }).then((res) => res.json()),
+  );
+
+  if (isLoading) return 'Loading...';
+
+  if (error) return 'An error has occurred: ' + error.message;
+  //
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
