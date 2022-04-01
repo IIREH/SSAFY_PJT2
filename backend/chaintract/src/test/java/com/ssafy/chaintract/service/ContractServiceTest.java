@@ -116,19 +116,19 @@ public class ContractServiceTest {
         session.setAttribute("loginUser", creator);
 
         userService.login(creator);
-        contractService.toggleSignature(contract1.getId());
+        contractService.toggleSignature(contract1.getId(), creator);
         Assertions.assertSame(false, contractRepository.getById(contract1.getId()).isEstablished());
         Assertions.assertSame(true, participantRepository.findAllByUser(creator).get(0).isSigned());
-        contractService.toggleSignature(contract1.getId());
+        contractService.toggleSignature(contract1.getId(), creator);
         Assertions.assertSame(false, participantRepository.findAllByUser(creator).get(0).isSigned());
         Assertions.assertSame(false, participantRepository.findAllByUser(participant1).get(0).isSigned());
-        contractService.toggleSignature(contract1.getId());
+        contractService.toggleSignature(contract1.getId(), creator);
         session.setAttribute("loginUser", participant1);
-        contractService.toggleSignature(contract1.getId());
+        contractService.toggleSignature(contract1.getId(), participant1);
         session.setAttribute("loginUser", participant2);
-        contractService.toggleSignature(contract1.getId());
+        contractService.toggleSignature(contract1.getId(), participant2);
         session.setAttribute("loginUser", participant3);
-        contractService.toggleSignature(contract1.getId());
+        contractService.toggleSignature(contract1.getId(), participant3);
         Assertions.assertSame(true, contractRepository.getById(contract1.getId()).isEstablished());
 
     }

@@ -1,5 +1,6 @@
 package com.ssafy.chaintract.service;
 
+import com.ssafy.chaintract.api.ContractController;
 import com.ssafy.chaintract.domain.Contract;
 import com.ssafy.chaintract.domain.Participant;
 import com.ssafy.chaintract.domain.User;
@@ -59,10 +60,8 @@ public class ContractService {
     }
 
     @Transactional
-    public void toggleSignature(long contractId) {
+    public void toggleSignature(long contractId, User user) {
         Contract contract = contractRepository.findById(contractId).get();
-        User user = (User)request.getSession().getAttribute("loginUser");
-//        List<Participant> participants = participantRepository.findAllByContract(contract);
         participantRepository.toggleSigning(contractId, user.getId());
         if(participantRepository.existsByContractAndIsSigned(contract, false) == false) {
             completeContract(contract);
@@ -76,8 +75,7 @@ public class ContractService {
         contractRepository.completeContract(contract.getId(), date);
     }
 
-    public Optional<List<Contract>> getContracts(boolean isEstablished, boolean isSigned) {
-        User user = (User)request.getSession().getAttribute("loginUser");
+    public Optional<List<Contract>> getContracts(boolean isEstablished, boolean isSigned, User user) {
         return contractRepository.getContracts(user.getId(), isEstablished, isSigned);
     }
 
