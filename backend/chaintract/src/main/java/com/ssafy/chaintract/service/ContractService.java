@@ -28,6 +28,9 @@ public class ContractService {
     HttpServletRequest request;
 
     @Autowired
+    SmartContractService smartContractService;
+
+    @Autowired
     ContractRepository contractRepository;
 
     @Autowired
