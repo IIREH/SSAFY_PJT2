@@ -97,7 +97,7 @@ class UserServiceImplTest {
 
         // when
         List<User> userList_before = userRepository.findUserBySocialId(user.getSocialId());
-        userService.deleteUser(user);
+        userService.deleteUser(user.getEmail());
         List<User> userList_after = userRepository.findUserBySocialId(user.getSocialId());
 
         // then

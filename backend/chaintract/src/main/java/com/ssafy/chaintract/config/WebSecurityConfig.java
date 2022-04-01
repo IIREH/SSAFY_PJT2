@@ -20,27 +20,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/webjars/**",
                 "/swagger-resources/**"};
 
-        http.httpBasic().disable()
+        http
+                .httpBasic().disable()
                 .cors().configurationSource(corsConfigurationSource())
-                .and().authorizeRequests()
+                .and()
+                .authorizeRequests()
                 .antMatchers(swagger).permitAll()
                 .and()
                 .csrf().disable();
 
+        http
+                .sessionManagement()
+                .sessionFixation()
+                .none();
+
     }
 
+    /**
+     * 로그인 단일 처리
+     * */
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource(){
+    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedHeader("*");
+        /***
+         *
+         */
+        // configuration.addAllowedOrigin("*");
+        configuration.addAllowedOriginPattern("*");
         configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }

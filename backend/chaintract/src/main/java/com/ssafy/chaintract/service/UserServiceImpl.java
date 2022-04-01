@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
     public void login(User user) {
 
         // 기존 USER 유무 확인 후 없으면 저장
-        List<User> userList = userRepository.findUserBySocialId(user.getSocialId());
+        List<User> userList = userRepository.findUserBySocialId(user.getEmail());
         if(userList.size() == 0){
             userRepository.save(user);
         }
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public void registerSign(User user, String path) {
-        List<User> userList = userRepository.findUserBySocialId(user.getSocialId());
+        List<User> userList = userRepository.findUserBySocialId(user.getEmail());
         // 유저 찾아서 정보 수정하기
         userList.get(0).setFile_path(path);
 
@@ -43,8 +43,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void deleteUser(User user) {
-        List<User> userList = userRepository.findUserBySocialId(user.getSocialId());
+    public void deleteUser(String email) {
+        List<User> userList = userRepository.findUserBySocialId(email);
         userRepository.deleteUser(userList.get(0));
     }
 

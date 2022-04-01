@@ -25,10 +25,10 @@ public class UserRepository {
         return em.createQuery("select u from User u", User.class).getResultList();
     }
 
-    public List<User> findUserBySocialId(String socialId) {
+    public List<User> findUserBySocialId(String email) {
 
-        return em.createQuery("select u from User u where u.socialId = :socialId", User.class)
-                .setParameter("socialId", socialId)
+        return em.createQuery("select u from User u where u.email = :email", User.class)
+                .setParameter("email", email)
                 .getResultList();
 
     }

@@ -6,5 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface UserService {
      void login(User user);
      void registerSign(User user, String path);
-     void deleteUser(User user);
+     void deleteUser(String email);
 }

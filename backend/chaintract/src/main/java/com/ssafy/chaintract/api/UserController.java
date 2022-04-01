@@ -16,9 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.Principal;
+import java.util.Enumeration;
+import java.util.Iterator;
 
 @Slf4j
-@Api(tags = {"api"})
+@Api(tags = {"api"}) // 알아보자
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -30,38 +33,41 @@ public class UserController {
 
     @ApiOperation("로그인")
     @PostMapping("/auth/login")
-    public void loginUser(@ModelAttribute CreateUserRequest userRequest, HttpServletRequest request){
+    public void loginUser(@RequestBody CreateUserRequest userRequest, HttpServletRequest request){
 
-        User user = kakaoService.getUserInfoByToken(userRequest.access_token);
+        log.info("로그인 요청");
+        User user = kakaoService.getUserInfoByToken(userRequest.getAccesstoken());
         /**
          * AcessToken이 유효한 값이 아닐때 예외 처리 발생
          * */
         userService.login(user);
 
-        log.info("접근 토큰 : "+userRequest.getAccess_token());
+        log.info("접근 토큰 : "+userRequest.getAccesstoken());
         log.info("로그인한 유저 이름 : " + user.getName());
 
         HttpSession session = request.getSession();
         session.setAttribute(LOGIN_USER, user);
+
+        User findUser = (User)session.getAttribute(LOGIN_USER);
+        log.info("세션에 저장 : "+ findUser.getName());
     }
 
     @ApiOperation("로그아웃")
     @GetMapping("/auth/logout")
     public void logoutUser(HttpServletRequest request){
-        HttpSession session = request.getSession(false);
-        User user = (User)session.getAttribute(LOGIN_USER);
-        log.info("로그아웃한 유저 이름 : " + user.getName());
-        if(session != null) session.invalidate();
+
+        request.getSession().invalidate();
     }
+
 
     @ApiOperation("회원탈퇴")
     @DeleteMapping("/user/delete")
-    public void deleteUser(HttpServletRequest request){
-        HttpSession session = request.getSession(false);
-        User user = (User)session.getAttribute(LOGIN_USER);
+    public void deleteUser(@RequestBody CreateOutReqeust outReqeust, HttpServletRequest request){
 
-        userService.deleteUser(user);
-        session.invalidate();
+        String email = outReqeust.getEmail();
+        userService.deleteUser(email);
+
+        request.getSession().invalidate();
     }
 
     @ApiOperation("서명 업로드")
@@ -95,12 +101,18 @@ public class UserController {
     }
 
     @Data
-    public class CreateUserRequest {
-        private String access_token;
+    static class CreateUserRequest {
+        private String accesstoken;
     }
 
     @Data
-    public class CreateSignRequest{
+    static class CreateOutReqeust{
+        private String email;
+    }
+
+
+    @Data
+    static class CreateSignRequest{
         private MultipartFile file;
     }
 
