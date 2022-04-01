@@ -18,10 +18,10 @@ import java.nio.file.Files;
 public class Encryption{
 
     static String key = "ZCXVsfda2F";
-    static byte[] fileContent;
 
-    public static void getBytes(File file) throws IOException {
-        fileContent = Files.readAllBytes(file.toPath());
+    public static byte[] getBytes(File file) throws IOException {
+        byte[] fileContent = Files.readAllBytes(file.toPath());
+        return fileContent;
     }
 
     public static String encrypt(byte[] plainText) throws Exception {
