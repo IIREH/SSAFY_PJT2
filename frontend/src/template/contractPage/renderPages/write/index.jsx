@@ -13,7 +13,6 @@ const Write = () => {
   const [pageState, setPageState] = useRecoilState(contractPageState);
   const [contractName, setContractName] = useState();
   const [covenantee, setCovenantee] = useState();
-  const [contractContent, setContractContent] = useState();
   const [files, setFile] = useState([]);
 
   const onFileChange = useCallback(
@@ -37,32 +36,22 @@ const Write = () => {
     [covenantee],
   );
 
-  const ChangeContractContent = useCallback(
-    (event) => {
-      setContractContent(event.target.value);
-    },
-    [contractContent],
-  );
-
   const SubmitContract = () => {
     if (!contractName) {
       alert('제목을 입력해주세요');
       return;
     } else if (!covenantee) {
-      alert('계약자를 입력해주세요');
-      return;
-    } else if (!contractContent) {
-      alert('계약 내용을 입력해주세요');
+      alert('계약자(이메일주소)를 입력해주세요');
       return;
     }
     let formData = new FormData();
     formData.append('files', '');
     files.forEach((file) => formData.append('files', file));
     const request = {
-      contractName: contractName,
-      covenantee: covenantee,
-      contractContent: contractContent,
+      name: contractName,
+      participantIds: covenantee,
     };
+    // contractContent: contractContent,
     formData.append('request', new Blob([JSON.stringify(request)], { type: 'application/json' }));
 
     fileApi
@@ -103,22 +92,11 @@ const Write = () => {
         <div>
           <TextField
             id="standard-multiline-flexible"
-            label="계약자"
+            label="계약자(이메일주소)"
             multiline
             maxRows={4}
             value={covenantee}
             onChange={ChangeCovenantee}
-            variant="standard"
-          />
-        </div>
-        <div>
-          <TextField
-            id="standard-multiline-flexible"
-            label="계약 내용"
-            multiline
-            maxRows={10}
-            value={contractContent}
-            onChange={ChangeContractContent}
             variant="standard"
           />
         </div>
