@@ -54,6 +54,11 @@ public class FileStore {
 
     }
 
+    public byte[] retrieveFile(String fullPath) throws IOException {
+        File file = new File(fullPath);
+        return Files.readAllBytes(file.toPath());
+    }
+
     // 파일 삭제 기능
     public void deleteFile(String fileURL){
 

@@ -21,7 +21,7 @@ public class Contract {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @Enumerated(EnumType.STRING)
+    //    @Enumerated(EnumType.STRING)
 //    private ContractState state;
     private boolean isEstablished;
 
@@ -29,9 +29,9 @@ public class Contract {
     private Date est_date;
 //    private Date exp_date;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
-    private File file;
+    //    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "file_id")
+    private String filePath;
 
 
 }

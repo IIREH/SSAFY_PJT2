@@ -1,22 +1,25 @@
 package com.ssafy.chaintract.service;
 
-import com.ssafy.chaintract.api.ContractController;
 import com.ssafy.chaintract.domain.Contract;
 import com.ssafy.chaintract.domain.Participant;
 import com.ssafy.chaintract.domain.User;
 import com.ssafy.chaintract.domain.dto.ContractDto;
 import com.ssafy.chaintract.domain.mapper.ContractMapper;
+import com.ssafy.chaintract.file.FileStore;
 import com.ssafy.chaintract.repository.ContractRepository;
 import com.ssafy.chaintract.repository.ParticipantRepository;
 import com.ssafy.chaintract.repository.UserRepository;
+import com.ssafy.chaintract.smartcontract.SmartContractService;
 import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +45,9 @@ public class ContractService {
     @Autowired
     ContractMapper contractMapper;
 
+    @Autowired
+    FileStore fileStore;
+
     @Transactional
     public Contract createContract(ContractDto contractDto) {
         // TODO: file 처리
@@ -60,6 +66,17 @@ public class ContractService {
         participantRepository.saveAll(participants);
 
         return contract;
+    }
+
+    @Transactional
+    public String uploadFile(MultipartFile file) throws IOException {
+        return fileStore.storeFile(file).getFullPath();
+    }
+
+    @Transactional
+    public byte[] downloadFile(long contractId) throws IOException {
+        String fullPath = contractRepository.findById(contractId).get().getFilePath();
+        return fileStore.retrieveFile(fullPath);
     }
 
     @Transactional
