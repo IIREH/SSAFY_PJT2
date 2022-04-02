@@ -11,8 +11,9 @@ import Card from "components/Card";
 
 // import "../scss/main.scss";
 
-import illustration__box from "../../pages/faq/images/illustration-box-desktop.svg";
-import illustration__woman_desktop from "../../pages/faq/images/illustration-woman-online-desktop.svg";
+import illustration__box from "/src/images/illustration-box-desktop.svg";
+import illustration__woman_desktop from "/src/images/illustration-woman-online-desktop.svg";
+///import illustration__contract from "/src/images/contract.png";
 
 const questionsAnswers = [
   {
@@ -55,11 +56,8 @@ const FaqTemplate = () => {
             src={illustration__woman_desktop}
             alt="illustration with woman"
           />
-          <img
-            className="illustration__woman-mobile"
-            src={illustration__woman_mobile}
-            alt="illustration with woman"
-          />
+         
+         
         </div>
         <Card questionsAnswers={questionsAnswers} />
       </div>
