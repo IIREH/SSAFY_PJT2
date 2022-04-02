@@ -1,26 +1,44 @@
-import React from 'react';
-import { useQuery } from 'react-query';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from '@/components/organisms';
+import Styled from './styled';
 
 const index = () => {
-  // react쿼리 예시
-  const { isLoading, error, data } = useQuery('repoData', () =>
-    fetch('https://api.github.com/repos/tannerlinsley/react-query').then((res) => res.json()),
-  );
-
-  if (isLoading) return 'Loading...';
-
-  if (error) return 'An error has occurred: ' + error.message;
+  const [scrollHeight, setScrollHeight] = useState(0);
+  const onWheel = (e) => {
+    e.preventDefault();
+    if (e.deltaY === -100 && scrollHeight !== 0) {
+      setScrollHeight(scrollHeight + 95);
+    } else if (e.deltaY === 100 && scrollHeight !== -380) {
+      setScrollHeight(scrollHeight - 95);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener('wheel', onWheel, { passive: false });
+    return () => {
+      window.removeEventListener('wheel', onWheel);
+    };
+  }, [scrollHeight]);
 
   return (
     <>
       <Navbar />
-      <div>
-        <h1>{data.name}</h1>
-        <p>{data.description}</p>
-        <strong>👀 {data.subscribers_count}</strong> <strong>✨ {data.stargazers_count}</strong>{' '}
-        <strong>🍴 {data.forks_count}</strong>
-      </div>
+      <Styled.MainContainer>
+        <Styled.ContentContainer scrollHeight={scrollHeight}>
+          <Styled.styleH1>hi</Styled.styleH1>
+        </Styled.ContentContainer>
+        <Styled.ContentContainer scrollHeight={scrollHeight}>
+          <Styled.styleH1>2</Styled.styleH1>
+        </Styled.ContentContainer>
+        <Styled.ContentContainer scrollHeight={scrollHeight}>
+          <Styled.styleH1>3</Styled.styleH1>
+        </Styled.ContentContainer>
+        <Styled.ContentContainer scrollHeight={scrollHeight}>
+          <Styled.styleH1>4</Styled.styleH1>
+        </Styled.ContentContainer>
+        <Styled.ContentContainer scrollHeight={scrollHeight}>
+          <Styled.styleH1>5</Styled.styleH1>
+        </Styled.ContentContainer>
+      </Styled.MainContainer>
     </>
   );
 };

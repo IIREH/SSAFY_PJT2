@@ -11,11 +11,13 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import { useRouter } from 'next/router';
+import Sytled from './styled';
 
 function createData(id, name, date, users) {
   return { id, name, date, users };
 }
 
+// useQuery로 데이터 형식에 맞게 설정(테이블 헤더도 수정)
 const rows = [
   createData(1, 'aa', '2020.02.02', [1, 4, 56, 23]),
   createData(2, 'bb', '2020.01.02', [65, 34, 56, 23, 123]),
@@ -103,42 +105,26 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-  },
-  paper: {
-    width: '90%',
-    marginBottom: theme.spacing(2),
-  },
-  table: {
-    minWidth: 750,
-  },
-  visuallyHidden: {
-    border: 0,
-    clip: 'rect(0 0 0 0)',
-    height: 1,
-    margin: -1,
-    overflow: 'hidden',
-    padding: 0,
-    position: 'absolute',
-    top: 20,
-    width: 1,
-  },
-  tableRow: {
-    '&:hover': {
-      cursor: 'pointer',
-    },
-  },
-}));
-
 const Complete = () => {
   const router = useRouter();
-  const classes = useStyles();
+  const classes = Sytled.useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  let userInfo = '';
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    userInfo = sessionStorage.getItem('chainTractLoginInfo');
+  }
+  //
+  const { isLoading, error, data } = useQuery('repoData', () =>
+    api.get('/contracts/complete', { email: userInfo }).then((res) => res.json()),
+  );
+
+  if (isLoading) return 'Loading...';
+
+  if (error) return 'An error has occurred: ' + error.message;
+  //
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -147,7 +133,7 @@ const Complete = () => {
   };
 
   const handleClick = (event, id) => {
-    router.push(`/contractviewpage/${id}`);
+    router.push(`/contractdetail/${id}`);
   };
 
   const handleChangePage = (event, newPage) => {

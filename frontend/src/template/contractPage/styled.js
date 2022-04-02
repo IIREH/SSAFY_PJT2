@@ -12,7 +12,6 @@ const MainContainer = styled.div`
 const ListContainer = styled.div`
   display: flex;
   flex-flow: column nowrap;
-  min-width: 120px;
   width: 15vw;
 `;
 

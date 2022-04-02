@@ -6,7 +6,7 @@ import { KakaoLoginBtn } from '@/components/molecules';
 const Navbar = () => {
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {
-    userInfo = sessionStorage.getItem('loginInfo');
+    userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
 
   return (

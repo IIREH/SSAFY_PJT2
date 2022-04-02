@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,23 +10,13 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import { useRouter } from 'next/router';
+import Styled from './styled';
+import { useQuery } from 'react-query';
+import { apiInstance } from '@/libs/axios';
 
 function createData(id, name, date, users) {
   return { id, name, date, users };
 }
-
-const rows = [
-  createData(1, 'a부동산계약', '2020.02.02', [1, 4, 56, 23]),
-  createData(2, 'b용역 계약', '2020.01.02', [65, 34, 56, 23, 123]),
-  createData(3, '투자 계약', '2019.03.02', [39, 42, 56]),
-  createData(4, '투자 계약', '2020.03.02', [39, 42, 56]),
-  createData(5, '투자 계약', '2020.03.09', [39, 42, 56]),
-  createData(6, '투자 계약', '2021.06.02', [39, 42, 56]),
-  createData(7, '투자 계약', '2020.03.02', [39, 42, 56]),
-  createData(8, '투자 계약', '2022.03.12', [39, 42, 56]),
-  createData(9, '투자 계약', '2022.03.22', [39, 42, 56]),
-  createData(10, '투자 계약', '2017.12.02', [39, 42, 56]),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -103,42 +92,42 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-  },
-  paper: {
-    width: '90%',
-    marginBottom: theme.spacing(2),
-  },
-  table: {
-    minWidth: 750,
-  },
-  visuallyHidden: {
-    border: 0,
-    clip: 'rect(0 0 0 0)',
-    height: 1,
-    margin: -1,
-    overflow: 'hidden',
-    padding: 0,
-    position: 'absolute',
-    top: 20,
-    width: 1,
-  },
-  tableRow: {
-    '&:hover': {
-      cursor: 'pointer',
-    },
-  },
-}));
-
 const Ongoing = () => {
   const router = useRouter();
-  const classes = useStyles();
+  const classes = Styled.useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const api = apiInstance();
+  let userInfo = '';
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    userInfo = sessionStorage.getItem('chainTractLoginInfo');
+  }
+  //
+  const { isLoading, error, data } = useQuery('repoData', () =>
+    api.get('/contracts/ongoing', { email: userInfo }).then((res) => res.json()),
+  );
+
+  if (isLoading) return 'Loading...';
+
+  if (error) return 'An error has occurred: ' + error.message;
+  //
+
+  const rows = [
+    createData(1, 'a부동산계약', '2020.02.02', [1, 4, 56, 23]),
+    createData(2, 'b용역 계약', '2020.01.02', [65, 34, 56, 23, 123]),
+    createData(3, '투자 계약', '2019.03.02', [39, 42, 56]),
+    createData(4, '투자 계약', '2020.03.02', [39, 42, 56]),
+    createData(5, '투자 계약', '2020.03.09', [39, 42, 56]),
+    createData(6, '투자 계약', '2021.06.02', [39, 42, 56]),
+    createData(7, '투자 계약', '2020.03.02', [39, 42, 56]),
+    createData(8, '투자 계약', '2022.03.12', [39, 42, 56]),
+    createData(9, '투자 계약', '2022.03.22', [39, 42, 56]),
+    createData(10, '투자 계약', '2017.12.02', [39, 42, 56]),
+  ];
+
+  //
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -147,7 +136,7 @@ const Ongoing = () => {
   };
 
   const handleClick = (event, id) => {
-    router.push(`/contractviewpage/${id}`);
+    router.push(`/contractdetail/${id}`);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -205,6 +194,7 @@ const Ongoing = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      <div>데이터! : {data}</div>
     </div>
   );
 };

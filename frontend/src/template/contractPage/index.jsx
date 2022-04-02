@@ -13,11 +13,11 @@ const ContractPageTemplate = () => {
     switch (pageState) {
       case '작성':
         return <Write />;
-      case '요청보기':
+      case '승인 대기':
         return <Sign />;
-      case '진행중':
+      case '성립전':
         return <Ongoing />;
-      case '완료':
+      case '이행중':
         return <Complete />;
       default:
         return <Basic />;

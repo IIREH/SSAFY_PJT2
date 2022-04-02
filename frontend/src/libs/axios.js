@@ -9,12 +9,11 @@ function apiInstance() {
   });
   return instance;
 }
-function authInstance(token) {
+function authInstance() {
   const instance = axios.create({
     baseURL: API_BASE_URL,
     headers: {
       'Content-Type': 'application/json',
-      accessToken: token,
     },
   });
   return instance;
