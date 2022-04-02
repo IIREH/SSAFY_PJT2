@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 const MainContainer = styled.div`
   width: 100%;
   height: 95vh;
-  background-color: green;
   overflow: hidden;
 `;
 
@@ -12,6 +11,8 @@ const ContentContainer = styled.div`
   height: 100%;
   background-color: blueviolet;
   position: relative;
+  top: ${(props) => props.scrollHeight}vh;
+  transition: all 1.5s;
 `;
 
 const styleH1 = styled.h1`
