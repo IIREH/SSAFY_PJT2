@@ -12,19 +12,19 @@
 
   .component {
     max-width: 327px;
-    background-image: url(/src/images/bg-pattern-mobile.svg);
+    background-image: url(../images/bg-pattern-mobile.svg);
     background-position: top;
     flex-direction: column;
   }
 
   .illustration {
     &__box {
-      display: none;
+      display: block;
+      margin: 0 auto;
+      position: absolute;
+      top: -105px;
+      left: 12px;
     }
-    &__contract {
-      display: none;
-    }
-
 
     &__woman-desktop {
       display: none;
