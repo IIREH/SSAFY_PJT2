@@ -49,15 +49,14 @@ const Write = () => {
     files.forEach((file) => formData.append('files', file));
     const request = {
       name: contractName,
-      participantIds: covenantee,
+      participantIds: [covenantee],
     };
     formData.append('request', new Blob([JSON.stringify(request)], { type: 'application/json' }));
 
     fileApi
-      // url변경
       .post('/contract', formData)
       .then((res) => {
-        console.log(res);
+        console.log(formData);
         alert('계약생성완료');
         setPageState(0);
       })
