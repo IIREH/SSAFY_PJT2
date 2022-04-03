@@ -6,7 +6,7 @@ const MainContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   position: static;
-  background-color: #15534c;
+  background-color: rgb(0, 199, 184);
   height: 5vh;
   padding: 0vh 15vw 0vh 15vw;
   min-width: 500px;

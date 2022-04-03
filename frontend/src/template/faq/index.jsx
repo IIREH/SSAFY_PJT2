@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/image';
 import React from 'react';
 ///import Styled from './styled';
 ///import { Navbar } from 'components/organisms';
@@ -37,7 +37,7 @@ const questionsAnswers = [
   },
   {
     question: "메일이나 아이디 변경이 가능한가요?",
-    answer: `ChainTract는 카카오톡으로 가입을 진행하기 때문에 변경을 지원하고 있지 않습니다. 변경할 이메일로 새로 가입해주세요. `,
+    answer: `ChainTract는 카카오톡으로 가입을 진행하기 때문에 변경을 지원하고 있지 않습니다. 새로 가입해주세요. `,
   },
 ];
 
