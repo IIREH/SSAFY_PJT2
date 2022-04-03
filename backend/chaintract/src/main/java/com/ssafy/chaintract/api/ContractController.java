@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -37,7 +40,8 @@ public class ContractController {
 
     @ApiOperation(value = "계약서 파일 업로드", notes = "서버에 계약서 파일을 업로드", response = ApiUtils.ApiResult.class)
     @PostMapping("/contract/file")
-    public ApiUtils.ApiResult<?> uploadContractFile(@ApiParam(value = "계약서 파일", required = true) @RequestParam("file") MultipartFile file) throws IOException {
+    public ApiUtils.ApiResult<?> uploadContractFile(@ApiParam(value = "계약서 파일", required = true) @RequestParam List<MultipartFile> files) throws IOException {
+        MultipartFile file = files.get(0);
         return ApiUtils.success(contractService.uploadFile(file));
     }
 
@@ -50,7 +54,7 @@ public class ContractController {
     @ApiOperation(value = "계약증명 요청에 서명", notes = "로그인한 이용자가 contractId에 해당하는 증명에 서명", response = ApiUtils.ApiResult.class)
     @PutMapping("/contract/sign/{contractId}")
     public ApiUtils.ApiResult<?> toggleSignature(@ApiParam(value = "계약증명ID", required = true) @PathVariable long contractId, @RequestBody CreateOutReqeust outReqeust) {
-        User user =  userRepository.findUserBySocialId(outReqeust.email).get(0);
+        User user =  userRepository.findUserByEmail(outReqeust.email).get(0);
         contractService.toggleSignature(contractId, user);
         return ApiUtils.success(HttpStatus.SC_OK);
     }
@@ -58,22 +62,22 @@ public class ContractController {
     @ApiOperation(value = "내가 서명하지 않은 계약증명들을 조회", notes = "로그인한 이용자가 서명하지 않은 계약증명들을 반환", response = ApiUtils.ApiResult.class)
     @PutMapping("/contracts/ongoing/need")
     public ApiUtils.ApiResult<?> findContractsNotSigned(@RequestBody CreateOutReqeust outReqeust) {
-        User user =  userRepository.findUserBySocialId(outReqeust.email).get(0);
-        return ApiUtils.success(contractService.getContracts(false, false, user));
+        User user =  userRepository.findUserByEmail(outReqeust.email).get(0);
+        return ApiUtils.success(contractService.getContracts(false, false, user).get());
     }
 
     @ApiOperation(value = "나는 서명했지만 남이 서명하지 않은 계약증명들을 조회", notes = "로그인한 이용자가 자신은 서명했지만 남은 서명하지 않은 계약증명들을 반환", response = ApiUtils.ApiResult.class)
     @PutMapping("/contracts/ongoing")
     public ApiUtils.ApiResult<?> findUnestablishedContractsSinged(@RequestBody CreateOutReqeust outReqeust) {
-        User user =  userRepository.findUserBySocialId(outReqeust.email).get(0);
-        return ApiUtils.success(contractService.getContracts(false, true, user));
+        User user =  userRepository.findUserByEmail(outReqeust.email).get(0);
+        return ApiUtils.success(contractService.getContracts(false, true, user).get());
     }
 
     @ApiOperation(value = "성립된 증명들을 조회", notes = "모두가 서명해 성립된 계약증명들을 반환", response = ApiUtils.ApiResult.class)
     @PutMapping("/contracts/complete")
     public ApiUtils.ApiResult<?> findEstablishedContracts(@RequestBody CreateOutReqeust outReqeust) {
-        User user =  userRepository.findUserBySocialId(outReqeust.email).get(0);
-        return ApiUtils.success(contractService.getContracts(true, true, user));
+        User user =  userRepository.findUserByEmail(outReqeust.email).get(0);
+        return ApiUtils.success(contractService.getContracts(true, true, user).get());
     }
 
     @ApiOperation(value = "특정 증명을 반환", notes = "contractId로 특정되는 계약 증명을 반환", response = ApiUtils.ApiResult.class)

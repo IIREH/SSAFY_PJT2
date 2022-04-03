@@ -17,13 +17,13 @@ public class Contract {
     @Column(name = "contract_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
     //    @Enumerated(EnumType.STRING)
 //    private ContractState state;
-    private boolean isEstablished;
+//    private boolean isEstablished;
 
     private String name;
     private Date est_date;

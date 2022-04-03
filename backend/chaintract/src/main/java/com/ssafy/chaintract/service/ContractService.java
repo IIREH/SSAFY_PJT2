@@ -6,10 +6,12 @@ import com.ssafy.chaintract.domain.User;
 import com.ssafy.chaintract.domain.dto.ContractDto;
 import com.ssafy.chaintract.domain.mapper.ContractMapper;
 import com.ssafy.chaintract.file.FileStore;
+import com.ssafy.chaintract.file.UploadFile;
 import com.ssafy.chaintract.repository.ContractRepository;
 import com.ssafy.chaintract.repository.ParticipantRepository;
 import com.ssafy.chaintract.repository.UserRepository;
 import com.ssafy.chaintract.smartcontract.SmartContractService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.client.support.HttpRequestWrapper;
@@ -25,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class ContractService {
     @Autowired
@@ -50,15 +53,14 @@ public class ContractService {
 
     @Transactional
     public Contract createContract(ContractDto contractDto) {
-        // TODO: file 처리
         Contract contract = contractRepository.save(contractMapper.toEntity(contractDto));
 
         List<Participant> participants = new ArrayList<>();
-        for(long id : contractDto.getParticipantIds()) {
-            User user = userRepository.findOne(id);
+        for(String email : contractDto.getParticipantEmails()) {
+            List<User> user = userRepository.findUserByEmail(email);
             Participant participant = Participant.builder()
                     .contract(contract)
-                    .user(user)
+                    .user(user.get(0))
                     .isSigned(false)
                     .build();
             participants.add(participant);
@@ -68,9 +70,10 @@ public class ContractService {
         return contract;
     }
 
-    @Transactional
     public String uploadFile(MultipartFile file) throws IOException {
-        return fileStore.storeFile(file).getFullPath();
+        UploadFile uploadFile = fileStore.storeFile(file);
+        log.info("full path: {}", uploadFile.getFullPath());
+        return uploadFile.getFullPath();
     }
 
     @Transactional
@@ -96,7 +99,17 @@ public class ContractService {
     }
 
     public Optional<List<Contract>> getContracts(boolean isEstablished, boolean isSigned, User user) {
-        return contractRepository.getContracts(user.getId(), isEstablished, isSigned);
+        Optional<List<Contract>> contracts = null;
+
+        if(isEstablished) {
+            contracts = contractRepository.getEstablishedContracts(user.getId());
+        } else if(isSigned == false) {
+            contracts = contractRepository.getContractsINotSigned(user.getId());
+        } else {
+            contracts = contractRepository.getContractsOthersNotSigned(user.getId());
+        }
+
+        return contracts;
     }
 
     public ContractDto getContract(long contractId) {

@@ -14,19 +14,39 @@ import java.util.Optional;
 
 @Repository
 public interface ContractRepository extends JpaRepository<Contract, Long> {
-    List<Contract> findAllByUser(User user);
+//    @Query("select c from contract c, participant p " +
+//            "where c.id = p.contract.id and p.user.id = :user.id")
+//    List<Contract> findAllByUser(User user);
     Optional<Contract> findById(Long contractId);
     @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Transactional
     @Query("update contract c " +
-            "set c.est_date = :date, " +
-            "c.isEstablished = true " +
+            "set c.est_date = :date " +
+//            "c.isEstablished = true " +
             "where c.id = :contractId")
     int completeContract(long contractId, Date date);
+//    @Query("select c from contract c, participant p " +
+//            "where c.id = p.contract.id " +
+//            "AND p.user.id = :userId " +
+//            "WHEN :isEstablished = TRUE THEN c.est_date is not null " +
+//            "ELSE c.est_date is null END " +
+//            "AND c.est_date is not null = :isEstablished " +
+//            "AND p.isSigned = :isSigned")
+//    Optional<List<Contract>> getContracts(long userId, boolean isEstablished, boolean isSigned);
     @Query("select c from contract c, participant p " +
             "where c.id = p.contract.id " +
             "AND p.user.id = :userId " +
-            "AND c.isEstablished = :isEstablished " +
-            "AND p.isSigned = :isSigned")
-    Optional<List<Contract>> getContracts(long userId, boolean isEstablished, boolean isSigned);
+            "AND p.isSigned = false")
+    Optional<List<Contract>> getContractsINotSigned(long userId);
+    @Query("select c from contract c, participant p " +
+            "where c.id = p.contract.id " +
+            "AND p.user.id = :userId " +
+            "AND c.est_date is not null")
+    Optional<List<Contract>> getEstablishedContracts(long userId);
+    @Query("select c from contract c, participant p " +
+            "where c.id = p.contract.id " +
+            "AND p.user.id = :userId " +
+            "AND c.est_date is null " +
+            "AND p.isSigned = true")
+    Optional<List<Contract>> getContractsOthersNotSigned(long userId);
 }

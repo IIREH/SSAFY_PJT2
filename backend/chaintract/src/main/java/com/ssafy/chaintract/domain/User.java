@@ -19,8 +19,8 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @OneToMany(mappedBy = "user")
-    private List<Contract> contracts = new ArrayList<>();
+//    @OneToMany(mappedBy = "user")
+//    private List<Contract> contracts = new ArrayList<>();
 
     private String access_token;
     private String name;

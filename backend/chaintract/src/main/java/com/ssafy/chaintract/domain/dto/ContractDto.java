@@ -17,10 +17,10 @@ import java.util.List;
 public class ContractDto {
     @ApiModelProperty(value = "게시글의 PK", example = "5197")
     private long id;
-    @ApiModelProperty(value = "요청자의 ID", example = "8216")
-    private long creatorId;
+//    @ApiModelProperty(value = "요청자의 ID", example = "8216")
+//    private String creatorId;
     @ApiModelProperty(value = "참가자들의 ID", example = "[8216, 0397, 818]")
-    private List<Long> participantIds;
+    private List<String> participantEmails;
     @ApiModelProperty(value = "계약명", example = "삼성 청년 SW 아카데미 3월 교육지원금 서명서 - 광주 1반")
     private String name;
     @ApiModelProperty(value = "성립된 일시", example = "2022-03-30T01:48:24.044+0000")
