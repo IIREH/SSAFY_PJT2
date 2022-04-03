@@ -49,34 +49,31 @@ public class ContractController {
 
     @ApiOperation(value = "계약증명 요청에 서명", notes = "로그인한 이용자가 contractId에 해당하는 증명에 서명", response = ApiUtils.ApiResult.class)
     @PutMapping("/contract/sign/{contractId}")
-    public Object toggleSignature(@ApiParam(value = "계약증명ID", required = true) @PathVariable long contractId, @RequestBody CreateOutReqeust outReqeust) {
+    public ApiUtils.ApiResult<?> toggleSignature(@ApiParam(value = "계약증명ID", required = true) @PathVariable long contractId, @RequestBody CreateOutReqeust outReqeust) {
         User user =  userRepository.findUserBySocialId(outReqeust.email).get(0);
         contractService.toggleSignature(contractId, user);
-        return true;
+        return ApiUtils.success(HttpStatus.SC_OK);
     }
 
     @ApiOperation(value = "내가 서명하지 않은 계약증명들을 조회", notes = "로그인한 이용자가 서명하지 않은 계약증명들을 반환", response = ApiUtils.ApiResult.class)
-    @GetMapping("/contracts/ongoing/need")
-    public Object findContractsNotSigned(@RequestBody CreateOutReqeust outReqeust) {
+    @PutMapping("/contracts/ongoing/need")
+    public ApiUtils.ApiResult<?> findContractsNotSigned(@RequestBody CreateOutReqeust outReqeust) {
         User user =  userRepository.findUserBySocialId(outReqeust.email).get(0);
-        contractService.getContracts(false, false, user);
-        return true;
+        return ApiUtils.success(contractService.getContracts(false, false, user));
     }
 
     @ApiOperation(value = "나는 서명했지만 남이 서명하지 않은 계약증명들을 조회", notes = "로그인한 이용자가 자신은 서명했지만 남은 서명하지 않은 계약증명들을 반환", response = ApiUtils.ApiResult.class)
-    @GetMapping("/contracts/ongoing")
-    public Object findUnestablishedContractsSinged(@RequestBody CreateOutReqeust outReqeust) {
+    @PutMapping("/contracts/ongoing")
+    public ApiUtils.ApiResult<?> findUnestablishedContractsSinged(@RequestBody CreateOutReqeust outReqeust) {
         User user =  userRepository.findUserBySocialId(outReqeust.email).get(0);
-        contractService.getContracts(false, true, user);
-        return true;
+        return ApiUtils.success(contractService.getContracts(false, true, user));
     }
 
     @ApiOperation(value = "성립된 증명들을 조회", notes = "모두가 서명해 성립된 계약증명들을 반환", response = ApiUtils.ApiResult.class)
-    @GetMapping("/contracts/complete")
-    public Object findEstablishedContracts(@RequestBody CreateOutReqeust outReqeust) {
+    @PutMapping("/contracts/complete")
+    public ApiUtils.ApiResult<?> findEstablishedContracts(@RequestBody CreateOutReqeust outReqeust) {
         User user =  userRepository.findUserBySocialId(outReqeust.email).get(0);
-        contractService.getContracts(true, true, user);
-        return true;
+        return ApiUtils.success(contractService.getContracts(true, true, user));
     }
 
     @ApiOperation(value = "특정 증명을 반환", notes = "contractId로 특정되는 계약 증명을 반환", response = ApiUtils.ApiResult.class)
