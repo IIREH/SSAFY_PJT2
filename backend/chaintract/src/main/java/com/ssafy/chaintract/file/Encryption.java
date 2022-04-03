@@ -17,7 +17,7 @@ import java.nio.file.Files;
 
 public class Encryption{
 
-    static String key = "ZCXVsfda2F";
+    static String key = "ZCXVsfda2Fwordle";
 
     public static byte[] getBytes(File file) throws IOException {
         byte[] fileContent = Files.readAllBytes(file.toPath());
@@ -63,7 +63,7 @@ public class Encryption{
         return new String(Base64.getEncoder().encode(encryptedIvText), "UTF-8");
     }
 
-    public static String decrypt(String encryptedIvText) throws Exception {
+    public static byte[] decrypt(String encryptedIvText) throws Exception {
         //decode with base64 decoder
         byte [] encryptedIvTextBytes = Base64.getDecoder().decode(encryptedIvText);
 
@@ -90,7 +90,8 @@ public class Encryption{
         byte[] origin = new byte[aesdecode.length - (aesdecode[aesdecode.length - 1])];
         System.arraycopy(aesdecode, 0, origin, 0, origin.length);
 
-        return new String(origin, "UTF-8");
+        return origin;
+//        return new String(origin, "UTF-8");
     }
 
 }
