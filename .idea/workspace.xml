@@ -5,28 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9eedfe7f-3075-4449-9ef0-ffb7779cd384" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/chainContract.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/blockImg.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/chain.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/document.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/exDocument.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/hands.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/pen.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/chainTract.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/chaintract/src/main/java/com/ssafy/chaintract/api/ContractController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/chaintract/src/main/java/com/ssafy/chaintract/api/ContractController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/template/contractDetail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/template/contractDetail/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/template/contractPage/renderPages/complete/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/template/contractPage/renderPages/complete/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/template/contractPage/renderPages/ongoing/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/template/contractPage/renderPages/ongoing/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/template/contractPage/renderPages/sign/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/template/contractPage/renderPages/sign/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ex.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Card.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Card.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/CardItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CardItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/faq/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/faq/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/template/contractPage/renderPages/write/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/template/contractPage/renderPages/write/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/template/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/template/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/template/styled.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/template/styled.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
