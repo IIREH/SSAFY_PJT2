@@ -18,15 +18,15 @@ const ContractDetailTemplate = ({ contractId }) => {
     api.get(`/contract/0`).then((res) => res),
   );
 
-  const pdfData = useQuery('pdfData', () =>
-    // 성립된 계약인지 확인하는값 ~~~date 확인해서 isApprove값 변경하는 then작성해야함
-    api.get(`/contract/0/file`),
-  );
+  // const pdfData = useQuery('pdfData', () =>
+  //   // 성립된 계약인지 확인하는값 ~~~date 확인해서 isApprove값 변경하는 then작성해야함
+  //   api.get(`/contract/0/file`),
+  // );
 
   if (contractData.isLoading) return 'Loading...';
   if (contractData.isError) return 'An error has occurred: ';
-  if (pdfData.isLoading) return 'Loading...';
-  if (pdfData.isError) return 'An error has occurred: ';
+  // if (pdfData.isLoading) return 'Loading...';
+  // if (pdfData.isError) return 'An error has occurred: ';
 
   const confirm = () => {
     api.put(`/contract/sign/0`);

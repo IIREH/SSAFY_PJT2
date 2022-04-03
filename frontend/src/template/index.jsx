@@ -35,7 +35,7 @@ const index = () => {
           <Styled.stylePage1>
             Chain Contract
             <Styled.styleP>
-              아래로 스크롤을 내려주세요
+              스크롤을 아래로 내려주세요
               <ExpandMoreIcon />
             </Styled.styleP>
           </Styled.stylePage1>
