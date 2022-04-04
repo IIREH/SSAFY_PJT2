@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import { Heading } from '@/components/atoms';
 import { useRecoilState } from 'recoil';
@@ -12,7 +12,8 @@ const Write = () => {
   const fileApi = fileInstance();
   const [pageState, setPageState] = useRecoilState(contractPageState);
   const [contractName, setContractName] = useState();
-  const [covenantee, setCovenantee] = useState();
+  const [covenantee, setCovenantee] = useState([]);
+  const [covenanteeInput, setCovenanteeInput] = useState();
   const [files, setFile] = useState([]);
 
   const onFileChange = useCallback(
@@ -23,41 +24,73 @@ const Write = () => {
   );
 
   const ChangeContractName = useCallback(
-    (event) => {
-      setContractName(event.target.value);
+    (e) => {
+      setContractName(e.target.value);
     },
     [contractName],
   );
 
-  const ChangeCovenantee = useCallback(
-    (event) => {
-      setCovenantee(event.target.value);
+  const ChangeCovenanteeInput = useCallback(
+    (e) => {
+      setCovenanteeInput(e.target.value);
     },
-    [covenantee],
+    [covenanteeInput],
   );
+
+  const InputCovenantee = (e) => {
+    e.preventDefault();
+    if (covenanteeInput.length > 0) {
+      setCovenantee([...covenantee, covenanteeInput]);
+      setCovenanteeInput('');
+    } else {
+      alert('계약자(이메일주소)를 입력해주세요');
+    }
+  };
+
+  const deleteCovenantee = (e) => {
+    e.preventDefault();
+    let value = [...covenantee];
+    value.splice(e.target.id, 1);
+    setCovenantee(value);
+  };
 
   const SubmitContract = () => {
     if (!contractName) {
       alert('제목을 입력해주세요');
       return;
-    } else if (!covenantee) {
-      alert('계약자(이메일주소)를 입력해주세요');
+    }
+    if (covenantee.length === 0) {
+      alert('계약자(이메일주소)를 추가해주세요');
       return;
     }
+    if (files.length === 0) {
+      alert('계약서(pdf파일)를 선택해주세요');
+      return;
+    }
+
     let formData = new FormData();
+
     formData.append('files', '');
     files.forEach((file) => formData.append('files', file));
+
     const request = {
       name: contractName,
-      participantIds: covenantee,
+      participantIds: [...covenantee],
     };
+
     formData.append('request', new Blob([JSON.stringify(request)], { type: 'application/json' }));
 
+    for (var key of formData.keys()) {
+      console.log(key);
+    }
+
+    for (var value of formData.values()) {
+      console.log(value);
+    }
+
     fileApi
-      // url변경
       .post('/contract', formData)
       .then((res) => {
-        console.log(res);
         alert('계약생성완료');
         setPageState(0);
       })
@@ -94,10 +127,19 @@ const Write = () => {
             label="계약자(이메일주소)"
             multiline
             maxRows={4}
-            value={covenantee}
-            onChange={ChangeCovenantee}
+            value={covenanteeInput}
+            onChange={ChangeCovenanteeInput}
             variant="standard"
           />
+          <input type="button" onClick={InputCovenantee} value="추가" />
+        </div>
+        <div>
+          {covenantee.map((covenantee, idx) => (
+            <div key={covenantee + idx}>
+              <p>계약자: {covenantee}</p>
+              <input type="button" value="삭제" onClick={deleteCovenantee} id={idx} />
+            </div>
+          ))}
         </div>
       </Box>
       <div>
