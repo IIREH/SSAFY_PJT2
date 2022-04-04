@@ -124,7 +124,7 @@ const Ongoing = () => {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(8);
   const api = apiInstance();
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {
@@ -207,7 +207,7 @@ const Ongoing = () => {
                   <Grid
                     item xs={3}
                     key={row.id}
-                    hover
+                    hover="true"
                     onClick={(event) => handleClick(event, row.id)}
                     tabIndex={-1}
                     className={classes.tableRow}
@@ -240,7 +240,7 @@ const Ongoing = () => {
         </Box>
         <br /><br />
         <TablePagination
-          rowsPerPageOptions={[12, 16, 20]}
+          rowsPerPageOptions={[8, 12, 16, 20]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
