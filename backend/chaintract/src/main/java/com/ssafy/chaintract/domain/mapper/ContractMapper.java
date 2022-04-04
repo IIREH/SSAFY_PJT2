@@ -16,16 +16,13 @@ public class ContractMapper {
     @Autowired
     ParticipantRepository participantRepository;
 
-    @Autowired
-    UserRepository userRepository;
-
     public ContractDto toDto(Contract contract) {
         return ContractDto.builder()
                 .id(contract.getId())
-//                .creatorId(contract.getUser().getId())
                 .participantEmails(participantRepository.findAllByContract(contract).stream().map(p -> p.getUser().getEmail()).collect(Collectors.toList()))
                 .name(contract.getName())
-                .establishedDate(contract.getEst_date())
+                .createdDate(contract.getCreatedDate())
+                .establishedDate(contract.getEstDate())
                 .filePath(contract.getFilePath())
                 .build();
     }
@@ -33,10 +30,9 @@ public class ContractMapper {
     public Contract toEntity(ContractDto contractDto) {
         return Contract.builder()
                 .id(contractDto.getId())
-//                .user(userRepository.findOne(contractDto.getCreatorId()))
-//                .isEstablished(contractDto.getEstablishedDate() != null)
                 .name(contractDto.getName())
-                .est_date(contractDto.getEstablishedDate())
+                .createdDate(contractDto.getCreatedDate())
+                .estDate(contractDto.getEstablishedDate())
                 .filePath(contractDto.getFilePath())
                 .build();
     }

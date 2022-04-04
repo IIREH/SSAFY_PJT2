@@ -2,6 +2,7 @@ package com.ssafy.chaintract.domain;
 
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Contract {
     @Id @GeneratedValue
     @Column(name = "contract_id")
@@ -26,8 +28,10 @@ public class Contract {
 //    private boolean isEstablished;
 
     private String name;
-    private Date est_date;
-//    private Date exp_date;
+
+    @CreatedDate
+    private Date createdDate;
+    private Date estDate;
 
     //    @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "file_id")

@@ -21,16 +21,16 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
     @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Transactional
     @Query("update contract c " +
-            "set c.est_date = :date " +
+            "set c.estDate = :date " +
 //            "c.isEstablished = true " +
             "where c.id = :contractId")
     int completeContract(long contractId, Date date);
 //    @Query("select c from contract c, participant p " +
 //            "where c.id = p.contract.id " +
 //            "AND p.user.id = :userId " +
-//            "WHEN :isEstablished = TRUE THEN c.est_date is not null " +
-//            "ELSE c.est_date is null END " +
-//            "AND c.est_date is not null = :isEstablished " +
+//            "WHEN :isEstablished = TRUE THEN c.estDate is not null " +
+//            "ELSE c.estDate is null END " +
+//            "AND c.estDate is not null = :isEstablished " +
 //            "AND p.isSigned = :isSigned")
 //    Optional<List<Contract>> getContracts(long userId, boolean isEstablished, boolean isSigned);
     @Query("select c from contract c, participant p " +
@@ -41,12 +41,13 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
     @Query("select c from contract c, participant p " +
             "where c.id = p.contract.id " +
             "AND p.user.id = :userId " +
-            "AND c.est_date is not null")
+            "AND c.estDate is not null")
     Optional<List<Contract>> getEstablishedContracts(long userId);
-    @Query("select c from contract c, participant p " +
+    @Query("SELECT c " +
+            "FROM contract c, participant p " +
             "where c.id = p.contract.id " +
             "AND p.user.id = :userId " +
-            "AND c.est_date is null " +
+            "AND c.estDate is null " +
             "AND p.isSigned = true")
     Optional<List<Contract>> getContractsOthersNotSigned(long userId);
 }

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -52,22 +53,22 @@ public class ContractService {
     FileStore fileStore;
 
     @Transactional
-    public Contract createContract(ContractDto contractDto) {
+    public ContractDto createContract(ContractDto contractDto, String creatorEmail) {
         Contract contract = contractRepository.save(contractMapper.toEntity(contractDto));
 
         List<Participant> participants = new ArrayList<>();
         for(String email : contractDto.getParticipantEmails()) {
-            List<User> user = userRepository.findUserByEmail(email);
+            User user = userRepository.findUserByEmail(email).get(0);
             Participant participant = Participant.builder()
                     .contract(contract)
-                    .user(user.get(0))
-                    .isSigned(false)
+                    .user(user)
+                    .isSigned(user.getEmail().equals(creatorEmail))
                     .build();
             participants.add(participant);
         }
         participantRepository.saveAll(participants);
 
-        return contract;
+        return contractMapper.toDto(contract);
     }
 
     public String uploadFile(MultipartFile file) throws IOException {
@@ -98,18 +99,24 @@ public class ContractService {
         contractRepository.completeContract(contract.getId(), date);
     }
 
-    public Optional<List<Contract>> getContracts(boolean isEstablished, boolean isSigned, User user) {
-        Optional<List<Contract>> contracts = null;
+    public List<ContractDto> getContracts(boolean isEstablished, boolean isSigned, User user) {
+        Optional<List<Contract>> optionalContracts = null;
 
         if(isEstablished) {
-            contracts = contractRepository.getEstablishedContracts(user.getId());
+            optionalContracts = contractRepository.getEstablishedContracts(user.getId());
         } else if(isSigned == false) {
-            contracts = contractRepository.getContractsINotSigned(user.getId());
+            optionalContracts = contractRepository.getContractsINotSigned(user.getId());
         } else {
-            contracts = contractRepository.getContractsOthersNotSigned(user.getId());
+            optionalContracts = contractRepository.getContractsOthersNotSigned(user.getId());
         }
 
-        return contracts;
+//        if(optionalContracts.isPresent()) {
+//            return
+//        }
+//        contracts
+//                .ifPresent(list -> list.stream().map(x -> contractMapper.toDto(x)).collect(Collectors.toList()));
+
+        return optionalContracts.get().stream().map(x -> contractMapper.toDto(x)).collect(Collectors.toList());
     }
 
     public ContractDto getContract(long contractId) {

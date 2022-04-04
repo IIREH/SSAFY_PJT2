@@ -91,25 +91,23 @@ public class ContractServiceTest {
         userRepository.save(participant2);
         userRepository.save(participant3);
 
-        List<Long> participantIds = Arrays.asList(creator.getId(), participant1.getId(), participant2.getId(), participant3.getId());
+        List<String> participantEmails = Arrays.asList(creator.getEmail(), participant1.getEmail(), participant2.getEmail(), participant3.getEmail());
         contractDto1 = ContractDto.builder()
-                .creatorId(creator.getId())
-                .participantIds(participantIds)
+                .participantEmails(participantEmails)
                 .name("test Contract1")
                 .build();
         contractDto2 = ContractDto.builder()
-                .creatorId(creator.getId())
-                .participantIds(participantIds)
+                .participantEmails(participantEmails)
                 .name("test Contract2")
                 .build();
 
-        contract1 = contractService.createContract(contractDto1);
+        contract1 = contractMapper.toEntity(contractService.createContract(contractDto1, creator.getEmail()));
 //        contract2 = contractService.createContract(contractDto2);
         Contract contractFound = contractRepository.findById(contract1.getId()).get();
         Assertions.assertSame(contract1, contractFound);
 
-        List<Long> participantIdsFound = participantRepository.findAllByContract(contractFound).stream().map(p -> p.getUser().getId()).collect(Collectors.toList());
-        Assertions.assertIterableEquals(participantIds, participantIdsFound);
+        List<Long> participantEmailsFound = participantRepository.findAllByContract(contractFound).stream().map(p -> p.getUser().getId()).collect(Collectors.toList());
+        Assertions.assertIterableEquals(participantEmails, participantEmailsFound);
 
 
         MockHttpSession mockSession = new MockHttpSession();
@@ -121,7 +119,7 @@ public class ContractServiceTest {
 
         userService.login(creator);
         contractService.toggleSignature(contract1.getId(), creator);
-        Assertions.assertSame(false, contractRepository.getById(contract1.getId()).isEstablished());
+        Assertions.assertNull(contractRepository.getById(contract1.getId()).getEstDate());
         Assertions.assertSame(true, participantRepository.findAllByUser(creator).get(0).isSigned());
         contractService.toggleSignature(contract1.getId(), creator);
         Assertions.assertSame(false, participantRepository.findAllByUser(creator).get(0).isSigned());
@@ -133,7 +131,7 @@ public class ContractServiceTest {
         contractService.toggleSignature(contract1.getId(), participant2);
         session.setAttribute("loginUser", participant3);
         contractService.toggleSignature(contract1.getId(), participant3);
-        Assertions.assertSame(true, contractRepository.getById(contract1.getId()).isEstablished());
+        Assertions.assertNotNull(contractRepository.getById(contract1.getId()).getEstDate());
 
         byte[] encrypted = new byte[32];
         for(int i = 0; i < 32; ++i) {
