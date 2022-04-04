@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import CardItem from "./CardItem";
+import React, { useState } from 'react';
+import CardItem from './CardItem';
 
 const Card = ({ questionsAnswers }) => {
   const [activeIndex, setActiveIndex] = useState(1);
 
   const renderedQuestionsAnswers = questionsAnswers.map((item, index) => {
-    const showDescription = index === activeIndex ? "show-description" : "";
-    const fontWeightBold = index === activeIndex ? "font-weight-bold" : "";
-    const ariaExpanded = index === activeIndex ? "true" : "false";
+    const showDescription = index === activeIndex ? 'show-description' : '';
+    const fontWeightBold = index === activeIndex ? 'font-weight-bold' : '';
+    const ariaExpanded = index === activeIndex ? 'true' : 'false';
     return (
       <CardItem
+        key={item.id}
         showDescription={showDescription}
         fontWeightBold={fontWeightBold}
         ariaExpanded={ariaExpanded}

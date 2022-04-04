@@ -225,7 +225,7 @@ const Ongoing = () => {
                           <br />작성일<br />{row.date}<br />
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                          <br />(진행 중)<br />
+                          <br />(서명 진행 중)<br />
                         </Typography>
                       </CardContent>
                       <CardActions>

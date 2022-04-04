@@ -12,20 +12,24 @@ const ContractDetailTemplate = ({ contractId }) => {
   const api = apiInstance();
   // 승인해야하는 계약인지 상태값 부여
   const isApprove = false;
-  let userInfo = '';
-  if (typeof window !== 'undefined' && window.sessionStorage) {
-    userInfo = sessionStorage.getItem('chainTractLoginInfo');
-  }
 
-  const { isLoading, error, data } = useQuery('repoData', () =>
+  const contractData = useQuery('contractData', () =>
     // 성립된 계약인지 확인하는값 ~~~date 확인해서 isApprove값 변경하는 then작성해야함
-    api.get(`/contract/${contractId}`, { email: userInfo }),
+    api.get(`/contract/0`).then((res) => res),
   );
-  if (isLoading) return 'Loading...';
-  if (error) return 'An error has occurred: ' + error.message;
+
+  // const pdfData = useQuery('pdfData', () =>
+  //   // 성립된 계약인지 확인하는값 ~~~date 확인해서 isApprove값 변경하는 then작성해야함
+  //   api.get(`/contract/0/file`),
+  // );
+
+  if (contractData.isLoading) return 'Loading...';
+  if (contractData.isError) return 'An error has occurred: ';
+  // if (pdfData.isLoading) return 'Loading...';
+  // if (pdfData.isError) return 'An error has occurred: ';
 
   const confirm = () => {
-    api.put(`/api/contract/sign/${contractId}`);
+    api.put(`/contract/sign/0`);
     alert('계약을 승인했습니다');
     router.replace('/contractpage');
   };
@@ -35,10 +39,10 @@ const ContractDetailTemplate = ({ contractId }) => {
       <Navbar />
       <Styled.MainContainer>
         <div>
-          <Heading>제목</Heading>
+          <Heading>{contractData.data.data.response.name}</Heading>
           <Styled.ArticleArea>
-            <span>계약자</span>
-            <span>일자</span>
+            <span>{contractData.data.data.response.participantIds}</span>
+            <span>{contractData.data.data.response.establishedDate}</span>
           </Styled.ArticleArea>
         </div>
         <div style={{ overflow: 'scroll', height: 600 }}>
