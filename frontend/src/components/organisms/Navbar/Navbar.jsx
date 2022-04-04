@@ -12,13 +12,13 @@ const Navbar = () => {
   return (
     <Styled.MainContainer>
       <>
-        <NavButton bgColor="inherit" color="#e0f2f1" href="/">
+        <NavButton bgColor="inherit" color="#000" href="/">
           ChainTract
         </NavButton>
       </>
       {userInfo ? (
         <>
-          <NavButton bgColor="inherit" color="#e0f2f1" href="/contractpage">
+          <NavButton bgColor="inherit" color="#000" href="/contractpage">
             Contract
           </NavButton>
         </>
@@ -26,7 +26,7 @@ const Navbar = () => {
         <></>
       )}
       <>
-        <NavButton bgColor="inherit" color="#e0f2f1" href="/faq">
+        <NavButton bgColor="inherit" color="#000" href="/faq">
           FAQ
         </NavButton>
       </>

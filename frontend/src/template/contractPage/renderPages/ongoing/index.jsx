@@ -105,13 +105,13 @@ const Ongoing = () => {
     userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
   //
-  const { isLoading, error, data } = useQuery('repoData', () =>
-    api.get('/contracts/ongoing', { email: userInfo }).then((res) => res.json()),
-  );
+  // const { isLoading, error, data } = useQuery('repoData', () =>
+  //   api.get('/contracts/ongoing', { email: userInfo }).then((res) => res.json()),
+  // );
 
-  if (isLoading) return 'Loading...';
+  // if (isLoading) return 'Loading...';
 
-  if (error) return 'An error has occurred: ' + error.message;
+  // if (error) return 'An error has occurred: ' + error.message;
   //
 
   const rows = [
@@ -194,7 +194,7 @@ const Ongoing = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <div>데이터! : {data}</div>
+      {/* <div>데이터! : {data}</div> */}
     </div>
   );
 };

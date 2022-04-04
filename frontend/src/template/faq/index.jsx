@@ -14,6 +14,7 @@ import Card from "components/Card";
 
 import illustration__box from "../../pages/faq/images/illustration-box-desktop.svg";
 import illustration__woman_desktop from "../../pages/faq/images/illustration-woman-online-desktop.svg";
+///import illustration__business_team from "../../pages/faq/images/business_team.gif"
 ///import illustration__contract from "/src/images/contract.png";
 
 const questionsAnswers = [
@@ -51,7 +52,7 @@ const FaqTemplate = () => {
             alt="illustration with box"
             className="illustration__box"
           />
-
+ 
           <Image
             className="illustration__woman-desktop"
             src={illustration__woman_desktop}

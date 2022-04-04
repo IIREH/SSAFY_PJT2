@@ -13,6 +13,7 @@ const ListContainer = styled.div`
   display: flex;
   flex-flow: column nowrap;
   width: 15vw;
+
 `;
 
 const ViewContainer = styled.div`

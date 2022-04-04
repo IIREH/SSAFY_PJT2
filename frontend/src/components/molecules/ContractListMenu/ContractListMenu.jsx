@@ -7,46 +7,52 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { contractPageState } from '@/states';
 import { useRecoilState } from 'recoil';
 
+
 const ContractListMenu = () => {
   const [, setPageState] = useRecoilState(contractPageState);
   const changePage = (e) => {
     setPageState(e.target.innerText);
   };
 
+
   return (
-    <Styled.MainContainer>
-      <ListSubheader component="div" disableGutters>
-        생성
-      </ListSubheader>
-      <List component="div">
-        <ListItem button onClick={changePage}>
-          <ListItemText primary="작성" disableTypography />
-        </ListItem>
-      </List>
 
-      <ListSubheader component="div" disableGutters>
-        승인
-      </ListSubheader>
-      <List component="div">
-        <ListItem button onClick={changePage}>
-          <ListItemText primary="승인 대기" disableTypography />
-        </ListItem>
-      </List>
+      <Styled.MainContainer>
+        <ListSubheader component="div" disableGutters>
+          생성
+        </ListSubheader>
+        <List component="div">
+          <ListItem button onClick={changePage}>
+            <ListItemText primary="작성" disableTypography />
+          </ListItem>
+        </List>
 
-      <ListSubheader component="div" disableGutters>
-        내 계약조회
-      </ListSubheader>
-      <List component="div">
-        <ListItem button onClick={changePage}>
-          <ListItemText primary="성립전" disableTypography />
-        </ListItem>
-      </List>
-      <List component="div">
-        <ListItem button onClick={changePage}>
-          <ListItemText primary="이행중" disableTypography />
-        </ListItem>
-      </List>
-    </Styled.MainContainer>
+        <ListSubheader component="div" disableGutters>
+          승인
+        </ListSubheader>
+        <List component="div">
+          <ListItem button onClick={changePage}>
+            <ListItemText primary="승인 대기" disableTypography />
+          </ListItem>
+        </List>
+
+        <ListSubheader component="div" disableGutters>
+          내 계약조회
+        </ListSubheader>
+        <List component="div">
+          <ListItem button onClick={changePage}>
+            <ListItemText primary="성립전" disableTypography />
+          </ListItem>
+        </List>
+        <List component="div">
+          <ListItem button onClick={changePage}>
+            <ListItemText primary="이행중" disableTypography />
+          </ListItem>
+        </List>
+      </Styled.MainContainer>
+
+
+
   );
 };
 

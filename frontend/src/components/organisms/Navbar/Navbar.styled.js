@@ -7,7 +7,7 @@ const MainContainer = styled.div`
   align-items: center;
   position: static;
   background-color: rgb(0, 199, 184);
-  height: 5vh;
+  height: 9vh;
   padding: 0vh 15vw 0vh 15vw;
   min-width: 500px;
 `;
