@@ -77,10 +77,10 @@ public class ContractService {
         return uploadFile.getFullPath();
     }
 
-    @Transactional
     public byte[] downloadFile(long contractId) throws IOException {
         String fullPath = contractRepository.findById(contractId).get().getFilePath();
-        return fileStore.retrieveFile(fullPath);
+        byte[] file = fileStore.retrieveFile(fullPath);
+        return file;
     }
 
     @Transactional

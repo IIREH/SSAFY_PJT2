@@ -50,8 +50,9 @@ public class ContractController {
 
     @ApiOperation(value = "계약서 파일 다운로드", notes = "서버에 계약서 파일을 다운로드", response = ApiUtils.ApiResult.class)
     @GetMapping(value = "/contract/{contractId}/file", produces = "application/pdf")
-    public ApiUtils.ApiResult<?> downloadContractFile(@ApiParam(value = "계약증명ID", required = true) @PathVariable long contractId) throws IOException {
-        return ApiUtils.success(contractService.downloadFile(contractId));
+    public byte[] downloadContractFile(@ApiParam(value = "계약증명ID", required = true) @PathVariable long contractId) throws IOException {
+//        return ApiUtils.success(contractService.downloadFile(contractId));
+        return contractService.downloadFile(contractId);
     }
 
     @ApiOperation(value = "계약증명 요청에 서명", notes = "로그인한 이용자가 contractId에 해당하는 증명에 서명", response = ApiUtils.ApiResult.class)
