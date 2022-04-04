@@ -18,6 +18,7 @@ const ContentContainer = styled.div`
 
 const ArticleArea = styled.div`
   display: flex;
+  text-color: white;
   flex-flow: row nowrap;
   justify-content: space-between;
 `;

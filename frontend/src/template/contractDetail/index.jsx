@@ -68,8 +68,8 @@ const ContractDetailTemplate = ({ contractId }) => {
           계약서 제목
         </Typography>
           <Styled.ArticleArea>
-            <span>ㄴㄴㄴ</span>
-            <span>ㄷㄷㄷ</span>
+            <span>계약자명</span>
+            <span>계약날짜?</span>
           </Styled.ArticleArea>
         </div>
         <div style={{ overflow: 'scroll', height: 600 }}>
