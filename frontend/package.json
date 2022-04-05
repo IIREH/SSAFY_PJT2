@@ -29,7 +29,6 @@
     "react-material-alert": "^2.0.1",
     "react-query": "^3.34.16",
     "reactjs-pdf-reader": "^1.0.12",
-    "recoil": "^0.6.1",
     "sass": "^1.49.11"
   },
   "main": "index.js",
