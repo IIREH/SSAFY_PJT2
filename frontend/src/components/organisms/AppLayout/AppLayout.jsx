@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Transition, TransitionGroup } from 'react-transition-group';
 import { useRouter } from 'next/router';
+
 const TIMEOUT = 180;
 const getTransitionStyles = {
   entering: {
@@ -17,6 +18,7 @@ const getTransitionStyles = {
   },
 };
 const AppLayout = ({ children }) => {
+  const nodeRef = useRef(null);
   const router = useRouter();
   return (
     <>
@@ -27,12 +29,14 @@ const AppLayout = ({ children }) => {
             enter: TIMEOUT,
             exit: TIMEOUT,
           }}
+          nodeRef={nodeRef}
         >
           {(status) => (
             <div
               style={{
                 ...getTransitionStyles[status],
               }}
+              ref={nodeRef}
             >
               {children}
             </div>

@@ -1,11 +1,12 @@
 import React from 'react';
 import Styled from './KakaoLoginBtn.styled';
 import KakaoLogin from 'react-kakao-login';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { authInstance } from '@/libs/axios';
 import { KAKAO_OAUTH_APIKEY } from '@/config';
 
 const KakaoLoginBtn = () => {
+  const router = useRouter();
   const api = authInstance();
 
   let userInfo = '';

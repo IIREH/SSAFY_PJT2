@@ -7,9 +7,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
 import Styled from './styled';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 
 const Write = () => {
+  const router = useRouter();
   const api = apiInstance();
   const fileApi = fileInstance();
   const [contractName, setContractName] = useState();
