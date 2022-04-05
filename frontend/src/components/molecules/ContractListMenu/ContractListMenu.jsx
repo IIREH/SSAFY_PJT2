@@ -6,8 +6,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 const ContractListMenu = (props) => {
+  const { handleState } = props;
+
   const changePage = (e) => {
-    props.handleState(e.target.innerText);
+    handleState(e.target.innerText);
   };
 
   return (
