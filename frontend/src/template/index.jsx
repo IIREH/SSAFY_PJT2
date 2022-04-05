@@ -16,10 +16,12 @@ import page2 from '/public/page2.png';
 const index = () => {
   const [scrollHeight, setScrollHeight] = useState(0);
   const onWheel = (e) => {
+    console.log(scrollHeight)
+    console.log(e)
     e.preventDefault();
-    if (e.deltaY === -100 && scrollHeight !== 0) {
+    if (e.deltaY === -500 && scrollHeight !== 0) {
       setScrollHeight(scrollHeight + 95);
-    } else if (e.deltaY === 100 && scrollHeight !== -380) {
+    } else if (e.deltaY === 500 && scrollHeight !== -380) {
       setScrollHeight(scrollHeight - 95);
     }
   };
@@ -54,12 +56,13 @@ const index = () => {
             <Styled.imageStyle2>
                 <Image
                   src={illustration__security}
-                  width={500} height={500}
+                  width={550} height={550}
                 />
               </Styled.imageStyle2>
               <Styled.imageStyleChaintract>
                 <Image
                   src={page2}
+                
                 />
               </Styled.imageStyleChaintract>
           </Styled.stylePage2>

@@ -23,15 +23,16 @@ const imageStyle = styled.div`
 `;
 
 const imageStyle2 = styled.div`
-  position: absolute;
-  left:-300px;
-  top: -30px;
+  position: fixed;
+  left:-50px;
+  top: -50px;
 
 `;
 
 const imageStyleChaintract = styled.div`
   position:relative;
-  left: 300px;
+  left: 500px;
+  width: 800px;
   top: -50px;
 `;
 
