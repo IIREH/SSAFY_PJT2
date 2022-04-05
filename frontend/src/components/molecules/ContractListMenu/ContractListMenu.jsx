@@ -1,23 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Styled from './ContractListMenu.styled';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const ContractListMenu = () => {
-  const [pageState, setPageState] = useState(0);
-
+const ContractListMenu = (props) => {
   const changePage = (e) => {
-    setPageState(e.target.innerText);
+    props.handleState(e.target.innerText);
   };
-
-  useEffect(
-    (props) => {
-      props.handleState(pageState);
-    },
-    [pageState],
-  );
 
   return (
     <Styled.MainContainer>
