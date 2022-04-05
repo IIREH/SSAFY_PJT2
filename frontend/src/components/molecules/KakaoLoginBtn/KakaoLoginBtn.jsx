@@ -23,7 +23,11 @@ const KakaoLoginBtn = () => {
       }}
       onSuccess={(res) => {
         sessionStorage.setItem('chainTractLoginInfo', res.profile.kakao_account.email);
-        api.post('/auth/login', { accesstoken: res.response.access_token });
+        api.post(
+          '/auth/login',
+          { accesstoken: res.response.access_token },
+          { withCredentials: true },
+        );
         router.push('/');
       }}
       onFail={() => {}}

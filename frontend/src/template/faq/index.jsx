@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 ///import Styled from './styled';
 ///import { Navbar } from 'components/organisms';
@@ -11,8 +12,9 @@ import Card from "components/Card";
 
 // import "../scss/main.scss";
 
-import illustration__box from "/src/images/illustration-box-desktop.svg";
-import illustration__woman_desktop from "/src/images/illustration-woman-online-desktop.svg";
+import illustration__box from "../../pages/faq/images/illustration-box-desktop.svg";
+import illustration__woman_desktop from "../../pages/faq/images/illustration-woman-online-desktop.svg";
+///import illustration__business_team from "../../pages/faq/images/business_team.gif"
 ///import illustration__contract from "/src/images/contract.png";
 
 const questionsAnswers = [
@@ -36,7 +38,7 @@ const questionsAnswers = [
   },
   {
     question: "메일이나 아이디 변경이 가능한가요?",
-    answer: `ChainTract는 카카오톡으로 가입을 진행하기 때문에 변경을 지원하고 있지 않습니다. 변경할 이메일로 새로 가입해주세요. `,
+    answer: `ChainTract는 카카오톡으로 가입을 진행하기 때문에 변경을 지원하고 있지 않습니다. 새로 가입해주세요. `,
   },
 ];
 
@@ -45,13 +47,13 @@ const FaqTemplate = () => {
     <div className="container">
       <div className="component">
         <div className="illustration">
-          <img
+          <Image
             src={illustration__box}
             alt="illustration with box"
             className="illustration__box"
           />
-
-          <img
+ 
+          <Image
             className="illustration__woman-desktop"
             src={illustration__woman_desktop}
             alt="illustration with woman"

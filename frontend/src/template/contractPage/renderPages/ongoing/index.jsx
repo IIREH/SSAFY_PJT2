@@ -13,9 +13,25 @@ import { useRouter } from 'next/router';
 import Styled from './styled';
 import { useQuery } from 'react-query';
 import { apiInstance } from '@/libs/axios';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 
-function createData(id, name, date, users) {
-  return { id, name, date, users };
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+const bull = (
+  <Box component="span" sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}>
+    •
+  </Box>
+);
+//
+
+function createData(id, name, createdDate, counterpart) {
+  return { id, name, createdDate, counterpart };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -45,8 +61,10 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'name' },
-  { id: 'date', numeric: true, disablePadding: false, label: 'date' },
+  { id: 'id', disablePadding: false, label: 'id' },
+  { id: 'contractName', disablePadding: false, label: 'contractName' },
+  { id: 'createdDate', disablePadding: false, label: 'createdDate' },
+  { id: 'counterpart', disablePadding: false, label: 'counterpart' },
 ];
 
 function EnhancedTableHead(props) {
@@ -61,7 +79,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align="center"
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -98,103 +116,110 @@ const Ongoing = () => {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(8);
   const api = apiInstance();
+  const rows = [];
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {
     userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
   //
-  const { isLoading, error, data } = useQuery('repoData', () =>
-    api.get('/contracts/ongoing', { email: userInfo }).then((res) => res.json()),
+  const { isLoading, error, isSuccess, data } = useQuery('ongoingData', () =>
+    api.put('/contracts/ongoing', { email: userInfo }),
   );
-
   if (isLoading) return 'Loading...';
-
   if (error) return 'An error has occurred: ' + error.message;
-  //
+  if (isSuccess) {
+    data.data.response.map((contract) => {
+      rows.push(
+        createData(contract.id, contract.name, contract.createdDate, contract.participantEmails),
+      );
+    });
+  }
 
-  const rows = [
-    createData(1, 'a부동산계약', '2020.02.02', [1, 4, 56, 23]),
-    createData(2, 'b용역 계약', '2020.01.02', [65, 34, 56, 23, 123]),
-    createData(3, '투자 계약', '2019.03.02', [39, 42, 56]),
-    createData(4, '투자 계약', '2020.03.02', [39, 42, 56]),
-    createData(5, '투자 계약', '2020.03.09', [39, 42, 56]),
-    createData(6, '투자 계약', '2021.06.02', [39, 42, 56]),
-    createData(7, '투자 계약', '2020.03.02', [39, 42, 56]),
-    createData(8, '투자 계약', '2022.03.12', [39, 42, 56]),
-    createData(9, '투자 계약', '2022.03.22', [39, 42, 56]),
-    createData(10, '투자 계약', '2017.12.02', [39, 42, 56]),
-  ];
-
-  //
-
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const handleClick = (event, id) => {
+  const handleClick = (id) => {
     router.push(`/contractdetail/${id}`);
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (newPage) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+  const handleChangeRowsPerPage = (e) => {
+    setRowsPerPage(parseInt(e.target.value, 10));
     setPage(0);
   };
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <TableContainer>
-          <Table className={classes.table} aria-labelledby="tableTitle" aria-label="enhanced table">
-            <EnhancedTableHead
-              classes={classes}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
+      {rows.length > 0 ? (
+        <Paper className={classes.paper}>
+          <TableContainer>
+            <Table
+              className={classes.table}
+              aria-labelledby="tableTitle"
+              aria-label="enhanced table"
+            >
+              <EnhancedTableHead
+                classes={classes}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+                rowCount={rows.length}
+              />
+              <TableBody>
+                {stableSort(rows, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.id)}
-                      tabIndex={-1}
-                      key={row.id}
-                      className={classes.tableRow}
-                    >
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.date}</TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <div>데이터! : {data}</div>
+                    return (
+                      <TableRow
+                        hover
+                        onClick={(event) => handleClick(event, row.id)}
+                        tabIndex={-1}
+                        key={row.id}
+                        className={classes.tableRow}
+                      >
+                        <TableCell
+                          align="center"
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          {row.id}
+                        </TableCell>
+                        <TableCell align="center">{row.name}</TableCell>
+                        <TableCell align="center">{row.createdDate.slice(0, 10)}</TableCell>
+                        <TableCell align="center">{row.counterpart}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[8, 12, 16, 20]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+          <br />
+          <br />
+        </Paper>
+      ) : (
+        <h1>계약이 없습니다</h1>
+      )}
     </div>
   );
 };

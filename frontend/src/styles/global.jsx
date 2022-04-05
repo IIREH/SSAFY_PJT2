@@ -30,6 +30,9 @@ const GlobalStyle = () => (
       button {
         cursor: pointer;
       }
+      input {
+        cursor: pointer;
+      }
     `}
   />
 );

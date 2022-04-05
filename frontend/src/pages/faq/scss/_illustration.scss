@@ -9,13 +9,25 @@
     left: -95px;
   }
 
-  
+  &__contract {
+    position: absolute;
+    top: 60px;
+    left: -77px;
+
+  }
 
   &__woman-desktop {
     position: absolute;
     top: 60px;
     left: -77px;
-    clip-path: inset(0px 0px 0px 77px);
+
+  }
+
+  &__business_team {
+    position: absolute;
+    top: 60px;
+    left: -77px;
+
   }
 
   &__woman-mobile {

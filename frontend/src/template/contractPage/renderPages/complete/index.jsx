@@ -12,24 +12,33 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import { useRouter } from 'next/router';
 import Sytled from './styled';
+import { useQuery } from 'react-query';
+import { apiInstance } from '@/libs/axios';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+const bull = (
+  <Box component="span" sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}>
+    •
+  </Box>
+);
+//
 
-function createData(id, name, date, users) {
-  return { id, name, date, users };
+function createData(id, name, createdDate, establishedDate, counterpart) {
+  return { id, name, createdDate, establishedDate, counterpart };
 }
-
-// useQuery로 데이터 형식에 맞게 설정(테이블 헤더도 수정)
-const rows = [
-  createData(1, 'aa', '2020.02.02', [1, 4, 56, 23]),
-  createData(2, 'bb', '2020.01.02', [65, 34, 56, 23, 123]),
-  createData(3, 'cc', '2019.03.02', [39, 42, 56]),
-  createData(4, 'dd', '2020.03.02', [39, 42, 56]),
-  createData(5, 'ff', '2020.03.09', [39, 42, 56]),
-  createData(6, 'ee', '2021.06.02', [39, 42, 56]),
-  createData(7, 'qq', '2020.03.02', [39, 42, 56]),
-  createData(8, 'ww', '2022.03.12', [39, 42, 56]),
-  createData(9, 'ee', '2022.03.22', [39, 42, 56]),
-  createData(10, 'vv', '2017.12.02', [39, 42, 56]),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -58,8 +67,11 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'name' },
-  { id: 'date', numeric: true, disablePadding: false, label: 'date' },
+  { id: 'id', disablePadding: false, label: 'id' },
+  { id: 'contractName', disablePadding: false, label: 'contractName' },
+  { id: 'createdDate', disablePadding: false, label: 'createdDate' },
+  { id: 'establishedDate', disablePadding: false, label: 'establishedDate' },
+  { id: 'counterpart', disablePadding: false, label: 'counterpart' },
 ];
 
 function EnhancedTableHead(props) {
@@ -106,91 +118,127 @@ EnhancedTableHead.propTypes = {
 };
 
 const Complete = () => {
+  const api = apiInstance();
   const router = useRouter();
   const classes = Sytled.useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(8);
+  const rows = [];
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {
     userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
   //
-  const { isLoading, error, data } = useQuery('repoData', () =>
-    api.get('/contracts/complete', { email: userInfo }).then((res) => res.json()),
+  const { isLoading, error, isSuccess, data } = useQuery('completeData', () =>
+    api.put('/contracts/complete', { email: userInfo }),
   );
-
   if (isLoading) return 'Loading...';
-
   if (error) return 'An error has occurred: ' + error.message;
-  //
+  if (isSuccess) {
+    data.data.response.map((contract) => {
+      rows.push(
+        createData(
+          contract.id,
+          contract.name,
+          contract.createdDate,
+          contract.establishedDate,
+          contract.participantEmails,
+        ),
+      );
+    });
+  }
 
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const handleClick = (event, id) => {
+  const handleClick = (id) => {
     router.push(`/contractdetail/${id}`);
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (newPage) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+  const handleChangeRowsPerPage = (e) => {
+    setRowsPerPage(parseInt(e.target.value, 10));
     setPage(0);
   };
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <TableContainer>
-          <Table className={classes.table} aria-labelledby="tableTitle" aria-label="enhanced table">
-            <EnhancedTableHead
-              classes={classes}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
+      {rows.length > 0 ? (
+        <Paper className={classes.paper}>
+          <Box>
+            <Grid container spacing={0}>
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const labelId = `enhanced-table-checkbox-${index}`;
-
                   return (
-                    <TableRow
-                      hover
+                    <Grid
+                      item
+                      xs={3}
+                      key={row.id}
+                      hover="true"
                       onClick={(event) => handleClick(event, row.id)}
                       tabIndex={-1}
-                      key={row.id}
                       className={classes.tableRow}
+                      p={3}
                     >
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.date}</TableCell>
-                    </TableRow>
+                      <Item>
+                        <CardContent>
+                          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                            <br />
+                            {row.id}
+                            <br />
+                          </Typography>
+                          <Typography variant="h5" component="div">
+                            {bull} {row.name} {bull}
+                          </Typography>
+                          <Typography variant="body2">
+                            <br />
+                            생성일 : {row.createdDate.slice(0, 10)}
+                            <br />
+                            체결일 : {row.establishedDate.slice(0, 10)}
+                            <br />
+                          </Typography>
+                          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                            <br />
+                            {row.counterpart}
+                            <br />
+                          </Typography>
+                        </CardContent>
+                        <CardActions>
+                          <Button size="small">button</Button>
+                        </CardActions>
+                      </Item>
+                    </Grid>
                   );
                 })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
+            </Grid>
+          </Box>
+          <br />
+          <br />
+          <TablePagination
+            rowsPerPageOptions={[8, 12, 16, 20]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+          <br />
+          <br />
+        </Paper>
+      ) : (
+        <h1>계약이 없습니다</h1>
+      )}
     </div>
   );
 };

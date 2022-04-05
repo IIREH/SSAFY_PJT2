@@ -12,7 +12,7 @@
 
   .component {
     max-width: 327px;
-    background-image: url(/src/images/bg-pattern-mobile.svg);
+    background-image: url(../images/bg-pattern-mobile.svg);
     background-position: top;
     flex-direction: column;
   }
@@ -21,10 +21,6 @@
     &__box {
       display: none;
     }
-    &__contract {
-      display: none;
-    }
-
 
     &__woman-desktop {
       display: none;
