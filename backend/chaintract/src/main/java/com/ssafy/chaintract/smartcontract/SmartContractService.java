@@ -11,9 +11,7 @@ import org.springframework.stereotype.Component;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.Address;
-import org.web3j.abi.datatypes.Function;
-import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.*;
 import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.admin.Admin;
@@ -40,12 +38,12 @@ import org.web3j.protocol.http.HttpService;
 @Component
 public class SmartContractService {
     // TODO: 블록체인  네트워크가 구현되는되면 주요 환경변수는 application,yml에서 정의할 것
-    private String from = "0x9fDA6e3DeB8e2CDC4a018dB942080B775dC7C29A";
+    private String from = "0xCfda5e511AC2A243E047f85062ba98926D1d6688";
 
-    private String contract = "0xfda583438e4e23a11a14ba4e52692332f1df74cc";
+    private String contract = "0x1f813CB3616d9d4F4ebA31E9F6D98B9a53Ef455B";
 
     // hardcording because of testing
-    private String from_pwd = "0x1930006b049a9ed341aa5be5cbd7bce9a5acbbdbb2d501a2b331943a1e4ed70e";
+    private String from_pwd = "0xda4ec035c866be92e864c57d386ba45be1d4c7d1841dd37a486afcf46039b2af";
 
     private Admin web3j = null;
 
@@ -97,7 +95,7 @@ public class SmartContractService {
             //3. Transaction값 제작
             Transaction transaction = Transaction.createFunctionCallTransaction(from, nonce,
                     Transaction.DEFAULT_GAS,
-                    null, contract,
+                    new BigInteger("6721975"), contract,
                     FunctionEncoder.encode(function));
 
             // 4. ethereum Call &
@@ -135,7 +133,7 @@ public class SmartContractService {
     public void uploadContract(long contractId, byte[] encrypted) throws IOException, ExecutionException, InterruptedException {
         // 1. 호출하고자 하는 function 세팅[functionName, parameters]
         Function function = new Function("register",
-                Arrays.asList(new Uint256(contractId), new Bytes32(encrypted)),
+                Arrays.asList(new Uint256(contractId), new DynamicBytes(encrypted)),
                 Collections.emptyList());
 
         // 2. sendTransaction
