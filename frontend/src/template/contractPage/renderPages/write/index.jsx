@@ -2,10 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { Heading } from '@/components/atoms';
 import { useRecoilState } from 'recoil';
 import { contractPageState } from '@/states';
-import { fileInstance } from '@/libs/axios';
-import Box from '@mui/material/Box';
+import { apiInstance, fileInstance } from '@/libs/axios';
 import TextField from '@mui/material/TextField';
-
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -16,6 +14,7 @@ import Alert from '@material-ui/lab/Alert';
 
 // 파일 첨부시 pdf 미리보기 처리 하는거 추가
 const Write = () => {
+  const api = apiInstance();
   const fileApi = fileInstance();
   const [pageState, setPageState] = useRecoilState(contractPageState);
   const [contractName, setContractName] = useState();
@@ -61,7 +60,7 @@ const Write = () => {
     setCovenantee(value);
   };
 
-  const SubmitContract = () => {
+  async function SubmitContract() {
     if (!contractName) {
       alert('제목을 입력해주세요');
       return;
@@ -75,36 +74,37 @@ const Write = () => {
       return;
     }
 
-    let formData = new FormData();
+    const formData = new FormData();
+    let filePath = '';
 
     formData.append('files', '');
     files.forEach((file) => formData.append('files', file));
 
+    await fileApi
+      .post('/contract/file', formData)
+      .then((res) => {
+        filePath = res.data.response;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     const request = {
       name: contractName,
-      participantIds: [...covenantee],
+      participantEmails: [...covenantee],
+      filePath: filePath,
     };
 
-    formData.append('request', new Blob([JSON.stringify(request)], { type: 'application/json' }));
-
-    for (var key of formData.keys()) {
-      console.log(key);
-    }
-
-    for (var value of formData.values()) {
-      console.log(value);
-    }
-
-    fileApi
-      .post('/contract', formData)
-      .then((res) => {
+    await api
+      .post('/contract', request)
+      .then(() => {
         alert('계약생성완료');
         setPageState(0);
       })
       .catch((error) => {
         console.log(error);
       });
-  };
+  }
 
   return (
     <Styled.ContentContainer>

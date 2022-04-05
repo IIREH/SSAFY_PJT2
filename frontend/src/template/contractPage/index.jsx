@@ -11,6 +11,8 @@ const ContractPageTemplate = () => {
 
   const renderPage = () => {
     switch (pageState) {
+      case 0:
+        return <Basic />;
       case '작성':
         return <Write />;
       case '승인 대기':
@@ -19,8 +21,8 @@ const ContractPageTemplate = () => {
         return <Ongoing />;
       case '이행중':
         return <Complete />;
-      default:
-        return <Basic />;
+      // default:
+      //   return <Basic />;
     }
   };
 
@@ -29,9 +31,7 @@ const ContractPageTemplate = () => {
     <div class="navbar">
       <Navbar />
       <Styled.MainContainer>
-        <Styled.ListContainer>
-          <ContractListMenu />
-        </Styled.ListContainer>
+        <ContractListMenu />
         <Styled.ViewContainer>
           <>{renderPage()}</>
         </Styled.ViewContainer>

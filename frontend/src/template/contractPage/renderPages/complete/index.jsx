@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -11,9 +12,9 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import { useRouter } from 'next/router';
-import Sytled from './styled';
-
-//
+import Styled from './styled';
+import { useQuery } from 'react-query';
+import { apiInstance } from '@/libs/axios';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -22,6 +23,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import image__loading from "/public/Spinner-1s-200px.svg";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -30,53 +33,17 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
+  <Box component="span" sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}>
     •
   </Box>
 );
 //
 
-
-function createData(id, name, date, users) {
-  return { id, name, date, users };
+function createData( id, name, createdDate, establishedDate, counterpart ) {
+  return { id, name, createdDate, establishedDate, counterpart };
 }
 
-// useQuery로 데이터 형식에 맞게 설정(테이블 헤더도 수정)
-const rows = [
-  createData(2022040200000001, '계약서 title', '2022.04.02', [1, 4, 56, 23]),
-  createData(2022040200000002, '계약서 title', '2022.04.02', [65, 34, 56, 23, 123]),
-  createData(2022040200000003, '계약서 title', '2022.04.02', [39, 42, 56]),
-  createData(2022040200000004, '계약서 title', '2022.04.02', [39, 42, 56]),
-  createData(2022040200000005, '계약서 title', '2022.04.02', [39, 42, 56]),
-  createData(2022040200000006, '계약서 title', '2022.04.02', [39, 42, 56]),
-  createData(2022040200000007, '계약서 title', '2022.04.02', [39, 42, 56]),
-  createData(2022040200000008, '계약서 title', '2022.04.02', [39, 42, 56]),
-  createData(2022040200000009, '계약서 title', '2022.04.02', [39, 42, 56]),
-  createData(2022040200000010, '계약서 title', '2022.04.02', [39, 42, 56]),
-  createData(2022040300000001, '계약서 title', '2022.04.03', [39, 42, 56]),
-  createData(2022040300000002, '계약서 title', '2022.04.03', [39, 42, 56]),
-  createData(2022040300000003, '계약서 title', '2022.04.03', [39, 42, 56]),
-  createData(2022040300000004, '계약서 title', '2022.04.03', [39, 42, 56]),
-  createData(2022040300000005, '계약서 title', '2022.04.03', [39, 42, 56]),
-  createData(2022040300000006, '계약서 title', '2022.04.03', [39, 42, 56]),
-  createData(2022040300000007, '계약서 title', '2022.04.03', [39, 42, 56]),
-  createData(2022040300000008, '계약서 title', '2022.04.03', [39, 42, 56]),
-  createData(2022040300000009, '계약서 title', '2022.04.03', [39, 42, 56]),
-  createData(2022040300000010, '계약서 title', '2022.04.03', [39, 42, 56]),
-  createData(2022040400000001, '계약서 title', '2022.04.04', [39, 42, 56]),
-  createData(2022040400000002, '계약서 title', '2022.04.04', [39, 42, 56]),
-  createData(2022040400000003, '계약서 title', '2022.04.04', [39, 42, 56]),
-  createData(2022040400000004, '계약서 title', '2022.04.04', [39, 42, 56]),
-  createData(2022040400000005, '계약서 title', '2022.04.04', [39, 42, 56]),
-  createData(2022040400000006, '계약서 title', '2022.04.04', [39, 42, 56]),
-  createData(2022040400000007, '계약서 title', '2022.04.04', [39, 42, 56]),
-  createData(2022040400000008, '계약서 title', '2022.04.04', [39, 42, 56]),
-  createData(2022040400000009, '계약서 title', '2022.04.04', [39, 42, 56]),
-  createData(2022040400000010, '계약서 title', '2022.04.04', [39, 42, 56]),
-];
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -105,8 +72,11 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'name' },
-  { id: 'date', numeric: true, disablePadding: false, label: 'date' },
+  { id: 'id', disablePadding: false, label: 'id' },
+  { id: 'contractName', disablePadding: false, label: 'contractName' },
+  { id: 'createdDate', disablePadding: false, label: 'createdDate' },
+  { id: 'establishedDate', disablePadding: false, label: 'establishedDate' },
+  { id: 'counterpart', disablePadding: false, label: 'counterpart' },
 ];
 
 function EnhancedTableHead(props) {
@@ -153,48 +123,73 @@ EnhancedTableHead.propTypes = {
 };
 
 const Complete = () => {
+  const api = apiInstance();
   const router = useRouter();
-  const classes = Sytled.useStyles();
+  const classes = Styled.useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
+  const rows = [];
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {
     userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
   //
-  // const { isLoading, error, data } = useQuery('repoData', () =>
-  //   api.get('/contracts/complete', { email: userInfo }).then((res) => res.json()),
-  // );
+  const { isLoading, error, isSuccess, data } = useQuery('completeData', () =>
+    api.put('/contracts/complete', { email: userInfo }),
+  );
+  if (isLoading) 
+  return (
+    <Styled.ContentContainer>
+      <Typography variant="h5" gutterBottom>
+        Loading...
+      </Typography>
+      <Image
+            src={image__loading}
+            alt="image__loading"
+            className="image__loading"
+          />
+    </Styled.ContentContainer>
+  );
+  if (error) return 'An error has occurred: ' + error.message;
+  if (isSuccess) {
+    data.data.response.map((contract) => {
+      rows.push(
+        createData(
+          contract.id,
+          contract.name,
+          contract.createdDate,
+          contract.establishedDate,
+          contract.participantEmails,
+        ),
+      );
+    });
+  }
 
-  // if (isLoading) return 'Loading...';
-
-  // if (error) return 'An error has occurred: ' + error.message;
-  //
-
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const handleClick = (event, id) => {
+  const handleClick = (id) => {
     router.push(`/contractdetail/${id}`);
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (newPage) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+  const handleChangeRowsPerPage = (e) => {
+    setRowsPerPage(parseInt(e.target.value, 10));
     setPage(0);
   };
 
   return (
     <div className={classes.root}>
-     
+       {rows.length > 0 ? (
+        <Paper className={classes.paper}>
         <Box>
           <Grid container spacing={0}>
             {stableSort(rows, getComparator(order, orderBy))
@@ -222,11 +217,15 @@ const Complete = () => {
                         </Typography>
                         
                         <Typography variant="body2">
-                          <br />작성일<br />{row.date}<br />
+                        <br />
+                            생성일 : {row.createdDate.slice(0, 10)}
+                            <br />
+                            체결일 : {row.establishedDate.slice(0, 10)}
+                            <br />
                         </Typography>
                         
                         <Typography sx={{ mb: 1.5 }} >
-                          <br />(체결 완료)<br />
+                          <br />{row.counterpart}<br />
                         </Typography>
                         </div>
                       </CardContent>
@@ -241,7 +240,7 @@ const Complete = () => {
           </Grid>
         </Box>
         <br /><br />
-        <div class="text-white">
+    
         <TablePagination
         
           rowsPerPageOptions={[8, 12, 16, 20]}
@@ -252,9 +251,13 @@ const Complete = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-        </div>
+      
         <br /><br />
-    
+        </Paper>
+      ) : (
+        <h1>계약이 없습니다</h1>
+      )}
+      
     </div>
   );
 };
