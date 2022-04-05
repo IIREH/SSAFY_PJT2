@@ -5,16 +5,19 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const ContractListMenu = (props) => {
+const ContractListMenu = () => {
   const [pageState, setPageState] = useState(0);
 
   const changePage = (e) => {
     setPageState(e.target.innerText);
   };
 
-  useEffect(() => {
-    props.handleState(pageState);
-  }, [pageState]);
+  useEffect(
+    (props) => {
+      props.handleState(pageState);
+    },
+    [pageState],
+  );
 
   return (
     <Styled.MainContainer>
