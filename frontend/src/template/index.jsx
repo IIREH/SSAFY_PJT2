@@ -10,6 +10,8 @@ import exDocumentImg from '/public/exDocument.svg';
 import penImg from '/public/pen.svg';
 import chainImg from '/public/chain.svg';
 import illustration__security from '/public/secure_image.gif';
+import illustration__main from '/public/main.png';
+import page2 from '/public/page2.png';
 
 const index = () => {
   const [scrollHeight, setScrollHeight] = useState(0);
@@ -30,33 +32,39 @@ const index = () => {
 
   return (
     <>
+      <div class="navbar">
       <Navbar />
       <Styled.MainContainer>
         <Styled.ContentContainer scrollHeight={scrollHeight}>
           <Styled.stylePage1>
-            Chain Contract
             <Styled.imageStyle>
-            <Image
-            src={illustration__security}
-            alt="illustration with security"
-            className="illustration__security"
-          />
-          </Styled.imageStyle>
+              <Image
+                src={illustration__main}
+              />
+            </Styled.imageStyle>
             <Styled.styleP>
               스크롤을 아래로 내려주세요
               <ExpandMoreIcon />
             </Styled.styleP>
           </Styled.stylePage1>
         </Styled.ContentContainer>
+
         <Styled.ContentContainer scrollHeight={scrollHeight}>
           <Styled.stylePage2>
-            <Image src={documentImg} width={100} height={100} />
-            Chain Tract란, <br />
-            <br />
-            기존의 전자계약 시스템에 블록체인 기술을 활용하여 신뢰를 추가하는 새로운 ‘계약
-            플랫폼’입니다.
+            <Styled.imageStyle2>
+                <Image
+                  src={illustration__security}
+                  width={500} height={500}
+                />
+              </Styled.imageStyle2>
+              <Styled.imageStyleChaintract>
+                <Image
+                  src={page2}
+                />
+              </Styled.imageStyleChaintract>
           </Styled.stylePage2>
         </Styled.ContentContainer>
+
         <Styled.ContentContainer scrollHeight={scrollHeight}>
           <Styled.stylePage5>
             <div>계약은 이렇게 진행 됩니다</div>
@@ -111,6 +119,7 @@ const index = () => {
           </Styled.stylePage4>
         </Styled.ContentContainer>
       </Styled.MainContainer>
+      </div>
     </>
   );
 };

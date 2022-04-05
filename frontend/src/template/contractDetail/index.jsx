@@ -5,9 +5,12 @@ import router from 'next/router';
 import Typography from '@mui/material/Typography';
 import { useQuery } from 'react-query';
 import { apiInstance } from '@/libs/axios';
+import Typography from '@mui/material/Typography';
+import image__loading from "./Spinner-1s-200px.svg";
+import Image from 'next/image';
 import { Navbar } from 'components/organisms';
 import { PDFReader } from 'reactjs-pdf-reader';
-
+  
 const ContractDetailTemplate = ({ contractId }) => {
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {
@@ -22,8 +25,28 @@ const ContractDetailTemplate = ({ contractId }) => {
       api.get(`/contract/2`),
     // api.get(`/contract/${contractId}`),
   );
-  if (contractData.isLoading) return 'Loading...';
-  if (contractData.isError) return 'An error has occurred: ';
+  if (contractData.isLoading) 
+  return (
+    <Styled.ContentContainer>
+      <Typography variant="h5" gutterBottom>
+        Loading...
+      </Typography>
+      <Image
+            src={image__loading}
+            alt="image__loading"
+            className="image__loading"
+          />
+      
+    </Styled.ContentContainer>
+  );
+  if (contractData.isError) 
+  return (
+    <Styled.ContentContainer>
+      <Typography variant="h5" gutterBottom>
+        An error has occurred: 
+      </Typography>
+    </Styled.ContentContainer>
+  );
 
   // 승인 처리
   const confirm = () => {
@@ -36,6 +59,7 @@ const ContractDetailTemplate = ({ contractId }) => {
 
   return (
     <>
+    <div class="navbar">
       <Navbar />
       <Styled.MainContainer>
         <div>
@@ -63,16 +87,17 @@ const ContractDetailTemplate = ({ contractId }) => {
         {contractData.data.data.response.establishedDate !== null ? (
           <></>
         ) : (
-          <Button
-            variant="contained"
-            className="label theme-bg text-white f-12"
-            disableElevation
-            onClick={confirm}
+          <Button 
+          variant="contained" 
+          class="label theme-bg text-white f-12" 
+          disableElevation 
+          onClick={confirm}
           >
             승인
           </Button>
         )}
       </Styled.MainContainer>
+      </div>
     </>
   );
 };

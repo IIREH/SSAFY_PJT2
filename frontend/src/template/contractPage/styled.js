@@ -6,7 +6,14 @@ const MainContainer = styled.div`
   justify-content: space-between;
   color: black;
   width: 100%;
-  height: 91vh;
+  height: 100%;
+`;
+
+const ListContainer = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  width: 15vw;
+
 `;
 
 const ViewContainer = styled.div`

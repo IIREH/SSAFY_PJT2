@@ -5,6 +5,9 @@
 .theme-bg2 {
   background: linear-gradient(-135deg, #899FD4 0%, #A389D4 100%);
 }
+.theme-bg3 {
+  background: linear-gradient(-135deg, rgb(69, 32, 242) 0%, rgb(194, 61, 220) 100%);
+}
 
 .f-12 {
   font-size: 12px;
@@ -88,4 +91,18 @@
   position: relative;
   left: 40px;
   top:30px;
+}
+
+.navbar {
+  position: fixed;
+  top:0;
+  width: 100%;
+  left:0;
+  right:0;
+}
+
+.color-test {
+  background: linear-gradient(to right, rgb(44, 20, 151) 0%, rgb(211, 66, 240) 100%);
+  -webkit-background-clip: text;
+  color: transparent;
 }

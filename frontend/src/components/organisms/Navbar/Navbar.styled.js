@@ -6,10 +6,10 @@ const MainContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   position: static;
-  background-color: rgb(0, 199, 184);
-  height: 9vh;
+  background-color: rgb(247, 162, 225);
+  height: 8vh;
   padding: 0vh 15vw 0vh 15vw;
-  min-width: 500px;
+  min-width: 10vh;
 `;
 
 export default { MainContainer };

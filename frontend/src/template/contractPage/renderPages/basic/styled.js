@@ -6,7 +6,11 @@ const MainContainer = styled.div`
   text-align: center;
   justify-content: space-between;
 `;
+const imageStyle = styled.div`
+  width: 700px;
+`;
 
 export default {
   MainContainer,
+  imageStyle,
 };

@@ -8,6 +8,15 @@ const MainContainer = styled.div`
   justify-content: space-between;
 `;
 
+const ContentContainer = styled.div`
+  width: 200px;
+  height: 100px;
+  text-align: center;
+  position: absolute;
+  color: white;
+  transition: all 1.5s;
+`;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -40,4 +49,5 @@ const useStyles = makeStyles((theme) => ({
 export default {
   MainContainer,
   useStyles,
+  ContentContainer,
 };

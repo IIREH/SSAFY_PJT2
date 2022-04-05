@@ -8,7 +8,7 @@ const MainContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  width: 100px;
+  width: 200px;
   height: 100px;
   text-align: center;
   position: absolute;
@@ -18,7 +18,7 @@ const ContentContainer = styled.div`
 
 const ArticleArea = styled.div`
   display: flex;
-  text-color: white;
+  color: white;
   flex-flow: row nowrap;
   justify-content: space-between;
 `;
