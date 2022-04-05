@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { apiInstance, fileInstance } from '@/libs/axios';
+// import { ModalBtn } from '@/components/organisms';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,7 +8,6 @@ import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
 import Styled from './styled';
 
-// 파일 첨부시 pdf 미리보기 처리 하는거 추가
 const Write = () => {
   const api = apiInstance();
   const fileApi = fileInstance();
@@ -15,11 +15,11 @@ const Write = () => {
   const [covenantee, setCovenantee] = useState([]);
   const [covenanteeInput, setCovenanteeInput] = useState();
   const [files, setFile] = useState([]);
+  // const [isConfirm, setIsConfirm] = useState(false);
 
   const onFileChange = useCallback(
     (e) => {
       setFile([...Array.from(e.target.files)]);
-      console.log(files);
     },
     [files],
   );
@@ -75,14 +75,9 @@ const Write = () => {
     formData.append('files', '');
     files.forEach((file) => formData.append('files', file));
 
-    await fileApi
-      .post('/contract/file', formData)
-      .then((res) => {
-        filePath = res.data.response;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await fileApi.post('/contract/file', formData).then((res) => {
+      filePath = res.data.response;
+    });
 
     const request = {
       name: contractName,
@@ -90,121 +85,123 @@ const Write = () => {
       filePath: filePath,
     };
 
-    await api
-      .post('/contract', request)
-      .then(() => {
-        alert('계약생성완료');
-        setPageState(0);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await api.post('/contract', request).then(() => {
+      alert('계약생성완료');
+      setPageState(0);
+    });
   }
 
   return (
     <Styled.ContentContainer>
-      <>
-        <React.Fragment>
-          <div className="text-center text-position" color="#000">
-            <Typography variant="h5" gutterBottom>
-              계약서 작성
-            </Typography>
-          </div>
-          <div className="component-position">
-            <Grid container spacing={5}>
-              <Grid item xs={10}>
-                <TextField
-                  required
-                  id="address1"
-                  name="제목"
-                  label="제목"
-                  fullWidth
-                  maxRows={4}
-                  value={contractName}
-                  onChange={ChangeContractName}
-                  autoComplete="제목"
-                  variant="standard"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={5}>
-                <TextField
-                  id="lastName"
-                  name="lastName"
-                  label="피계약자 성"
-                  fullWidth
-                  autoComplete="family-name"
-                  variant="standard"
-                />
-              </Grid>
-              <Grid item xs={12} sm={5}>
-                <TextField
-                  id="firstName"
-                  name="firstName"
-                  label="피계약자 이름"
-                  fullWidth
-                  autoComplete="given-name"
-                  variant="standard"
-                />
-              </Grid>
-
-              <Grid item xs={10}>
-                <TextField
-                  required
-                  id="standard-multiline-flexible"
-                  name="계약자(이메일주소)"
-                  label="이메일 주소(계약자)"
-                  fullWidth
-                  maxRows={4}
-                  value={covenanteeInput}
-                  onChange={ChangeCovenanteeInput}
-                  autoComplete="이메일주소"
-                  variant="standard"
-                />
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={<Checkbox color="secondary" />}
-                    label="다음에도 이 계약자와 계약하기"
-                    className="text-neon"
-                  />
-                </Grid>
-                <input
-                  type="button"
-                  onClick={InputCovenantee}
-                  className="label theme-bg2 text-white f-12 btn-round shadow-2 button-position"
-                  value="추가"
-                />
-              </Grid>
-
-              <div>
-                {covenantee.map((covenantee, idx) => (
-                  <div key={covenantee + idx}>
-                    <p className="covenantee-position convenantee-color">계약자: {covenantee}</p>
-                    <input
-                      type="button"
-                      value="삭제"
-                      onClick={deleteCovenantee}
-                      id={idx}
-                      className="label theme-bg2 text-white f-12 btn-round shadow-2 delete-position"
-                    />
-                  </div>
-                ))}
-              </div>
-            </Grid>
-          </div>
-        </React.Fragment>
-
-        <div>
-          <input
-            type="file"
-            name="file_upload"
-            accept=".pdf"
-            className="label theme-bg2 text-white f-12 btn-round shadow-2 file-position"
-            onChange={onFileChange}
-            multiple
-          />
+      <React.Fragment>
+        <div className="text-center text-position" color="#000">
+          <Typography variant="h5" gutterBottom>
+            계약서 작성
+          </Typography>
         </div>
+        <div className="component-position">
+          <Grid container spacing={5}>
+            <Grid item xs={10}>
+              <TextField
+                required
+                id="address1"
+                name="제목"
+                label="제목"
+                fullWidth
+                maxRows={4}
+                value={contractName}
+                onChange={ChangeContractName}
+                autoComplete="제목"
+                variant="standard"
+              />
+            </Grid>
 
+            <Grid item xs={12} sm={5}>
+              <TextField
+                id="lastName"
+                name="lastName"
+                label="피계약자 성"
+                fullWidth
+                autoComplete="family-name"
+                variant="standard"
+              />
+            </Grid>
+            <Grid item xs={12} sm={5}>
+              <TextField
+                id="firstName"
+                name="firstName"
+                label="피계약자 이름"
+                fullWidth
+                autoComplete="given-name"
+                variant="standard"
+              />
+            </Grid>
+
+            <Grid item xs={10}>
+              <TextField
+                required
+                id="standard-multiline-flexible"
+                name="계약자(이메일주소)"
+                label="이메일 주소(계약자)"
+                fullWidth
+                maxRows={4}
+                value={covenanteeInput}
+                onChange={ChangeCovenanteeInput}
+                autoComplete="이메일주소"
+                variant="standard"
+              />
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox color="secondary" />}
+                  label="다음에도 이 계약자와 계약하기"
+                  className="text-neon"
+                />
+              </Grid>
+              <input
+                type="button"
+                onClick={InputCovenantee}
+                className="label theme-bg2 text-white f-12 btn-round shadow-2 button-position"
+                value="추가"
+              />
+            </Grid>
+
+            <div>
+              {covenantee.map((covenantee, idx) => (
+                <div key={covenantee + idx}>
+                  <p className="covenantee-position convenantee-color">계약자: {covenantee}</p>
+                  <input
+                    type="button"
+                    value="삭제"
+                    onClick={deleteCovenantee}
+                    id={idx}
+                    className="label theme-bg2 text-white f-12 btn-round shadow-2 delete-position"
+                  />
+                </div>
+              ))}
+            </div>
+          </Grid>
+        </div>
+      </React.Fragment>
+
+      <div>
+        <input
+          type="file"
+          name="file_upload"
+          accept=".pdf"
+          className="label theme-bg2 text-white f-12 btn-round shadow-2 file-position"
+          onChange={onFileChange}
+          multiple
+        />
+      </div>
+
+      <button
+        onClick={SubmitContract}
+        className="label theme-bg text-white f-12 btn-round shadow-2 submit-position"
+        sx={{ mt: 3, ml: 1 }}
+      >
+        Submit
+      </button>
+      {/* {isConfirm ? (
         <button
           onClick={SubmitContract}
           className="label theme-bg text-white f-12 btn-round shadow-2 submit-position"
@@ -212,7 +209,9 @@ const Write = () => {
         >
           Submit
         </button>
-      </>
+      ) : (
+        <ModalBtn onClick={setIsConfirm(true)} />
+      )} */}
     </Styled.ContentContainer>
   );
 };
