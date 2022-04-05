@@ -2,11 +2,11 @@ import Image from 'next/image';
 import React from 'react';
 import { Navbar } from 'components/organisms';
 
-import '../../pages/_app.jsx';
+import '@/pages/_app.jsx';
 import Card from 'components/Card';
 
-import illustration__box from '../../pages/faq/images/illustration-box-desktop.svg';
-import illustration__woman_desktop from '../../pages/faq/images/illustration-woman-online-desktop.svg';
+import illustration__box from '@/pages/faq/images/illustration-box-desktop.svg';
+import illustration__woman_desktop from '@/pages/faq/images/illustration-woman-online-desktop.svg';
 
 const questionsAnswers = [
   {
