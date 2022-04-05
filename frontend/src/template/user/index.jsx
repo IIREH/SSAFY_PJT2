@@ -1,7 +1,6 @@
 import React from 'react';
 import Styled from './styled';
 import { Navbar } from '@/components/organisms';
-import { userState } from '@/states';
 
 const UserTemplate = ({ userId }) => {
   return (
