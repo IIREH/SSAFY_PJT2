@@ -71,14 +71,17 @@ const ContractDetailTemplate = ({ contractId }) => {
           {contractData.data.data.response.establishedDate !== null ? (
             <></>
           ) : (
-            <Button
-              variant="contained"
-              class="label theme-bg text-white f-12"
-              disableElevation
-              onClick={confirm}
-            >
-              승인
-            </Button>
+            <>
+              <h3> 주의 : 계약을 승인하면 기록에서 삭제할 수 없습니다.</h3>
+              <Button
+                variant="contained"
+                class="label theme-bg text-white f-12"
+                disableElevation
+                onClick={confirm}
+              >
+                승인
+              </Button>
+            </>
           )}
         </Styled.MainContainer>
       </div>

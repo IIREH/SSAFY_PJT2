@@ -4,6 +4,7 @@ import '@/template/contractPage/renderPages/write/style.css';
 import GlobalStyle from '@/styles/global';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { AppLayout } from '@/components/organisms';
 
 function MyApp({ Component, pageProps }) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -12,7 +13,9 @@ function MyApp({ Component, pageProps }) {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <GlobalStyle />
-        <Component {...pageProps} />
+        <AppLayout>
+          <Component {...pageProps} />
+        </AppLayout>
       </Hydrate>
       <ReactQueryDevtools />
     </QueryClientProvider>
