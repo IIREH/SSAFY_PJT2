@@ -5,8 +5,8 @@ const MainContainer = styled.div`
   flex-flow: column nowrap;
   align-items: flex-start;
   padding-left: 2vw;
-  background: linear-gradient(to bottom, #fff, #e0f2f1);
-  height: 700px;
+  background: linear-gradient(to bottom, rgb(227, 200, 248), #e0f2f1);
+  height: 750px;
   opacity: 1;
 `;
 

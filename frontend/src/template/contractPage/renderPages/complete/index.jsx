@@ -194,7 +194,7 @@ const Complete = () => {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
+     
         <Box>
           <Grid container spacing={0}>
             {stableSort(rows, getComparator(order, orderBy))
@@ -213,21 +213,25 @@ const Complete = () => {
                   >
                     <Item>
                       <CardContent>
-                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                      <div class="color-test">
+                        <Typography sx={{ fontSize: 14 }}  gutterBottom>
                           <br />{row.id}<br />
                         </Typography>
                         <Typography variant="h5" component="div">
                           {bull} {row.name} {bull}
                         </Typography>
+                        
                         <Typography variant="body2">
                           <br />작성일<br />{row.date}<br />
                         </Typography>
-                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                        
+                        <Typography sx={{ mb: 1.5 }} >
                           <br />(체결 완료)<br />
                         </Typography>
+                        </div>
                       </CardContent>
                       <CardActions>
-                        <Button size="small">button</Button>
+                        <Button size="small" class="theme-bg3 text-white btn-round">자세히</Button>
                       </CardActions>
                     </Item>
                   </Grid>
@@ -237,7 +241,9 @@ const Complete = () => {
           </Grid>
         </Box>
         <br /><br />
+        <div class="text-white">
         <TablePagination
+        
           rowsPerPageOptions={[8, 12, 16, 20]}
           component="div"
           count={rows.length}
@@ -246,8 +252,9 @@ const Complete = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        </div>
         <br /><br />
-      </Paper>
+    
     </div>
   );
 };

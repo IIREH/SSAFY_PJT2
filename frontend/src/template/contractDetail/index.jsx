@@ -61,6 +61,7 @@ const ContractDetailTemplate = ({ contractId }) => {
 
   return (
     <>
+    <div class="navbar">
       <Navbar />
       <Styled.MainContainer>
         <div>
@@ -83,6 +84,7 @@ const ContractDetailTemplate = ({ contractId }) => {
           </Button>
         )}
       </Styled.MainContainer>
+      </div>
     </>
   );
 };

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
+import { Navbar } from 'components/organisms';
 ///import Styled from './styled';
 ///import { Navbar } from 'components/organisms';
 
@@ -44,6 +45,9 @@ const questionsAnswers = [
 
 const FaqTemplate = () => {
   return (
+    <>
+    <div class="navbar">
+    <Navbar />
     <div className="container">
       <div className="component">
         <div className="illustration">
@@ -68,6 +72,8 @@ const FaqTemplate = () => {
        
 
     </div>
+    </div>
+    </>
   );
 };
 

@@ -108,12 +108,12 @@ const Write = () => {
 
   return (
     <Styled.ContentContainer>
-    
+   
       <>
       
       <React.Fragment>
-        <div class="text-center text-position">
-        <Typography variant="h5" color="#000" gutterBottom>
+        <div class="text-center text-position" color="#000">
+        <Typography variant="h5"  gutterBottom>
           계약서 작성
         </Typography>
         </div>
@@ -170,7 +170,7 @@ const Write = () => {
             />
           <Grid item xs={12}>
             <FormControlLabel
-              control={<Checkbox color="secondary" name="saveInfo" value="yes" />}
+              control={<Checkbox color="secondary" />}
              label="다음에도 이 계약자와 계약하기" class="text-neon" 
             />
           </Grid>
@@ -200,8 +200,10 @@ const Write = () => {
         <button onClick={SubmitContract}  class="label theme-bg text-white f-12 btn-round shadow-2 submit-position" sx={{ mt: 3, ml: 1 }}>Submit</button>
 
       </>
+     
   
   </Styled.ContentContainer>
+
   );
 };
 

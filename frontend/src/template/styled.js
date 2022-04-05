@@ -4,6 +4,7 @@ const MainContainer = styled.div`
   width: 1535px;
   height: 95vh;
   overflow: hidden;
+  
 `;
 
 const ContentContainer = styled.div`
@@ -12,10 +13,26 @@ const ContentContainer = styled.div`
   position: relative;
   top: ${(props) => props.scrollHeight}vh;
   transition: all 1.5s;
+  
 `;
 
 const imageStyle = styled.div`
-  width: 400px;
+  width: 700px;
+
+  
+`;
+
+const imageStyle2 = styled.div`
+  position: absolute;
+  left:-300px;
+  top: -30px;
+
+`;
+
+const imageStyleChaintract = styled.div`
+  position:relative;
+  left: 300px;
+  top: -50px;
 `;
 
 const stylePage1 = styled.h1`
@@ -27,7 +44,7 @@ const stylePage1 = styled.h1`
   font-weight: bold;
   line-height: 12vh;
   color: #fff;
-  text-shadow: 4px 4px 4px rgba(191, 7, 139, 0.7);
+  text-shadow: 4px 4px 4px rgba(191, 7, 139, 0.1);
 `;
 const stylePage2 = styled.h1`
   position: absolute;
@@ -119,5 +136,7 @@ export default {
   page5Container,
   arrow,
   imageStyle,
+  imageStyle2,
+  imageStyleChaintract,
 };
 

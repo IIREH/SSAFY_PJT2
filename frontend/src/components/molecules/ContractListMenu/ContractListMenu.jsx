@@ -18,9 +18,11 @@ const ContractListMenu = () => {
   return (
 
       <Styled.MainContainer>
-        <ListSubheader component="div" disableGutters>
+        <div class="text-white">
+        <ListSubheader component="div"  disableGutters>
           생성
         </ListSubheader>
+        </div>
         <List component="div">
           <ListItem button onClick={changePage}>
             <ListItemText primary="작성" disableTypography />

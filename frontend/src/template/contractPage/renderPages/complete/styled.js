@@ -6,9 +6,11 @@ const MainContainer = styled.div`
   flex-flow: row nowrap;
   text-align: center;
   justify-content: space-between;
+
 `;
 
 const useStyles = makeStyles((theme) => ({
+  
   root: {
     width: '100%',
   },
@@ -20,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 750,
   },
   visuallyHidden: {
+    
     border: 0,
     clip: 'rect(0 0 0 0)',
     height: 1,

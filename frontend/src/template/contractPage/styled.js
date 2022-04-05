@@ -4,7 +4,7 @@ const MainContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  color: green;
+  color: black;
   width: 100%;
   height: 100%;
 `;
