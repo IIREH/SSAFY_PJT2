@@ -15,6 +15,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         String [] swagger ={"/v2/**",
+                "/v3/**",
                 "/configuration/**",
                 "/swagger*/**",
                 "/webjars/**",
