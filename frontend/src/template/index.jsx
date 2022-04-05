@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from '@/components/organisms';
 import Styled from './styled';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Image from 'next/image';
 import handsImg from '/public/hands.png';
-import documentImg from '/public/document.svg';
 import exDocumentImg from '/public/exDocument.svg';
 import penImg from '/public/pen.svg';
 import chainImg from '/public/chain.svg';
@@ -42,7 +40,7 @@ const index = () => {
               </Styled.imageStyle>
               <Styled.styleP>
                 스크롤을 아래로 내려주세요
-                <ExpandMoreIcon />
+                <Styled.MovingArrow />
               </Styled.styleP>
             </Styled.stylePage1>
           </Styled.ContentContainer>
