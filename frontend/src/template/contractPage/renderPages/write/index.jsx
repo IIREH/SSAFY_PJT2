@@ -112,12 +112,12 @@ const Write = () => {
       <>
       
       <React.Fragment>
-        <div class="text-center text-position" color="#000">
+        <div className="text-center text-position" color="#000">
         <Typography variant="h5"  gutterBottom>
           계약서 작성
         </Typography>
         </div>
-        <div class="component-position">
+        <div className="component-position">
         <Grid container spacing={5}>
           <Grid item xs={10}>
             <TextField
@@ -130,27 +130,6 @@ const Write = () => {
               value={contractName}
               onChange={ChangeContractName}
               autoComplete="제목"
-              variant="standard"
-            />
-          </Grid>
-      
-          <Grid item xs={12} sm={5}>
-            <TextField
-              id="lastName"
-              name="lastName"
-              label="피계약자 성"
-              fullWidth
-              autoComplete="family-name"
-              variant="standard"
-            />
-          </Grid>
-          <Grid item xs={12} sm={5}>
-            <TextField
-              id="firstName"
-              name="firstName"
-              label="피계약자 이름"
-              fullWidth
-              autoComplete="given-name"
               variant="standard"
             />
           </Grid>
@@ -168,21 +147,16 @@ const Write = () => {
               autoComplete="이메일주소"
               variant="standard"
             />
-          <Grid item xs={12}>
-            <FormControlLabel
-              control={<Checkbox color="secondary" />}
-             label="다음에도 이 계약자와 계약하기" class="text-neon" 
-            />
-          </Grid>
-          <input type="button" onClick={InputCovenantee} class="label theme-bg2 text-white f-12 btn-round shadow-2 button-position" value="추가" />
+          
+          <input type="button" onClick={InputCovenantee} className="label theme-bg2 text-white f-12 btn-round shadow-2 button-position" value="추가" />
           
           </Grid>
           
           <div>
             {covenantee.map((covenantee, idx) => (
               <div key={covenantee + idx}>
-                <p class="covenantee-position convenantee-color">계약자: {covenantee}</p>
-                <input type="button" value="삭제" onClick={deleteCovenantee} id={idx} class="label theme-bg2 text-white f-12 btn-round shadow-2 delete-position"/>
+                <p className="covenantee-position convenantee-color">계약자: {covenantee}</p>
+                <input type="button" value="삭제" onClick={deleteCovenantee} id={idx} className="label theme-bg2 text-white f-12 btn-round shadow-2 delete-position"/>
               </div>
             ))}
           </div>
@@ -194,10 +168,10 @@ const Write = () => {
       </React.Fragment>
       
         <div>
-          <input type="file" name="file_upload" accept=".pdf"  class="label theme-bg2 text-white f-12 btn-round shadow-2 file-position" onChange={onFileChange} multiple />
+          <input type="file" name="file_upload" accept=".pdf"  className="label theme-bg2 text-white f-12 btn-round shadow-2 file-position" onChange={onFileChange} multiple />
         </div>
       
-        <button onClick={SubmitContract}  class="label theme-bg text-white f-12 btn-round shadow-2 submit-position" sx={{ mt: 3, ml: 1 }}>Submit</button>
+        <button onClick={SubmitContract}  className="label theme-bg text-white f-12 btn-round shadow-2 submit-position" sx={{ mt: 3, ml: 1 }}>Submit</button>
 
       </>
      

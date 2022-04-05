@@ -59,7 +59,7 @@ const ContractDetailTemplate = ({ contractId }) => {
 
   return (
     <>
-    <div class="navbar">
+    <div className="navbar">
       <Navbar />
       <Styled.MainContainer>
         <div>
@@ -89,7 +89,7 @@ const ContractDetailTemplate = ({ contractId }) => {
         ) : (
           <Button 
           variant="contained" 
-          class="label theme-bg text-white f-12" 
+          className="label theme-bg text-white f-12" 
           disableElevation 
           onClick={confirm}
           >

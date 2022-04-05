@@ -19,7 +19,7 @@ const ContractListMenu = () => {
 
       <Styled.MainContainer>
         
-        <ListSubheader component="div"  disableGutters>
+        <ListSubheader component="div" disableGutters>
           생성
         </ListSubheader>
 

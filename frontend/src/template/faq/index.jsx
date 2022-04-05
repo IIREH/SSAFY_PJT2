@@ -46,7 +46,7 @@ const questionsAnswers = [
 const FaqTemplate = () => {
   return (
     <>
-    <div class="navbar">
+    <div className="navbar">
     <Navbar />
     <div className="container">
       <div className="component">

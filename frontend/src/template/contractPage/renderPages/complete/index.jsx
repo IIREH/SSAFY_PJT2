@@ -208,7 +208,7 @@ const Complete = () => {
                   >
                     <Item>
                       <CardContent>
-                      <div class="color-test">
+                      <div className="color-test">
                         <Typography sx={{ fontSize: 14 }}  gutterBottom>
                           <br />{row.id}<br />
                         </Typography>
@@ -230,7 +230,7 @@ const Complete = () => {
                         </div>
                       </CardContent>
                       <CardActions>
-                        <Button size="small" class="theme-bg3 text-white btn-round">자세히</Button>
+                        <Button size="small" className="theme-bg3 text-white btn-round">자세히</Button>
                       </CardActions>
                     </Item>
                   </Grid>

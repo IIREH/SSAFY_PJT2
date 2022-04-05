@@ -28,7 +28,7 @@ const ContractPageTemplate = () => {
 
   return (
     <>
-    <div class="navbar">
+    <div className="navbar">
       <Navbar />
       <Styled.MainContainer>
         <ContractListMenu />

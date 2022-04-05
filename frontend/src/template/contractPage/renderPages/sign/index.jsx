@@ -199,7 +199,7 @@ const Sign = () => {
                     >
                       <Item>
                         <CardContent>
-                          <div class="color-test">
+                          <div className="color-test">
                           <Typography sx={{ fontSize: 14 }} gutterBottom>
                             <br />
                             {row.id}
@@ -221,7 +221,7 @@ const Sign = () => {
                           </div>
                         </CardContent>
                         <CardActions>
-                          <Button size="small" class="theme-bg3 text-white btn-round">button</Button>
+                          <Button size="small" className="theme-bg3 text-white btn-round">button</Button>
                         </CardActions>
                       </Item>
                     </Grid>
