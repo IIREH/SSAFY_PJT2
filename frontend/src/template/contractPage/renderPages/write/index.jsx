@@ -1,7 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { Heading } from '@/components/atoms';
-import { useRecoilState } from 'recoil';
-import { contractPageState } from '@/states';
 import { apiInstance, fileInstance } from '@/libs/axios';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -9,13 +6,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
 import Styled from './styled';
-import Alert from '@material-ui/lab/Alert';
 
 // 파일 첨부시 pdf 미리보기 처리 하는거 추가
 const Write = () => {
   const api = apiInstance();
   const fileApi = fileInstance();
-  const [pageState, setPageState] = useRecoilState(contractPageState);
   const [contractName, setContractName] = useState();
   const [covenantee, setCovenantee] = useState([]);
   const [covenanteeInput, setCovenanteeInput] = useState();
@@ -24,6 +19,7 @@ const Write = () => {
   const onFileChange = useCallback(
     (e) => {
       setFile([...Array.from(e.target.files)]);
+      console.log(files);
     },
     [files],
   );
@@ -109,12 +105,12 @@ const Write = () => {
     <Styled.ContentContainer>
       <>
         <React.Fragment>
-          <div class="text-center text-position" color="#000">
+          <div className="text-center text-position" color="#000">
             <Typography variant="h5" gutterBottom>
               계약서 작성
             </Typography>
           </div>
-          <div class="component-position">
+          <div className="component-position">
             <Grid container spacing={5}>
               <Grid item xs={10}>
                 <TextField
@@ -183,7 +179,7 @@ const Write = () => {
               <div>
                 {covenantee.map((covenantee, idx) => (
                   <div key={covenantee + idx}>
-                    <p class="covenantee-position convenantee-color">계약자: {covenantee}</p>
+                    <p className="covenantee-position convenantee-color">계약자: {covenantee}</p>
                     <input
                       type="button"
                       value="삭제"

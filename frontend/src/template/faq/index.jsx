@@ -1,22 +1,12 @@
 import Image from 'next/image';
 import React from 'react';
 import { Navbar } from 'components/organisms';
-///import Styled from './styled';
-///import { Navbar } from 'components/organisms';
 
-///import '@/pages/faq/scss/main.scss';
-///import '../scss/main.css'
 import '../../pages/_app.jsx';
 import Card from 'components/Card';
 
-// import "../css/main.css";
-
-// import "../scss/main.scss";
-
 import illustration__box from '../../pages/faq/images/illustration-box-desktop.svg';
 import illustration__woman_desktop from '../../pages/faq/images/illustration-woman-online-desktop.svg';
-///import illustration__business_team from "../../pages/faq/images/business_team.gif"
-///import illustration__contract from "/src/images/contract.png";
 
 const questionsAnswers = [
   {
@@ -49,7 +39,7 @@ const questionsAnswers = [
 const FaqTemplate = () => {
   return (
     <>
-      <div class="navbar">
+      <div className="navbar">
         <Navbar />
         <div className="container">
           <div className="component">
