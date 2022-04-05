@@ -58,7 +58,7 @@ class UserServiceImplTest {
         userService.login(user);
 
         // when
-        User findUser = userRepository.findUserBySocialId(user.getSocialId()).get(0);
+        User findUser = userRepository.findUserByEmail(user.getEmail()).get(0);
 
         // then
         Assertions.assertSame(user, findUser);
@@ -96,9 +96,9 @@ class UserServiceImplTest {
         userService.login(user);
 
         // when
-        List<User> userList_before = userRepository.findUserBySocialId(user.getSocialId());
+        List<User> userList_before = userRepository.findUserByEmail(user.getEmail());
         userService.deleteUser(user.getEmail());
-        List<User> userList_after = userRepository.findUserBySocialId(user.getSocialId());
+        List<User> userList_after = userRepository.findUserByEmail(user.getEmail());
 
         // then
         Assertions.assertEquals(userList_before.size(), 1);

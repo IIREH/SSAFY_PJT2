@@ -10,15 +10,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.security.Principal;
-import java.util.Enumeration;
-import java.util.Iterator;
 
 @Slf4j
 @Api(tags = {"api"}) // 알아보자
@@ -33,46 +31,60 @@ public class UserController {
 
     @ApiOperation("로그인")
     @PostMapping("/auth/login")
-    public void loginUser(@RequestBody CreateUserRequest userRequest, HttpServletRequest request){
+    public ApiUtils.ApiResult<?> loginUser(@RequestBody CreateUserRequest userRequest, HttpServletRequest request){
 
-        log.info("로그인 요청");
         User user = kakaoService.getUserInfoByToken(userRequest.getAccesstoken());
-        /**
-         * AcessToken이 유효한 값이 아닐때 예외 처리 발생
-         * */
-        userService.login(user);
 
-        log.info("접근 토큰 : "+userRequest.getAccesstoken());
-        log.info("로그인한 유저 이름 : " + user.getName());
+        if(user == null){
+            log.info("토큰 값이 유효하지 않습니다!");
+            return ApiUtils.error("토큰값이 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
+        }
 
+        // 트랜잭션
+        User loginUser = userService.login(user);
+
+        // 세션 생성
         HttpSession session = request.getSession();
-        session.setAttribute(LOGIN_USER, user);
+        session.setAttribute(LOGIN_USER, loginUser);
 
-        User findUser = (User)session.getAttribute(LOGIN_USER);
-        log.info("세션에 저장 : "+ findUser.getName());
+        return ApiUtils.success(HttpStatus.OK);
     }
+
 
     @ApiOperation("로그아웃")
     @GetMapping("/auth/logout")
-    public void logoutUser(HttpServletRequest request){
+    public ApiUtils.ApiResult<?> logoutUser(HttpServletRequest request){
 
-        request.getSession().invalidate();
+        HttpSession session = request.getSession(false);
+
+        // 세션 만료
+        session.invalidate();
+
+        return ApiUtils.success(HttpStatus.OK);
     }
 
 
     @ApiOperation("회원탈퇴")
     @DeleteMapping("/user/delete")
-    public void deleteUser(@RequestBody CreateOutReqeust outReqeust, HttpServletRequest request){
+    public ApiUtils.ApiResult<?> deleteUser(HttpServletRequest request){
 
-        String email = outReqeust.getEmail();
-        userService.deleteUser(email);
+        HttpSession session = request.getSession(false);
 
-        request.getSession().invalidate();
+        // 트랜잭션
+        User user = (User)session.getAttribute(LOGIN_USER);
+        // DB에 이미 그 멤버가 없을때 에러 처리 - 아마 실행될 일 없음
+        if(!userService.deleteUser(user.getEmail()))
+            return ApiUtils.error("이미 없는 회원입니다.",HttpStatus.NOT_FOUND);
+
+        // 세션 만료
+        session.invalidate();
+
+        return ApiUtils.success(HttpStatus.OK);
     }
 
     @ApiOperation("서명 업로드")
     @PostMapping("/user/signature")
-    public void uploadSign(@ModelAttribute CreateSignRequest signRequest, HttpServletRequest request){
+    public ApiUtils.ApiResult<?> uploadSign(@ModelAttribute CreateSignRequest signRequest, HttpServletRequest request){
         HttpSession session = request.getSession(false);
         User user = (User)session.getAttribute(LOGIN_USER);
 
@@ -85,29 +97,13 @@ public class UserController {
 
         log.info("사인 등록 유저 이름 :" + user.getName());
         userService.registerSign(user, uploadFile.getFullPath());
-    }
 
-    /**
-     * 나중에 지울것
-     * 포스트맨으로 테스트 : 성공
-     * */
-    @PostMapping("/test")
-    public void upload(@ModelAttribute CreateSignRequest signRequest){
-        try {
-            fileStore.storeFile(signRequest.file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return ApiUtils.success(HttpStatus.CREATED);
     }
 
     @Data
     static class CreateUserRequest {
         private String accesstoken;
-    }
-
-    @Data
-    static class CreateOutReqeust{
-        private String email;
     }
 
 
