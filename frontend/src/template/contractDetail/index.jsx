@@ -17,13 +17,7 @@ const ContractDetailTemplate = ({ contractId }) => {
   }
   const api = apiInstance();
 
-  const contractData = useQuery(
-    'contractData',
-    () =>
-      // 성립된 계약인지 확인하는값 ~~~date 확인해서 isApprove값 변경하는 then작성해야함
-      api.get(`/contract/2`),
-    // api.get(`/contract/${contractId}`),
-  );
+  const contractData = useQuery('contractData', () => api.get(`/contract/${contractId}`));
   if (contractData.isLoading)
     return (
       <Styled.ContentContainer>
@@ -44,9 +38,7 @@ const ContractDetailTemplate = ({ contractId }) => {
 
   // 승인 처리
   const confirm = () => {
-    api.put(`/contract/sign/2`, { email: userInfo });
-    // 배포할때 바꿔주기
-    // api.put(`/contract/sign/${contractId}`, { email: userInfo });
+    api.put(`/contract/sign/${contractId}`, { email: userInfo });
     alert('계약을 승인했습니다');
     router.replace('/contractpage');
   };
@@ -74,9 +66,7 @@ const ContractDetailTemplate = ({ contractId }) => {
             </Styled.ArticleArea>
           </div>
           <div style={{ overflow: 'scroll', height: 600 }}>
-            {/* 배포할때 바꿔주기 */}
-            {/* <PDFReader url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`} /> */}
-            <PDFReader url={`https://j6c105.p.ssafy.io/api/contract/17/file`} />
+            <PDFReader url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`} />
           </div>
           {contractData.data.data.response.establishedDate !== null ? (
             <></>
