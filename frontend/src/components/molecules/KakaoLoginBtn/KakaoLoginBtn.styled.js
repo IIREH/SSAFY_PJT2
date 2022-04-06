@@ -5,6 +5,10 @@ const MainContainer = styled.div`
   cursor: pointer;
   font-size: 1.3rem;
   font-family: arial;
+  :hover {
+    transform: scale(1.1);
+    transition: 1s;
+  }
 `;
 
 export default {
