@@ -23,7 +23,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import image__loading from "/public/Spinner-1s-200px.svg";
+import image__loading from '/public/Spinner-1s-200px.svg';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -39,11 +39,9 @@ const bull = (
 );
 //
 
-function createData( id, name, createdDate, establishedDate, counterpart ) {
+function createData(id, name, createdDate, establishedDate, counterpart) {
   return { id, name, createdDate, establishedDate, counterpart };
 }
-
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -139,19 +137,15 @@ const Complete = () => {
   const { isLoading, error, isSuccess, data } = useQuery('completeData', () =>
     api.put('/contracts/complete', { email: userInfo }),
   );
-  if (isLoading) 
-  return (
-    <Styled.ContentContainer>
-      <Typography variant="h5" gutterBottom>
-        Loading...
-      </Typography>
-      <Image
-            src={image__loading}
-            alt="image__loading"
-            className="image__loading"
-          />
-    </Styled.ContentContainer>
-  );
+  if (isLoading)
+    return (
+      <Styled.ContentContainer>
+        <Typography variant="h5" gutterBottom>
+          Loading...
+        </Typography>
+        <Image src={image__loading} alt="image__loading" className="image__loading" />
+      </Styled.ContentContainer>
+    );
   if (error) return 'An error has occurred: ' + error.message;
   if (isSuccess) {
     data.data.response.map((contract) => {
@@ -188,76 +182,82 @@ const Complete = () => {
 
   return (
     <div className={classes.root}>
-       {rows.length > 0 ? (
+      {rows.length > 0 ? (
         <Paper className={classes.paper}>
-        <Box>
-          <Grid container spacing={0}>
-            {stableSort(rows, getComparator(order, orderBy))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
-                const labelId = `enhanced-table-checkbox-${index}`;
-                return (
-                  <Grid
-                    item xs={3}
-                    key={row.id}
-                    hover="true"
-                    onClick={(event) => handleClick(event, row.id)}
-                    tabIndex={-1}
-                    className={classes.tableRow}
-                    p={3}
-                  >
-                    <Item>
-                      <CardContent>
-                      <div className="color-test">
-                        <Typography sx={{ fontSize: 14 }}  gutterBottom>
-                          <br />{row.id}<br />
-                        </Typography>
-                        <Typography variant="h5" component="div">
-                          {bull} {row.name} {bull}
-                        </Typography>
-                        
-                        <Typography variant="body2">
-                        <br />
-                            생성일 : {row.createdDate.slice(0, 10)}
-                            <br />
-                            체결일 : {row.establishedDate.slice(0, 10)}
-                            <br />
-                        </Typography>
-                        
-                        <Typography sx={{ mb: 1.5 }} >
-                          <br />{row.counterpart}<br />
-                        </Typography>
-                        </div>
-                      </CardContent>
-                      <CardActions>
-                        <Button size="small" className="theme-bg3 text-white btn-round">자세히</Button>
-                      </CardActions>
-                    </Item>
-                  </Grid>
-                );
-              })
-            }
-          </Grid>
-        </Box>
-        <br /><br />
-    
-        <TablePagination
-        
-          rowsPerPageOptions={[8, 12, 16, 20]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      
-        <br /><br />
+          <Box>
+            <Grid container spacing={0}>
+              {stableSort(rows, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const labelId = `enhanced-table-checkbox-${index}`;
+                  return (
+                    <Grid
+                      item
+                      xs={3}
+                      key={row.id}
+                      hover="true"
+                      onClick={(event) => handleClick(event, row.id)}
+                      tabIndex={-1}
+                      className={classes.tableRow}
+                      p={3}
+                    >
+                      <Item>
+                        <CardContent>
+                          <div className="color-test">
+                            <Typography sx={{ fontSize: 14 }} gutterBottom>
+                              <br />
+                              {row.id}
+                              <br />
+                            </Typography>
+                            <Typography variant="h5" component="div">
+                              {bull} {row.name} {bull}
+                            </Typography>
+
+                            <Typography variant="body2">
+                              <br />
+                              생성일 : {row.createdDate.slice(0, 10)}
+                              <br />
+                              체결일 : {row.establishedDate.slice(0, 10)}
+                              <br />
+                            </Typography>
+
+                            <Typography sx={{ mb: 1.5 }}>
+                              <br />
+                              {row.counterpart}
+                              <br />
+                            </Typography>
+                          </div>
+                        </CardContent>
+                        <CardActions>
+                          <Button size="small" className="theme-bg3 text-white btn-round">
+                            자세히
+                          </Button>
+                        </CardActions>
+                      </Item>
+                    </Grid>
+                  );
+                })}
+            </Grid>
+          </Box>
+          <br />
+          <br />
+
+          <TablePagination
+            rowsPerPageOptions={[8, 12, 16, 20]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+
+          <br />
+          <br />
         </Paper>
       ) : (
         <h1>계약이 없습니다</h1>
       )}
-      
     </div>
   );
 };

@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9eedfe7f-3075-4449-9ef0-ffb7779cd384" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Card.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Card.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/CardItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CardItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/faq/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/faq/index.jsx" afterDir="false" />
+    <list default="true" id="dba160ab-e0f8-4a57-a05c-7f685f7fe643" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/organisms/ModalBtn/ModalBtn.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/organisms/ModalBtn/ModalBtn.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/template/contractDetail/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/template/contractDetail/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/template/contractPage/renderPages/write/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/template/contractPage/renderPages/write/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/template/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/template/index.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,23 +69,19 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="27EjuNsiTZ3tCF2oKFwy9nq8jUl" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="27NewyQWf9xuUCodvDnHVed0BTx" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
-      <command value="gradle " />
+      <command value="gradle" />
     </option>
   </component>
   <component name="RunManager" selected="Gradle.chaintract [bootRun]">
@@ -143,26 +135,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="디폴트 작업">
-      <changelist id="9eedfe7f-3075-4449-9ef0-ffb7779cd384" name="변경" comment="" />
-      <created>1648892363901</created>
+      <changelist id="dba160ab-e0f8-4a57-a05c-7f685f7fe643" name="변경" comment="" />
+      <created>1649165212809</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1648892363901</updated>
+      <updated>1649165212809</updated>
     </task>
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>
