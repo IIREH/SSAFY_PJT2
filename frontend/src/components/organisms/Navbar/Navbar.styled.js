@@ -10,6 +10,7 @@ const MainContainer = styled.div`
   height: 8vh;
   padding: 0vh 15vw 0vh 15vw;
   min-width: 10vh;
+  
 `;
 
 export default { MainContainer };

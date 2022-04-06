@@ -14,6 +14,8 @@ const ContentContainer = styled.div`
   height: 100px;
   text-align: center;
   position: absolute;
+  top: 200px;
+  left: 720px;
   color: white;
   transition: all 1.5s;
 `;

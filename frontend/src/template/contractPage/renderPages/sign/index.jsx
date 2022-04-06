@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import image__loading from "/public/Spinner-1s-200px.svg";
+import image__loading from '/public/Spinner-1s-200px.svg';
 import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -135,19 +135,15 @@ const Sign = () => {
     api.put('/contracts/ongoing/need', { email: userInfo }),
   );
 
-  if (isLoading) 
-  return (
-    <Styled.ContentContainer>
-      <Typography variant="h5" gutterBottom>
-        Loading...
-      </Typography>
-      <Image
-            src={image__loading}
-            alt="image__loading"
-            className="image__loading"
-          />
-    </Styled.ContentContainer>
-  );
+  if (isLoading)
+    return (
+      <Styled.ContentContainer>
+        <Typography variant="h5" gutterBottom>
+          Loading...
+        </Typography>
+        <Image src={image__loading} alt="image__loading" className="image__loading" />
+      </Styled.ContentContainer>
+    );
   if (error) return 'An error has occurred: ' + error.message;
   if (isSuccess) {
     data.data.response.map((contract) => {
@@ -199,7 +195,7 @@ const Sign = () => {
                     >
                       <Item>
                         <CardContent>
-                          <div class="color-test">
+                          <div className="color-test">
                           <Typography sx={{ fontSize: 14 }} gutterBottom>
                             <br />
                             {row.id}
@@ -221,7 +217,7 @@ const Sign = () => {
                           </div>
                         </CardContent>
                         <CardActions>
-                          <Button size="small" class="theme-bg3 text-white btn-round">button</Button>
+                          <Button size="small" className="theme-bg3 text-white btn-round">button</Button>
                         </CardActions>
                       </Item>
                     </Grid>

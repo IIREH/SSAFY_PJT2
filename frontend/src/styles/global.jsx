@@ -10,10 +10,10 @@ const GlobalStyle = () => (
       html {
         font-size: 16px;
         margin: 0 auto;
+        font-family: 'IBMPlexSansKR';
       }
 
       body {
-        font-family: 'IBMPlexSansKR';
         letter-spacing: 0.08rem;
       }
 

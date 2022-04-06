@@ -1,7 +1,7 @@
 import React from 'react';
 import Styled from './styled';
 import Button from '@material-ui/core/Button';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { apiInstance } from '@/libs/axios';
 import Typography from '@mui/material/Typography';
@@ -11,19 +11,14 @@ import { Navbar } from 'components/organisms';
 import { PDFReader } from 'reactjs-pdf-reader';
 
 const ContractDetailTemplate = ({ contractId }) => {
+  const router = useRouter();
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {
     userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
   const api = apiInstance();
 
-  const contractData = useQuery(
-    'contractData',
-    () =>
-      // 성립된 계약인지 확인하는값 ~~~date 확인해서 isApprove값 변경하는 then작성해야함
-      api.get(`/contract/2`),
-    // api.get(`/contract/${contractId}`),
-  );
+  const contractData = useQuery('contractData', () => api.get(`/contract/${contractId}`));
   if (contractData.isLoading)
     return (
       <Styled.ContentContainer>
@@ -44,16 +39,14 @@ const ContractDetailTemplate = ({ contractId }) => {
 
   // 승인 처리
   const confirm = () => {
-    api.put(`/contract/sign/2`, { email: userInfo });
-    // 배포할때 바꿔주기
-    // api.put(`/contract/sign/${contractId}`, { email: userInfo });
+    api.put(`/contract/sign/${contractId}`, { email: userInfo });
     alert('계약을 승인했습니다');
     router.replace('/contractpage');
   };
 
   return (
     <>
-      <div class="navbar">
+      <div className="navbar">
         <Navbar />
         <Styled.MainContainer>
           <div>
@@ -74,21 +67,22 @@ const ContractDetailTemplate = ({ contractId }) => {
             </Styled.ArticleArea>
           </div>
           <div style={{ overflow: 'scroll', height: 600 }}>
-            {/* 배포할때 바꿔주기 */}
-            {/* <PDFReader url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`} /> */}
-            <PDFReader url={`https://j6c105.p.ssafy.io/api/contract/17/file`} />
+            <PDFReader url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`} />
           </div>
           {contractData.data.data.response.establishedDate !== null ? (
             <></>
           ) : (
-            <Button
-              variant="contained"
-              class="label theme-bg text-white f-12"
-              disableElevation
-              onClick={confirm}
-            >
-              승인
-            </Button>
+            <>
+              <h3> 주의 : 계약을 승인하면 기록에서 삭제할 수 없습니다.</h3>
+              <Button
+                variant="contained"
+                class="label theme-bg text-white f-12"
+                disableElevation
+                onClick={confirm}
+              >
+                승인
+              </Button>
+            </>
           )}
         </Styled.MainContainer>
       </div>
