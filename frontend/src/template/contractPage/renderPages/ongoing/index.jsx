@@ -16,7 +16,7 @@ import { useQuery } from 'react-query';
 import { apiInstance } from '@/libs/axios';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import image__loading from "/public/Spinner-1s-200px.svg";
+import image__loading from '/public/Spinner-1s-200px.svg';
 import Typography from '@mui/material/Typography';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -126,23 +126,19 @@ const Ongoing = () => {
   if (typeof window !== 'undefined' && window.sessionStorage) {
     userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
-  
+
   const { isLoading, error, isSuccess, data } = useQuery('ongoingData', () =>
-    api.put('/contracts/ongoing', { email: userInfo }),
+    api.get('/contracts/ongoing', { email: userInfo }),
   );
-  if (isLoading) 
-  return (
-    <Styled.ContentContainer>
-      <Typography variant="h5" gutterBottom>
-        Loading...
-      </Typography>
-      <Image
-            src={image__loading}
-            alt="image__loading"
-            className="image__loading"
-          />
-    </Styled.ContentContainer>
-  ); 
+  if (isLoading)
+    return (
+      <Styled.ContentContainer>
+        <Typography variant="h5" gutterBottom>
+          Loading...
+        </Typography>
+        <Image src={image__loading} alt="image__loading" className="image__loading" />
+      </Styled.ContentContainer>
+    );
   if (error) return 'An error has occurred: ' + error.message;
 
   if (isSuccess) {
@@ -233,7 +229,6 @@ const Ongoing = () => {
           <br />
           <br />
         </Paper>
-
       ) : (
         <h1>계약이 없습니다</h1>
       )}
