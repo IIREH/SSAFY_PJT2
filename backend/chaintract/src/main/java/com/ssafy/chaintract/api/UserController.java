@@ -29,6 +29,11 @@ public class UserController {
     private final FileStore fileStore;
     private static final String LOGIN_USER = "loginUser";
 
+    @GetMapping("/test")
+    public String test(){
+        return "test_success";
+    }
+
     @ApiOperation("로그인")
     @PostMapping("/auth/login")
     public ApiUtils.ApiResult<?> loginUser(@RequestBody CreateUserRequest userRequest, HttpServletRequest request){
