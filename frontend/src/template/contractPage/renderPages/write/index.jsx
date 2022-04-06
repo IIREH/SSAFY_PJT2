@@ -1,21 +1,21 @@
 import React, { useState, useCallback } from 'react';
 import { apiInstance, fileInstance } from '@/libs/axios';
-// import { ModalBtn } from '@/components/organisms';
+import { ModalBtn } from '@/components/organisms';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
 import Styled from './styled';
+import { useRouter } from 'next/router';
 
 const Write = () => {
+  const router = useRouter();
   const api = apiInstance();
   const fileApi = fileInstance();
   const [contractName, setContractName] = useState();
   const [covenantee, setCovenantee] = useState([]);
   const [covenanteeInput, setCovenanteeInput] = useState();
   const [files, setFile] = useState([]);
-  // const [isConfirm, setIsConfirm] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const onFileChange = useCallback(
     (e) => {
@@ -87,7 +87,7 @@ const Write = () => {
 
     await api.post('/contract', request).then(() => {
       alert('계약생성완료');
-      setPageState(0);
+      router.push('/');
     });
   }
 
@@ -116,27 +116,6 @@ const Write = () => {
               />
             </Grid>
 
-            <Grid item xs={12} sm={5}>
-              <TextField
-                id="lastName"
-                name="lastName"
-                label="피계약자 성"
-                fullWidth
-                autoComplete="family-name"
-                variant="standard"
-              />
-            </Grid>
-            <Grid item xs={12} sm={5}>
-              <TextField
-                id="firstName"
-                name="firstName"
-                label="피계약자 이름"
-                fullWidth
-                autoComplete="given-name"
-                variant="standard"
-              />
-            </Grid>
-
             <Grid item xs={10}>
               <TextField
                 required
@@ -150,13 +129,7 @@ const Write = () => {
                 autoComplete="이메일주소"
                 variant="standard"
               />
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox color="secondary" />}
-                  label="다음에도 이 계약자와 계약하기"
-                  className="text-neon"
-                />
-              </Grid>
+
               <input
                 type="button"
                 onClick={InputCovenantee}
@@ -194,14 +167,7 @@ const Write = () => {
         />
       </div>
 
-      <button
-        onClick={SubmitContract}
-        className="label theme-bg text-white f-12 btn-round shadow-2 submit-position"
-        sx={{ mt: 3, ml: 1 }}
-      >
-        Submit
-      </button>
-      {/* {isConfirm ? (
+      {isConfirm ? (
         <button
           onClick={SubmitContract}
           className="label theme-bg text-white f-12 btn-round shadow-2 submit-position"
@@ -210,8 +176,8 @@ const Write = () => {
           Submit
         </button>
       ) : (
-        <ModalBtn onClick={setIsConfirm(true)} />
-      )} */}
+        <ModalBtn viewSubmitBtn={setIsConfirm} />
+      )}
     </Styled.ContentContainer>
   );
 };

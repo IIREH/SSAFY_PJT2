@@ -196,30 +196,28 @@ const Sign = () => {
                       <Item>
                         <CardContent>
                           <div className="color-test">
-                            <Typography sx={{ fontSize: 14 }} gutterBottom>
-                              <br />
-                              {row.id}
-                              <br />
-                            </Typography>
-                            <Typography variant="h5" component="div">
-                              {bull} {row.name} {bull}
-                            </Typography>
-                            <Typography variant="body2">
-                              <br />
-                              생성일 : {row.createdDate.slice(0, 10)}
-                              <br />
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }}>
-                              <br />
-                              {row.counterpart}
-                              <br />
-                            </Typography>
+                          <Typography sx={{ fontSize: 14 }} gutterBottom>
+                            <br />
+                            {row.id}
+                            <br />
+                          </Typography>
+                          <Typography variant="h5" component="div">
+                            {bull} {row.name} {bull}
+                          </Typography>
+                          <Typography variant="body2">
+                            <br />
+                            생성일 : {row.createdDate.slice(0, 10)}
+                            <br />
+                          </Typography>
+                          <Typography sx={{ mb: 1.5 }} >
+                            <br />
+                            {row.counterpart}
+                            <br />
+                          </Typography>
                           </div>
                         </CardContent>
                         <CardActions>
-                          <Button size="small" className="theme-bg3 text-white btn-round">
-                            button
-                          </Button>
+                          <Button size="small" className="theme-bg3 text-white btn-round">button</Button>
                         </CardActions>
                       </Item>
                     </Grid>

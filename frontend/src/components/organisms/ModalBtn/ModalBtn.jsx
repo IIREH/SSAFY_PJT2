@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -18,9 +18,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ModalBtn = () => {
+const ModalBtn = (props) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const { viewSubmitBtn } = props;
+  const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -28,11 +29,17 @@ const ModalBtn = () => {
 
   const handleClose = () => {
     setOpen(false);
+    viewSubmitBtn(true);
   };
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
+      <button
+        type="button"
+        onClick={handleOpen}
+        className="label theme-bg text-white f-12 btn-round shadow-2 submit-position"
+        sx={{ mt: 3, ml: 1 }}
+      >
         submit
       </button>
       <Modal

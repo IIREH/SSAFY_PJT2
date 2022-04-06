@@ -8,6 +8,11 @@ const MainContainer = styled.div`
   background: linear-gradient(to bottom, rgb(227, 200, 248), #e0f2f1);
   height: 750px;
   opacity: 1;
+  min-width: 150px
+  
 `;
 
-export default { MainContainer };
+
+
+
+export default { MainContainer, };

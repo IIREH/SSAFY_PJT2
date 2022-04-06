@@ -1,7 +1,7 @@
 import React from 'react';
 import Styled from './styled';
 import Button from '@material-ui/core/Button';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { apiInstance } from '@/libs/axios';
 import Typography from '@mui/material/Typography';
@@ -11,6 +11,7 @@ import { Navbar } from 'components/organisms';
 import { PDFReader } from 'reactjs-pdf-reader';
 
 const ContractDetailTemplate = ({ contractId }) => {
+  const router = useRouter();
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {
     userInfo = sessionStorage.getItem('chainTractLoginInfo');
@@ -71,14 +72,17 @@ const ContractDetailTemplate = ({ contractId }) => {
           {contractData.data.data.response.establishedDate !== null ? (
             <></>
           ) : (
-            <Button
-              variant="contained"
-              class="label theme-bg text-white f-12"
-              disableElevation
-              onClick={confirm}
-            >
-              승인
-            </Button>
+            <>
+              <h3> 주의 : 계약을 승인하면 기록에서 삭제할 수 없습니다.</h3>
+              <Button
+                variant="contained"
+                class="label theme-bg text-white f-12"
+                disableElevation
+                onClick={confirm}
+              >
+                승인
+              </Button>
+            </>
           )}
         </Styled.MainContainer>
       </div>
