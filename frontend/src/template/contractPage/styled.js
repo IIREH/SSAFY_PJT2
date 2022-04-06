@@ -7,12 +7,15 @@ const MainContainer = styled.div`
   color: black;
   width: 100%;
   height: 100%;
+  font-size: 1.0rem;
+  font-family: arial;
 `;
 
 const ListContainer = styled.div`
   display: flex;
   flex-flow: column nowrap;
   width: 15vw;
+  color: white;
 
 `;
 
@@ -29,4 +32,5 @@ export default {
   MainContainer,
 
   ViewContainer,
+  ListContainer,
 };

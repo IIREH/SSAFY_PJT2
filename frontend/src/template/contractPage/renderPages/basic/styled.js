@@ -7,7 +7,11 @@ const MainContainer = styled.div`
   justify-content: space-between;
 `;
 const imageStyle = styled.div`
-  width: 700px;
+  position: relative;
+  top: -18px;
+  left: 0px;
+  width: 1400px;
+
 `;
 
 export default {
