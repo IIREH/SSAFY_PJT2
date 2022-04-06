@@ -4,13 +4,12 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { contractPageState } from '@/states';
-import { useRecoilState } from 'recoil';
 
-const ContractListMenu = () => {
-  const [, setPageState] = useRecoilState(contractPageState);
+const ContractListMenu = (props) => {
+  const { handleState } = props;
+
   const changePage = (e) => {
-    setPageState(e.target.innerText);
+    handleState(e.target.innerText);
   };
 
   return (
@@ -18,6 +17,7 @@ const ContractListMenu = () => {
       <ListSubheader component="div" disableGutters>
         생성
       </ListSubheader>
+
       <List component="div">
         <ListItem button onClick={changePage}>
           <ListItemText primary="작성" disableTypography />
@@ -29,7 +29,7 @@ const ContractListMenu = () => {
       </ListSubheader>
       <List component="div">
         <ListItem button onClick={changePage}>
-          <ListItemText primary="요청보기" disableTypography />
+          <ListItemText primary="승인 대기" disableTypography />
         </ListItem>
       </List>
 
@@ -38,12 +38,12 @@ const ContractListMenu = () => {
       </ListSubheader>
       <List component="div">
         <ListItem button onClick={changePage}>
-          <ListItemText primary="진행중" disableTypography />
+          <ListItemText primary="성립전" disableTypography />
         </ListItem>
       </List>
       <List component="div">
         <ListItem button onClick={changePage}>
-          <ListItemText primary="완료" disableTypography />
+          <ListItemText primary="이행중" disableTypography />
         </ListItem>
       </List>
     </Styled.MainContainer>

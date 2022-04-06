@@ -1,39 +1,34 @@
 import React from 'react';
 import Styled from './KakaoLoginBtn.styled';
 import KakaoLogin from 'react-kakao-login';
-import router from 'next/router';
-import { useQuery, useMutation } from 'react-query';
+import { useRouter } from 'next/router';
 import { authInstance } from '@/libs/axios';
 import { KAKAO_OAUTH_APIKEY } from '@/config';
 
 const KakaoLoginBtn = () => {
+  const router = useRouter();
   const api = authInstance();
-  const mutation = useMutation((token) => api.post('/auth/login', { accessToken: token }));
 
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {
     userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
 
-  const logout = () => {
-    api.get('/auth/logout');
-  };
-
   return (
     <KakaoLogin
       token={KAKAO_OAUTH_APIKEY}
       onLogout={() => {
         sessionStorage.removeItem('chainTractLoginInfo');
-        logout();
+        api.get('/auth/logout');
         router.push('/');
       }}
       onSuccess={(res) => {
-        console.log(res);
-        sessionStorage.setItem('chainTractLoginInfo', {
-          id: res.profile.kakao_account.email,
-          name: res.profile.kakao_account.profile.nickname,
-        });
-        mutation.mutate(res.response.access_token);
+        sessionStorage.setItem('chainTractLoginInfo', res.profile.kakao_account.email);
+        api.post(
+          '/auth/login',
+          { accesstoken: res.response.access_token },
+          { withCredentials: true },
+        );
         router.push('/');
       }}
       onFail={() => {}}
@@ -44,7 +39,7 @@ const KakaoLoginBtn = () => {
             onClick();
           }}
         >
-          {userInfo ? <>로그아웃</> : <>로그인</>}
+          {userInfo ? <div>Sign out</div> : <div>Sign in</div>}
         </Styled.MainContainer>
       )}
     />

@@ -15,6 +15,7 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:prettier/recommended',
+    'eslint:recommended',
   ],
   rules: {
     'prettier/prettier': 0,

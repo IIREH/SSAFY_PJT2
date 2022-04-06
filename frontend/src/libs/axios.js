@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { API_BASE_URL } from '@/config';
+axios.defaults.withCredentials = true;
+
 function apiInstance() {
   const instance = axios.create({
     baseURL: API_BASE_URL,
@@ -9,12 +11,11 @@ function apiInstance() {
   });
   return instance;
 }
-function authInstance(token) {
+function authInstance() {
   const instance = axios.create({
     baseURL: API_BASE_URL,
     headers: {
       'Content-Type': 'application/json',
-      accessToken: token,
     },
   });
   return instance;
