@@ -66,7 +66,7 @@ public class ContractServiceTest {
 
     @Test
     @Transactional
-    public void testAll() throws IOException, ExecutionException, InterruptedException {
+    public void testAll() throws Exception {
         User creator;
         User participant1;
         User participant2;
@@ -132,17 +132,5 @@ public class ContractServiceTest {
         session.setAttribute("loginUser", participant3);
         contractService.toggleSignature(contract1.getId(), participant3);
         Assertions.assertNotNull(contractRepository.getById(contract1.getId()).getEstDate());
-
-        byte[] encrypted = new byte[32];
-        for(int i = 0; i < 32; ++i) {
-            encrypted[i] = 'f';
-        }
-        long rand = new Random().nextLong();
-        if(rand < 0) {
-            rand *= -1;
-        }
-        smartContractService.uploadContract(rand, encrypted);
-        byte[] encryptedFound = smartContractService.verify(rand);
-        Assertions.assertArrayEquals(encrypted, encryptedFound);
-    }
+   }
 }

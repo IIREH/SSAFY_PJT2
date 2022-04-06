@@ -5,6 +5,7 @@ import com.ssafy.chaintract.domain.Participant;
 import com.ssafy.chaintract.domain.User;
 import com.ssafy.chaintract.domain.dto.ContractDto;
 import com.ssafy.chaintract.domain.mapper.ContractMapper;
+import com.ssafy.chaintract.file.Encryption;
 import com.ssafy.chaintract.file.FileStore;
 import com.ssafy.chaintract.file.UploadFile;
 import com.ssafy.chaintract.repository.ContractRepository;
@@ -21,19 +22,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
+
 @Slf4j
 @Service
 public class ContractService {
-    @Autowired
-    HttpServletRequest request;
-
     @Autowired
     SmartContractService smartContractService;
 
@@ -84,7 +86,7 @@ public class ContractService {
     }
 
     @Transactional
-    public void toggleSignature(long contractId, User user) {
+    public void toggleSignature(long contractId, User user) throws Exception {
         Contract contract = contractRepository.findById(contractId).get();
         participantRepository.toggleSigning(contractId, user.getId());
         if(participantRepository.existsByContractAndIsSigned(contract, false) == false) {
@@ -93,10 +95,20 @@ public class ContractService {
     }
 
     @Transactional
-    public void completeContract(Contract contract) {
-        // TODO: 블록체인 호출
+    public void completeContract(Contract contract) throws Exception {
         Date date = new Date();
         contractRepository.completeContract(contract.getId(), date);
+
+        byte[] plainByte = Encryption.getBytes(new File(contract.getFilePath()));
+        String plainBase64 = new String(plainByte, "UTF-8");
+        String enc = Encryption.encrypt(plainByte);
+        String dec = Encryption.decrypt(enc);
+        if(plainBase64.equals(dec)) {
+            String txHashOrErrorReason = smartContractService.uploadContract(contract.getId(), enc);
+            // TODO: 블록체인에 올리지 못한 경우를 표현하는 계약의 상태정보?
+        } else {
+            // TODO: 암호화 실패 익셉션
+        }
     }
 
     public List<ContractDto> getContracts(boolean isEstablished, boolean isSigned, User user) {
@@ -110,18 +122,10 @@ public class ContractService {
             optionalContracts = contractRepository.getContractsOthersNotSigned(user.getId());
         }
 
-//        if(optionalContracts.isPresent()) {
-//            return
-//        }
-//        contracts
-//                .ifPresent(list -> list.stream().map(x -> contractMapper.toDto(x)).collect(Collectors.toList()));
-
         return optionalContracts.get().stream().map(x -> contractMapper.toDto(x)).collect(Collectors.toList());
     }
 
     public ContractDto getContract(long contractId) {
-//        Optional<Contract> contractOptional =  contractRepository.findById(contractId);
-//        List<ContractDto> contractDtos = contractOptional.
         return contractMapper.toDto(contractRepository.findById(contractId).get());
     }
 

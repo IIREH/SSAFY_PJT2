@@ -24,7 +24,7 @@ public class Encryption{
         return fileContent;
     }
 
-    public static byte[] encrypt(byte[] plainText) throws Exception {
+    public static String encrypt(byte[] plainText) throws Exception {
         SecretKey keyspec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
 
         //set iv as random 16byte
@@ -60,15 +60,13 @@ public class Encryption{
 
         //encode into base64
         byte [] encryptedIvText = outputStream.toByteArray();
-//        return new String(Base64.getEncoder().encode(encryptedIvText), "UTF-8");
-        return encryptedIvText;
+        return new String(Base64.getEncoder().encode(encryptedIvText), "UTF-8");
     }
 
-    public static byte[] decrypt(byte[] encryptedIvText) throws Exception {
+    public static String decrypt(String encryptedIvText) throws Exception {
         //decode with base64 decoder
-//        byte [] encryptedIvTextBytes = Base64.getDecoder().decode(encryptedIvText);
+        byte [] encryptedIvTextBytes = Base64.getDecoder().decode(encryptedIvText);
 
-        byte [] encryptedIvTextBytes = encryptedIvText;
         // Extract IV.
         int ivSize = 16;
         byte[] iv = new byte[ivSize];
@@ -92,8 +90,7 @@ public class Encryption{
         byte[] origin = new byte[aesdecode.length - (aesdecode[aesdecode.length - 1])];
         System.arraycopy(aesdecode, 0, origin, 0, origin.length);
 
-        return origin;
-//        return new String(origin, "UTF-8");
+        return new String(origin, "UTF-8");
     }
 
 }
