@@ -39,7 +39,7 @@ const KakaoLoginBtn = () => {
             onClick();
           }}
         >
-          {userInfo ? <>로그아웃</> : <>로그인</>}
+          {userInfo ? <div>Sign out</div> : <div>Sign in</div>}
         </Styled.MainContainer>
       )}
     />
