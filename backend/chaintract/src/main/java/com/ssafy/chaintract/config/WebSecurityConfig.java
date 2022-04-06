@@ -30,11 +30,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable();
 
-        http
-                .sessionManagement()
-                .sessionFixation()
-                .none();
-
     }
 
     /**
