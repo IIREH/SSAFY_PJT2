@@ -18,7 +18,7 @@ const Navbar = () => {
       </>
       {userInfo ? (
         <>
-          <NavButton bgColor="inherit" color="#000" href="/contractPage">
+          <NavButton bgColor="inherit" color="#000" href="/contractpage">
             Contract
           </NavButton>
         </>
