@@ -48,8 +48,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const noneBox = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  font-size: 2em;
+  color: white;
+  font-weight: bold;
+`;
+
 export default {
   MainContainer,
   useStyles,
-  ContentContainer
+  ContentContainer,
+  noneBox,
 };

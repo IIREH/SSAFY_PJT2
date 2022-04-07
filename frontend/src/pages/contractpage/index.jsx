@@ -1,5 +1,4 @@
 import React from 'react';
-import ContractPageTemplate from '@/template/contractPage';
 import GuideTemplate from '@/template/guideTemplate';
 import dynamic from 'next/dynamic';
 

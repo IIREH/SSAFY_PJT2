@@ -1,11 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
@@ -18,7 +14,6 @@ import { apiInstance } from '@/libs/axios';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
@@ -133,33 +128,33 @@ const Complete = () => {
   if (typeof window !== 'undefined' && window.sessionStorage) {
     userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
-  //
-  const { isLoading, error, isSuccess, data } = useQuery('completeData', () =>
-    api.get('/contracts/complete', { email: userInfo }),
-  );
-  if (isLoading)
-    return (
-      <Styled.ContentContainer>
-        <Typography variant="h5" gutterBottom>
-          Loading...
-        </Typography>
-        <Image src={image__loading} alt="image__loading" className="image__loading" />
-      </Styled.ContentContainer>
-    );
-  if (error) return 'An error has occurred: ' + error.message;
-  if (isSuccess) {
-    data.data.response.map((contract) => {
-      rows.push(
-        createData(
-          contract.id,
-          contract.name,
-          contract.createdDate,
-          contract.establishedDate,
-          contract.participantEmails,
-        ),
-      );
-    });
-  }
+
+  // const { isLoading, error, isSuccess, data } = useQuery('completeData', () =>
+  //   api.get('/contracts/complete', { email: userInfo }),
+  // );
+  // if (isLoading)
+  //   return (
+  //     <Styled.ContentContainer>
+  //       <Typography variant="h5" gutterBottom>
+  //         Loading...
+  //       </Typography>
+  //       <Image src={image__loading} alt="image__loading" className="image__loading" />
+  //     </Styled.ContentContainer>
+  //   );
+  // if (error) return 'An error has occurred: ' + error.message;
+  // if (isSuccess) {
+  //   data.data.response.map((contract) => {
+  //     rows.push(
+  //       createData(
+  //         contract.id,
+  //         contract.name,
+  //         contract.createdDate,
+  //         contract.establishedDate,
+  //         contract.participantEmails,
+  //       ),
+  //     );
+  //   });
+  // }
 
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -167,7 +162,8 @@ const Complete = () => {
     setOrderBy(property);
   };
 
-  const handleClick = (id) => {
+  const handleClick = (e, id) => {
+    e.preventDefault();
     router.push(`/contractdetail/${id}`);
   };
 
@@ -256,7 +252,7 @@ const Complete = () => {
           <br />
         </Paper>
       ) : (
-        <h1>계약이 없습니다</h1>
+        <Styled.noneBox>계약이 없습니다</Styled.noneBox>
       )}
     </div>
   );

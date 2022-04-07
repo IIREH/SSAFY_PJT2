@@ -6,7 +6,6 @@ const MainContainer = styled.div`
   flex-flow: row nowrap;
   text-align: center;
   justify-content: space-between;
-
 `;
 
 const ContentContainer = styled.div`
@@ -21,7 +20,6 @@ const ContentContainer = styled.div`
 `;
 
 const useStyles = makeStyles((theme) => ({
-  
   root: {
     width: '100%',
   },
@@ -33,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 750,
   },
   visuallyHidden: {
-    
     border: 0,
     clip: 'rect(0 0 0 0)',
     height: 1,
@@ -51,8 +48,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const noneBox = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  font-size: 2em;
+  color: white;
+  font-weight: bold;
+`;
+
 export default {
   MainContainer,
   useStyles,
   ContentContainer,
+  noneBox,
 };

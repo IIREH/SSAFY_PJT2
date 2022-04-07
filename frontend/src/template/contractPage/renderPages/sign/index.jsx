@@ -159,7 +159,8 @@ const Sign = () => {
     setOrderBy(property);
   };
 
-  const handleClick = (id) => {
+  const handleClick = (e, id) => {
+    e.preventDefault();
     router.push(`/contractdetail/${id}`);
   };
 
@@ -242,7 +243,7 @@ const Sign = () => {
           <br />
         </Paper>
       ) : (
-        <h1>계약이 없습니다</h1>
+        <Styled.noneBox>계약이 없습니다</Styled.noneBox>
       )}
     </div>
   );
