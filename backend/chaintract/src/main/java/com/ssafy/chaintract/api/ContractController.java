@@ -23,6 +23,7 @@ import java.util.Map;
         @ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
         @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
+@CrossOrigin("*")
 @Api("contract 관련 API")
 @RestController
 @RequestMapping
@@ -33,13 +34,20 @@ public class ContractController {
     @Autowired
     HttpServletRequest request;
 
-    // TODO: data flow에 유심하여 여러가지 상황에 따른 응답값 반환
+    // TODO: data flow에 유심하여 여러가지 상황에 따라 값을 검증하고 응답값 반환
     @ApiOperation(value = "계약증명 요청 생성", notes = "새 계약증명을 생성해 서명을 받을 수 있음", response = ApiUtils.ApiResult.class)
     @PostMapping("/contract")
     public ApiUtils.ApiResult<?> createContract(@ApiParam(value = "계약증명 정보", required = true) @RequestBody ContractDto contractDto) {
         User user = (User) request.getSession().getAttribute("loginUser");
         contractDto.getParticipantEmails().add(user.getEmail());
         return ApiUtils.success(contractService.createContract(contractDto, user.getEmail()));
+    }
+
+    @ApiOperation(value = "블록체인 네트워크에 업로드", notes = "블록체인 네트워크에 암호화된 계약 업로드", response = ApiUtils.ApiResult.class)
+    @PostMapping("/contract/{contractId}/block")
+    public ApiUtils.ApiResult<?> uploadContractToBlockChain(@ApiParam(value = "계약증명ID", required = true) @PathVariable long contractId) throws Exception {
+        contractService.uploadContract(contractId);
+        return ApiUtils.success(HttpStatus.SC_OK);
     }
 
     @ApiOperation(value = "계약서 파일 업로드", notes = "서버에 계약서 파일을 업로드", response = ApiUtils.ApiResult.class)
@@ -64,25 +72,33 @@ public class ContractController {
         return ApiUtils.success(HttpStatus.SC_OK);
     }
 
+    // TODO: 성립되지 않은 경우들은 일정 기간 지나면 조회 안되고 삭제되도록
     @ApiOperation(value = "내가 서명하지 않은 계약증명들을 조회", notes = "로그인한 이용자가 서명하지 않은 계약증명들을 반환", response = ApiUtils.ApiResult.class)
     @GetMapping("/contracts/ongoing/need")
     public ApiUtils.ApiResult<?> findContractsNotSigned() {
         User user = (User) request.getSession().getAttribute("loginUser");
-        return ApiUtils.success(contractService.getContracts(false, false, user));
+        return ApiUtils.success(contractService.getContracts(false, false, false, user));
     }
 
     @ApiOperation(value = "나는 서명했지만 남이 서명하지 않은 계약증명들을 조회", notes = "로그인한 이용자가 자신은 서명했지만 남은 서명하지 않은 계약증명들을 반환", response = ApiUtils.ApiResult.class)
     @GetMapping("/contracts/ongoing")
     public ApiUtils.ApiResult<?> findUnestablishedContractsSinged(){
         User user = (User) request.getSession().getAttribute("loginUser");
-        return ApiUtils.success(contractService.getContracts(false, true, user));
+        return ApiUtils.success(contractService.getContracts(false, false, true, user));
     }
 
     @ApiOperation(value = "성립된 증명들을 조회", notes = "모두가 서명해 성립된 계약증명들을 반환", response = ApiUtils.ApiResult.class)
     @GetMapping("/contracts/complete")
     public ApiUtils.ApiResult<?> findEstablishedContracts(){
         User user = (User) request.getSession().getAttribute("loginUser");
-        return ApiUtils.success(contractService.getContracts(true, true, user));
+        return ApiUtils.success(contractService.getContracts(false, true, true, user));
+    }
+
+    @ApiOperation(value = "블록체인에 올라간 증명들을 조회", notes = "블록체인 네트워크에 올라간 계약증명들을 트랜젝션 해시값과 반환", response = ApiUtils.ApiResult.class)
+    @GetMapping("/contracts/block")
+    public ApiUtils.ApiResult<?> findUploadedContracts(){
+        User user = (User) request.getSession().getAttribute("loginUser");
+        return ApiUtils.success(contractService.getContracts(true, true, true, user));
     }
 
     @ApiOperation(value = "특정 증명을 반환", notes = "contractId로 특정되는 계약 증명을 반환", response = ApiUtils.ApiResult.class)
