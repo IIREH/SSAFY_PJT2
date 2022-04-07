@@ -2,11 +2,16 @@ package com.ssafy.chaintract.smartcontract;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.ssafy.chaintract.domain.Contract;
+import com.ssafy.chaintract.repository.ContractRepository;
+import com.ssafy.chaintract.repository.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
@@ -43,6 +48,12 @@ import org.web3j.utils.Numeric;
 
 @Component
 public class SmartContractService {
+    @Autowired
+    ContractRepository contractRepository;
+
+    @Autowired
+    TransactionRepository transactionRepository;
+
     // TODO: 블록체인  네트워크가 구현되는되면 주요 환경변수는 application,yml에서 정의할 것
     private String contract = "0xECbEac7251521C87fEDF33e4c2C95D7ED9323e86";
     private String from = "0xa6e96c314aa5e1a829e2eaa0be76ed1577900979";
@@ -71,26 +82,20 @@ public class SmartContractService {
         return decode.get(0).getValue();
     }
 
-    public TransactionReceipt ethSendRawTransaction(Function function) throws IOException, InterruptedException, ExecutionException, TransactionException {
+    public EthSendTransaction ethSendRawTransaction(Function function) throws IOException, InterruptedException, ExecutionException, TransactionException {
         Credentials credentials = Credentials.create(from_pwd);
 
         TransactionManager txManager = new RawTransactionManager(web3j, credentials);
 
-        String txHash = txManager.sendTransaction(
+        EthSendTransaction transaction = txManager.sendTransaction(
                 DefaultGasProvider.GAS_PRICE,
-                DefaultGasProvider.GAS_LIMIT,
+                new BigInteger("6721975"),
                 contract,
                 FunctionEncoder.encode(function),
                 BigInteger.ZERO
-        ).getTransactionHash();
+        );
 
-        TransactionReceiptProcessor receiptProcessor = new PollingTransactionReceiptProcessor(
-                web3j,
-                TransactionManager.DEFAULT_POLLING_FREQUENCY,
-                TransactionManager.DEFAULT_POLLING_ATTEMPTS_PER_TX_HASH);
-        TransactionReceipt txReceipt = receiptProcessor.waitForTransactionReceipt(txHash);
-
-        return txReceipt;
+        return transaction;
     }
 
     public TransactionReceipt getReceipt(String transactionHash) throws IOException {
@@ -107,18 +112,45 @@ public class SmartContractService {
         return transactionReceipt.getResult();
     }
 
-    public String uploadContract(long contractId, String encrypted) throws IOException, ExecutionException, InterruptedException, TransactionException {
-        Function function = new Function("register",
-                Arrays.asList(new Uint256(contractId), new Utf8String(encrypted)),
-                Collections.emptyList());
+    public boolean uploadContract(long contractId, String encrypted) throws IOException, ExecutionException, InterruptedException, TransactionException {
+        Contract contract = contractRepository.findById(contractId).get();
+        List<com.ssafy.chaintract.domain.Transaction> transactions = new ArrayList<>();
+        String[] slicedEnc = encrypted.split("(?<=\\G.{5000})");
+        boolean isOK = true;
 
-        TransactionReceipt txHash = this.ethSendRawTransaction(function);
+        for(int i = 0; i < slicedEnc.length; ++i) {
+            Function function = new Function("register",
+                    Arrays.asList(new Uint256(contractId << 8 + i), new Utf8String(slicedEnc[i])),
+                    Collections.emptyList());
 
-        if(txHash.isStatusOK()) {
-            return txHash.getTransactionHash();
-        } else {
-            return txHash.getRevertReason();
+            EthSendTransaction transaction = this.ethSendRawTransaction(function);
+
+            if(transaction.hasError()) {
+                isOK = false;
+                break;
+            }
+
+            String txHash = transaction.getTransactionHash();
+            TransactionReceiptProcessor receiptProcessor = new PollingTransactionReceiptProcessor(
+                    web3j,
+                    TransactionManager.DEFAULT_POLLING_FREQUENCY,
+                    TransactionManager.DEFAULT_POLLING_ATTEMPTS_PER_TX_HASH);
+            TransactionReceipt txReceipt = receiptProcessor.waitForTransactionReceipt(txHash);
+
+            if(txReceipt.isStatusOK() == false) {
+                isOK = false;
+                break;
+            }
+
+            com.ssafy.chaintract.domain.Transaction tx = com.ssafy.chaintract.domain.Transaction.builder()
+                    .contract(contract)
+                    .txHash(txReceipt.getTransactionHash())
+                    .build();
+            transactions.add(tx);
         }
+
+        transactionRepository.saveAll(transactions);
+        return isOK;
     }
 
     public String verify(long contractId) throws IOException {

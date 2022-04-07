@@ -21,20 +21,15 @@ public class Contract {
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_id")
-//    private User user;
-
-    //    @Enumerated(EnumType.STRING)
-//    private ContractState state;
-//    private boolean isEstablished;
+//    private User creator;
 
     private String name;
 
     @CreatedDate
     private Date createdDate;
     private Date estDate;
+    private Date uploadedDate;
 
-    //    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "file_id")
     private String filePath;
 
 

@@ -90,36 +90,45 @@ public class ContractService {
         Contract contract = contractRepository.findById(contractId).get();
         participantRepository.toggleSigning(contractId, user.getId());
         if(participantRepository.existsByContractAndIsSigned(contract, false) == false) {
-            completeContract(contract);
+            completeContract(contractId);
         }
     }
 
     @Transactional
-    public void completeContract(Contract contract) throws Exception {
+    public void completeContract(long contractId) throws Exception {
         Date date = new Date();
-        contractRepository.completeContract(contract.getId(), date);
+        contractRepository.completeContract(contractId, date);
+    }
 
+    @Transactional
+    public void uploadContract(long contractId) throws Exception {
+        Contract contract = contractRepository.findById(contractId).get();
         byte[] plainByte = Encryption.getBytes(new File(contract.getFilePath()));
         String plainBase64 = new String(plainByte, "UTF-8");
         String enc = Encryption.encrypt(plainByte);
         String dec = Encryption.decrypt(enc);
+
         if(plainBase64.equals(dec)) {
-            String txHashOrErrorReason = smartContractService.uploadContract(contract.getId(), enc);
+            smartContractService.uploadContract(contract.getId(), enc);
+            Date date = new Date();
+            contractRepository.uploadContract(contract.getId(), date);
             // TODO: 블록체인에 올리지 못한 경우를 표현하는 계약의 상태정보?
         } else {
             // TODO: 암호화 실패 익셉션
         }
     }
 
-    public List<ContractDto> getContracts(boolean isEstablished, boolean isSigned, User user) {
+    public List<ContractDto> getContracts(boolean isUploaded, boolean isEstablished, boolean isSigned, User user) {
         Optional<List<Contract>> optionalContracts = null;
 
-        if(isEstablished) {
+        if(isUploaded) {
+            optionalContracts = contractRepository.getContractsUploaded(user.getId());
+        } else if(isEstablished) {
             optionalContracts = contractRepository.getEstablishedContracts(user.getId());
-        } else if(isSigned == false) {
-            optionalContracts = contractRepository.getContractsINotSigned(user.getId());
-        } else {
+        } else if(isSigned) {
             optionalContracts = contractRepository.getContractsOthersNotSigned(user.getId());
+        } else {
+            optionalContracts = contractRepository.getContractsINotSigned(user.getId());
         }
 
         return optionalContracts.get().stream().map(x -> contractMapper.toDto(x)).collect(Collectors.toList());

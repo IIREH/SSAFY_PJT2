@@ -22,9 +22,14 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
     @Transactional
     @Query("update contract c " +
             "set c.estDate = :date " +
-//            "c.isEstablished = true " +
             "where c.id = :contractId")
     int completeContract(long contractId, Date date);
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Transactional
+    @Query("update contract c " +
+            "set c.uploadedDate = :date " +
+            "where c.id = :contractId")
+    int uploadContract(long contractId, Date date);
 //    @Query("select c from contract c, participant p " +
 //            "where c.id = p.contract.id " +
 //            "AND p.user.id = :userId " +
@@ -50,4 +55,10 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
             "AND c.estDate is null " +
             "AND p.isSigned = true")
     Optional<List<Contract>> getContractsOthersNotSigned(long userId);
+    @Query("SELECT c " +
+            "FROM contract c, participant p " +
+            "where c.id = p.contract.id " +
+            "AND p.user.id = :userId " +
+            "AND c.uploadedDate is not null")
+    Optional<List<Contract>> getContractsUploaded(long userId);
 }
