@@ -79,7 +79,12 @@ const ContractDetailTemplate = ({ contractId }) => {
               )}
               <hr />
               {contractData.data.data.response.txHash !== null ? (
-                <h2>계약 해쉬값 : {contractData.data.data.response.txHash}</h2>
+                <>
+                  <h2>계약 해쉬값 : </h2>
+                  {contractData.data.data.response.txHash.map((hash) => {
+                    return <h2>{hash}</h2>;
+                  })}
+                </>
               ) : (
                 <></>
               )}
