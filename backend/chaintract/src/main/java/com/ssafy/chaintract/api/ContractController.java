@@ -38,6 +38,7 @@ public class ContractController {
     @PostMapping("/contract")
     public ApiUtils.ApiResult<?> createContract(@ApiParam(value = "계약증명 정보", required = true) @RequestBody ContractDto contractDto) {
         User user = (User) request.getSession().getAttribute("loginUser");
+        contractDto.getParticipantEmails().add(user.getEmail());
         return ApiUtils.success(contractService.createContract(contractDto, user.getEmail()));
     }
 
