@@ -17,9 +17,9 @@ const ContractPageTemplate = () => {
         return <Sign />;
       case '성립전':
         return <Ongoing />;
-      case '이행중(서버)':
+      case '서버':
         return <CompleteServer />;
-      case '이행중(블록체인)':
+      case '블록체인':
         return <CompleteBlock />;
     }
   }, [pageState]);
