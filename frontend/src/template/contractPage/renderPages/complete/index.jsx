@@ -135,7 +135,7 @@ const Complete = () => {
   }
   //
   const { isLoading, error, isSuccess, data } = useQuery('completeData', () =>
-    api.put('/contracts/complete', { email: userInfo }),
+    api.get('/contracts/complete', { email: userInfo }),
   );
   if (isLoading)
     return (
