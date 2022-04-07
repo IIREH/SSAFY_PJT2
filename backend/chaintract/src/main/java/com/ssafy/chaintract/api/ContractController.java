@@ -31,12 +31,12 @@ public class ContractController {
     ContractService contractService;
 
     @Autowired
-    UserRepository userRepository;
+    HttpServletRequest request;
 
     // TODO: data flow에 유심하여 여러가지 상황에 따른 응답값 반환
     @ApiOperation(value = "계약증명 요청 생성", notes = "새 계약증명을 생성해 서명을 받을 수 있음", response = ApiUtils.ApiResult.class)
     @PostMapping("/contract")
-    public ApiUtils.ApiResult<?> createContract(@ApiParam(value = "계약증명 정보", required = true) @RequestBody ContractDto contractDto, HttpServletRequest request) {
+    public ApiUtils.ApiResult<?> createContract(@ApiParam(value = "계약증명 정보", required = true) @RequestBody ContractDto contractDto) {
         User user = (User) request.getSession().getAttribute("loginUser");
         return ApiUtils.success(contractService.createContract(contractDto, user.getEmail()));
     }
@@ -57,30 +57,30 @@ public class ContractController {
 
     @ApiOperation(value = "계약증명 요청에 서명", notes = "로그인한 이용자가 contractId에 해당하는 증명에 서명", response = ApiUtils.ApiResult.class)
     @PutMapping("/contract/sign/{contractId}")
-    public ApiUtils.ApiResult<?> toggleSignature(@ApiParam(value = "계약증명ID", required = true) @PathVariable long contractId, @RequestBody CreateOutReqeust outReqeust) {
-        User user =  userRepository.findUserByEmail(outReqeust.email).get(0);
+    public ApiUtils.ApiResult<?> toggleSignature(@ApiParam(value = "계약증명ID", required = true) @PathVariable long contractId) throws Exception {
+        User user = (User) request.getSession().getAttribute("loginUser");
         contractService.toggleSignature(contractId, user);
         return ApiUtils.success(HttpStatus.SC_OK);
     }
 
     @ApiOperation(value = "내가 서명하지 않은 계약증명들을 조회", notes = "로그인한 이용자가 서명하지 않은 계약증명들을 반환", response = ApiUtils.ApiResult.class)
-    @PutMapping("/contracts/ongoing/need")
-    public ApiUtils.ApiResult<?> findContractsNotSigned(@RequestBody CreateOutReqeust outReqeust) {
-        User user =  userRepository.findUserByEmail(outReqeust.email).get(0);
+    @GetMapping("/contracts/ongoing/need")
+    public ApiUtils.ApiResult<?> findContractsNotSigned() {
+        User user = (User) request.getSession().getAttribute("loginUser");
         return ApiUtils.success(contractService.getContracts(false, false, user));
     }
 
     @ApiOperation(value = "나는 서명했지만 남이 서명하지 않은 계약증명들을 조회", notes = "로그인한 이용자가 자신은 서명했지만 남은 서명하지 않은 계약증명들을 반환", response = ApiUtils.ApiResult.class)
-    @PutMapping("/contracts/ongoing")
-    public ApiUtils.ApiResult<?> findUnestablishedContractsSinged(@RequestBody CreateOutReqeust outReqeust) {
-        User user =  userRepository.findUserByEmail(outReqeust.email).get(0);
+    @GetMapping("/contracts/ongoing")
+    public ApiUtils.ApiResult<?> findUnestablishedContractsSinged(){
+        User user = (User) request.getSession().getAttribute("loginUser");
         return ApiUtils.success(contractService.getContracts(false, true, user));
     }
 
     @ApiOperation(value = "성립된 증명들을 조회", notes = "모두가 서명해 성립된 계약증명들을 반환", response = ApiUtils.ApiResult.class)
-    @PutMapping("/contracts/complete")
-    public ApiUtils.ApiResult<?> findEstablishedContracts(@RequestBody CreateOutReqeust outReqeust) {
-        User user =  userRepository.findUserByEmail(outReqeust.email).get(0);
+    @GetMapping("/contracts/complete")
+    public ApiUtils.ApiResult<?> findEstablishedContracts(){
+        User user = (User) request.getSession().getAttribute("loginUser");
         return ApiUtils.success(contractService.getContracts(true, true, user));
     }
 
@@ -88,10 +88,5 @@ public class ContractController {
     @GetMapping("/contract/{contractId}")
     public ApiUtils.ApiResult<?> findContractsMySignNeeded(@ApiParam(value = "계약증명ID", required = true) @PathVariable long contractId) {
         return ApiUtils.success(contractService.getContract(contractId));
-    }
-
-    @Data
-    static class CreateOutReqeust{
-        private String email;
     }
 }
