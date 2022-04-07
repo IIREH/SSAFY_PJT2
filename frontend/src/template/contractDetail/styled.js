@@ -5,7 +5,7 @@ const MainContainer = styled.div`
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
-  width: 100vw;
+  width: 95vw;
   height: 100%;
 `;
 
