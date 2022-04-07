@@ -69,17 +69,17 @@ const ContractDetailTemplate = ({ contractId }) => {
               {contractData.data.data.response.participantEmails.map((covenantor) => {
                 return <h2 key={covenantor}>계약자 : {covenantor}</h2>;
               })}
-              <hr />
+              <div />
               <h2>날짜 : {contractData.data.data.response.createdDate.slice(0, 10)}</h2>
-              <hr />
+              <div />
               {contractData.data.data.response.establishedDate !== null ? (
                 <h2>
                   계약 체결 날짜 : {contractData.data.data.response.establishedDate.slice(0, 10)}
                 </h2>
               ) : (
-                <div></div>
+                <></>
               )}
-              <hr />
+              <div />
               {contractData.data.data.response.txHashes.length > 0 ? (
                 <>
                   <h2>계약 해쉬값 : </h2>
@@ -88,17 +88,17 @@ const ContractDetailTemplate = ({ contractId }) => {
                   })}
                 </>
               ) : (
-                <div></div>
+                <></>
               )}
             </Styled.ArticleArea>
 
             {contractData.data.data.response.establishedDate === null ? (
               <>
-                <hr />
+                <div />
                 <Styled.warningH>
                   주의 : 계약을 승인하면 기록에서 삭제할 수 없습니다.
                 </Styled.warningH>
-                <hr />
+                <div />
                 <Button
                   variant="contained"
                   className="label theme-bg text-white f-12"
@@ -109,13 +109,13 @@ const ContractDetailTemplate = ({ contractId }) => {
                 </Button>
               </>
             ) : (
-              <div></div>
+              <></>
             )}
 
             {contractData.data.data.response.establishedDate !== null &&
             contractData.data.data.response.txHashes.length === 0 ? (
               <>
-                <hr />
+                <div />
                 <Styled.warningH>
                   주의 : 계약을 승인하면 기록에서 삭제할 수 없습니다.
                 </Styled.warningH>
@@ -125,7 +125,7 @@ const ContractDetailTemplate = ({ contractId }) => {
                 <Styled.warningH>
                   성립이 완료 되면 이행중(블록체인) 으로 자동으로 옮겨집니다.
                 </Styled.warningH>
-                <hr />
+                <div />
                 <Button
                   variant="contained"
                   className="label theme-bg text-white f-12"
@@ -136,7 +136,7 @@ const ContractDetailTemplate = ({ contractId }) => {
                 </Button>
               </>
             ) : (
-              <div></div>
+              <></>
             )}
           </Styled.contractContainer>
           <div style={{ overflow: 'scroll', height: '80vh', width: '55vw' }}>
