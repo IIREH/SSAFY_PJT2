@@ -44,7 +44,7 @@ public class ContractController {
     }
 
     @ApiOperation(value = "블록체인 네트워크에 업로드", notes = "블록체인 네트워크에 암호화된 계약 업로드", response = ApiUtils.ApiResult.class)
-    @PostMapping("/contract/{contractId}/block")
+    @PutMapping("/contract/{contractId}/block")
     public ApiUtils.ApiResult<?> uploadContractToBlockChain(@ApiParam(value = "계약증명ID", required = true) @PathVariable long contractId) throws Exception {
         contractService.uploadContract(contractId);
         return ApiUtils.success(HttpStatus.SC_OK);
