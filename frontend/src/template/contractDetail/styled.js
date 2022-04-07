@@ -7,6 +7,7 @@ const MainContainer = styled.div`
   justify-content: center;
   width: 95vw;
   height: 100%;
+  margin-left: 1vw;
 `;
 
 const ContentContainer = styled.div`
@@ -19,7 +20,7 @@ const ContentContainer = styled.div`
 `;
 
 const contractContainer = styled.div`
-  padding: 2vh 5vw 2vh 0;
+  padding: 2vh 1vw 2vh 0;
 `;
 
 const ArticleArea = styled.div`
@@ -32,13 +33,15 @@ const ArticleArea = styled.div`
 const warningH = styled.h2`
   padding: 2vh 0 2vh 0;
   color: white;
+  font-weight: bold;
 `;
 
 const layoutBox = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  margin-top: 2vh;
+  width: 95%;
+  margin-top: 3vh;
 `;
 
 export default {

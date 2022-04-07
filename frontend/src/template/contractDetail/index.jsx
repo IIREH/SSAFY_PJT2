@@ -54,6 +54,7 @@ const ContractDetailTemplate = ({ contractId }) => {
               color="#fff"
               text-shadow="4px 4px 4px rgba(191, 7, 139, 0.7);"
               gutterBottom
+              maxWidth={'30vw'}
             >
               {contractData.data.data.response.name}
             </Typography>
@@ -63,15 +64,18 @@ const ContractDetailTemplate = ({ contractId }) => {
               })}
               <hr />
               <h2>날짜 : {contractData.data.data.response.createdDate.slice(0, 10)}</h2>
+              <hr />
               <h2>계약 해쉬값 : {contractData.data.data.response.txHash}</h2>
             </Styled.ArticleArea>
             {contractData.data.data.response.establishedDate !== null ? (
               <></>
             ) : (
               <>
+                <hr />
                 <Styled.warningH>
                   주의 : 계약을 승인하면 기록에서 삭제할 수 없습니다.
                 </Styled.warningH>
+                <hr />
                 <Button
                   variant="contained"
                   className="label theme-bg text-white f-12"
@@ -83,8 +87,11 @@ const ContractDetailTemplate = ({ contractId }) => {
               </>
             )}
           </Styled.contractContainer>
-          <div style={{ overflow: 'scroll', height: 680, width: 700 }}>
-            <PDFReader url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`} />
+          <div style={{ overflow: 'scroll', height: '80vh', width: '55vw' }}>
+            <PDFReader
+              url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`}
+              showAllPage={true}
+            />
           </div>
         </Styled.layoutBox>
       </Styled.MainContainer>
