@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Styled from './styled';
 import Button from '@material-ui/core/Button';
 import { useRouter } from 'next/router';
@@ -11,6 +11,7 @@ import { Navbar } from 'components/organisms';
 import { PDFReader } from 'reactjs-pdf-reader';
 
 const ContractDetailTemplate = ({ contractId }) => {
+  const contractId = contractId;
   const router = useRouter();
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {
@@ -37,11 +38,17 @@ const ContractDetailTemplate = ({ contractId }) => {
       </Styled.ContentContainer>
     );
 
-  const confirm = () => {
-    api.put(`/contract/sign/${contractId}`, { email: userInfo });
+  const confirmServer = useCallback(() => {
+    api.put(`/contract/sign/${contractId}`);
     alert('계약을 승인했습니다');
     router.replace('/contractpage');
-  };
+  }, [contractId]);
+
+  const confirmBlock = useCallback(() => {
+    api.put(`/contract/${contractId}/block`);
+    alert('계약을 승인했습니다');
+    router.replace('/contractpage');
+  }, [contractId]);
 
   return (
     <div className="navbar">
@@ -65,11 +72,20 @@ const ContractDetailTemplate = ({ contractId }) => {
               <hr />
               <h2>날짜 : {contractData.data.data.response.createdDate.slice(0, 10)}</h2>
               <hr />
-              <h2>계약 해쉬값 : {contractData.data.data.response.txHash}</h2>
+              {contractData.data.data.response.establishedDate !== null ? (
+                <h2>계약 체결 날짜 : {contractData.data.data.response.establishedDate}</h2>
+              ) : (
+                <></>
+              )}
+              <hr />
+              {contractData.data.data.response.txHash !== null ? (
+                <h2>계약 해쉬값 : {contractData.data.data.response.txHash}</h2>
+              ) : (
+                <></>
+              )}
             </Styled.ArticleArea>
-            {contractData.data.data.response.establishedDate !== null ? (
-              <></>
-            ) : (
+
+            {contractData.data.data.response.establishedDate === null ? (
               <>
                 <hr />
                 <Styled.warningH>
@@ -80,11 +96,40 @@ const ContractDetailTemplate = ({ contractId }) => {
                   variant="contained"
                   className="label theme-bg text-white f-12"
                   disableElevation
-                  onClick={confirm}
+                  onClick={confirmServer}
                 >
                   승인
                 </Button>
               </>
+            ) : (
+              <></>
+            )}
+
+            {contractData.data.data.response.establishedDate !== null &&
+            contractData.data.data.response.txHash === null ? (
+              <>
+                <hr />
+                <Styled.warningH>
+                  주의 : 계약을 승인하면 기록에서 삭제할 수 없습니다.
+                </Styled.warningH>
+                <Styled.warningH>
+                  블록체인 계약 승인은 계약이 성립되는데 다소 시간이 걸릴 수 있습니다.
+                </Styled.warningH>
+                <Styled.warningH>
+                  성립이 완료 되면 이행중(블록체인) 으로 자동으로 옮겨집니다.
+                </Styled.warningH>
+                <hr />
+                <Button
+                  variant="contained"
+                  className="label theme-bg text-white f-12"
+                  disableElevation
+                  onClick={confirmBlock}
+                >
+                  블록체인 승인
+                </Button>
+              </>
+            ) : (
+              <></>
             )}
           </Styled.contractContainer>
           <div style={{ overflow: 'scroll', height: '80vh', width: '55vw' }}>

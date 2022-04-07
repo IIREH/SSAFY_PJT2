@@ -32,7 +32,6 @@ const bull = (
     •
   </Box>
 );
-//
 
 function createData(id, name, createdDate, establishedDate, counterpart) {
   return { id, name, createdDate, establishedDate, counterpart };
@@ -115,7 +114,7 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const Complete = () => {
+const CompleteServer = () => {
   const api = apiInstance();
   const router = useRouter();
   const classes = Styled.useStyles();
@@ -129,8 +128,8 @@ const Complete = () => {
     userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
 
-  const { isLoading, error, isSuccess, data } = useQuery('completeData', () =>
-    api.get('/contracts/complete', { email: userInfo }),
+  const { isLoading, error, isSuccess, data } = useQuery('completeServerData', () =>
+    api.get('/contracts/complete'),
   );
   if (isLoading)
     return (
@@ -258,4 +257,4 @@ const Complete = () => {
   );
 };
 
-export default Complete;
+export default CompleteServer;

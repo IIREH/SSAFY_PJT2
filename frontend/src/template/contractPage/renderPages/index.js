@@ -1,7 +1,8 @@
 import Basic from './basic';
-import Complete from './complete';
+import CompleteServer from './completeServer';
+import CompleteBlock from './completeBlock';
 import Ongoing from './ongoing';
 import Sign from './sign';
 import Write from './write';
 
-export { Basic, Complete, Ongoing, Sign, Write };
+export { Basic, CompleteServer, CompleteBlock, Ongoing, Sign, Write };

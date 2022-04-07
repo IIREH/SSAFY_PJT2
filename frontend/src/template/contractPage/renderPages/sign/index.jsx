@@ -129,7 +129,7 @@ const Sign = () => {
   }
 
   const { isLoading, error, isSuccess, data } = useQuery('ongoingNeedData', () =>
-    api.get('/contracts/ongoing/need', { email: userInfo }),
+    api.get('/contracts/ongoing/need'),
   );
 
   if (isLoading)

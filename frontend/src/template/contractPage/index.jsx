@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Styled from './styled';
 import { Navbar } from 'components/organisms';
 import { ContractListMenu } from 'components/molecules';
-import { Basic, Complete, Ongoing, Sign, Write } from './renderPages';
+import { Basic, CompleteServer, CompleteBlock, Ongoing, Sign, Write } from './renderPages';
 
 const ContractPageTemplate = () => {
   const [pageState, setPageState] = useState(0);
 
-  const renderPage = () => {
+  const renderPage = useCallback(() => {
     switch (pageState) {
       case 0:
         return <Basic />;
@@ -17,10 +17,12 @@ const ContractPageTemplate = () => {
         return <Sign />;
       case '성립전':
         return <Ongoing />;
-      case '이행중':
-        return <Complete />;
+      case '이행중(서버)':
+        return <CompleteServer />;
+      case '이행중(블록체인)':
+        return <CompleteBlock />;
     }
-  };
+  }, [pageState]);
 
   return (
     <>

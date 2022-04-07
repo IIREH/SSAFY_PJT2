@@ -43,7 +43,12 @@ const ContractListMenu = (props) => {
       </List>
       <List component="div">
         <ListItem button onClick={changePage}>
-          <ListItemText primary="이행중" disableTypography />
+          <ListItemText primary="이행중(서버)" disableTypography />
+        </ListItem>
+      </List>
+      <List component="div">
+        <ListItem button onClick={changePage}>
+          <ListItemText primary="이행중(블록체인)" disableTypography />
         </ListItem>
       </List>
     </Styled.MainContainer>

@@ -1,10 +1,7 @@
-import Image from 'next/image';
 import React from 'react';
+import Image from 'next/image';
 import PropTypes from 'prop-types';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
@@ -16,8 +13,12 @@ import { useQuery } from 'react-query';
 import { apiInstance } from '@/libs/axios';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import image__loading from '/public/Spinner-1s-200px.svg';
+import Grid from '@mui/material/Grid';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import image__loading from '/public/Spinner-1s-200px.svg';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -31,10 +32,9 @@ const bull = (
     •
   </Box>
 );
-//
 
-function createData(id, name, createdDate, counterpart) {
-  return { id, name, createdDate, counterpart };
+function createData(id, name, createdDate, establishedDate, counterpart) {
+  return { id, name, createdDate, establishedDate, counterpart };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -67,6 +67,7 @@ const headCells = [
   { id: 'id', disablePadding: false, label: 'id' },
   { id: 'contractName', disablePadding: false, label: 'contractName' },
   { id: 'createdDate', disablePadding: false, label: 'createdDate' },
+  { id: 'establishedDate', disablePadding: false, label: 'establishedDate' },
   { id: 'counterpart', disablePadding: false, label: 'counterpart' },
 ];
 
@@ -82,7 +83,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align="center"
+            align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -113,22 +114,22 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const Ongoing = () => {
+const CompleteBlock = () => {
+  const api = apiInstance();
   const router = useRouter();
   const classes = Styled.useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
-  const api = apiInstance();
   const rows = [];
   let userInfo = '';
   if (typeof window !== 'undefined' && window.sessionStorage) {
     userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
 
-  const { isLoading, error, isSuccess, data } = useQuery('ongoingData', () =>
-    api.get('/contracts/ongoing'),
+  const { isLoading, error, isSuccess, data } = useQuery('completeBlockData', () =>
+    api.get('/contracts/block'),
   );
   if (isLoading)
     return (
@@ -140,11 +141,16 @@ const Ongoing = () => {
       </Styled.ContentContainer>
     );
   if (error) return 'An error has occurred: ' + error.message;
-
   if (isSuccess) {
     data.data.response.map((contract) => {
       rows.push(
-        createData(contract.id, contract.name, contract.createdDate, contract.participantEmails),
+        createData(
+          contract.id,
+          contract.name,
+          contract.createdDate,
+          contract.establishedDate,
+          contract.participantEmails,
+        ),
       );
     });
   }
@@ -173,51 +179,64 @@ const Ongoing = () => {
     <div className={classes.root}>
       {rows.length > 0 ? (
         <Paper className={classes.paper}>
-          <TableContainer>
-            <Table
-              className={classes.table}
-              aria-labelledby="tableTitle"
-              aria-label="enhanced table"
-            >
-              <EnhancedTableHead
-                classes={classes}
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-              />
-              <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    const labelId = `enhanced-table-checkbox-${index}`;
+          <Box>
+            <Grid container spacing={0}>
+              {stableSort(rows, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const labelId = `enhanced-table-checkbox-${index}`;
+                  return (
+                    <Grid
+                      item
+                      xs={3}
+                      key={row.id}
+                      hover="true"
+                      onClick={(event) => handleClick(event, row.id)}
+                      tabIndex={-1}
+                      className={classes.tableRow}
+                      p={3}
+                    >
+                      <Item>
+                        <CardContent>
+                          <div className="color-test">
+                            <Typography sx={{ fontSize: 14 }} gutterBottom>
+                              <br />
+                              {row.id}
+                              <br />
+                            </Typography>
+                            <Typography variant="h5" component="div">
+                              {bull} {row.name} {bull}
+                            </Typography>
 
-                    return (
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, row.id)}
-                        tabIndex={-1}
-                        key={row.id}
-                        className={classes.tableRow}
-                      >
-                        <TableCell
-                          align="center"
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                          padding="none"
-                        >
-                          {row.id}
-                        </TableCell>
-                        <TableCell align="center">{row.name}</TableCell>
-                        <TableCell align="center">{row.createdDate.slice(0, 10)}</TableCell>
-                        <TableCell align="center">{row.counterpart}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                            <Typography variant="body2">
+                              <br />
+                              생성일 : {row.createdDate.slice(0, 10)}
+                              <br />
+                              체결일 : {row.establishedDate.slice(0, 10)}
+                              <br />
+                            </Typography>
+
+                            <Typography sx={{ mb: 1.5 }}>
+                              <br />
+                              {row.counterpart}
+                              <br />
+                            </Typography>
+                          </div>
+                        </CardContent>
+                        <CardActions>
+                          <Button size="small" className="theme-bg3 text-white btn-round">
+                            자세히
+                          </Button>
+                        </CardActions>
+                      </Item>
+                    </Grid>
+                  );
+                })}
+            </Grid>
+          </Box>
+          <br />
+          <br />
+
           <TablePagination
             rowsPerPageOptions={[8, 12, 16, 20]}
             component="div"
@@ -227,6 +246,7 @@ const Ongoing = () => {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
+
           <br />
           <br />
         </Paper>
@@ -237,4 +257,4 @@ const Ongoing = () => {
   );
 };
 
-export default Ongoing;
+export default CompleteBlock;
