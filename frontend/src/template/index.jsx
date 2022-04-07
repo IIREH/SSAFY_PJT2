@@ -14,7 +14,6 @@ const index = () => {
 
   const onWheel = useCallback(
     (e) => {
-      console.log('sdfasdfsd');
       e.preventDefault();
       if (e.deltaY < 0 && scrollHeight !== 0) {
         setScrollHeight(scrollHeight + 92);

@@ -2,7 +2,7 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import GuideTemplate from '@/template/guideTemplate';
 
-const NoSSR = dynamic(() => import('template/contractDetail'), {
+const NoSSR = dynamic(() => import('@/template/contractDetail'), {
   ssr: false,
 });
 
