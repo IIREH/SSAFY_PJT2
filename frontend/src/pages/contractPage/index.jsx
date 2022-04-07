@@ -1,6 +1,11 @@
 import React from 'react';
 import ContractPageTemplate from '@/template/contractPage';
 import GuideTemplate from '@/template/guideTemplate';
+import dynamic from 'next/dynamic';
+
+const NoSSR = dynamic(() => import('@/template/contractPage'), {
+  ssr: false,
+});
 
 const ContractPage = () => {
   let userInfo = false;
@@ -12,7 +17,7 @@ const ContractPage = () => {
     if (userInfo === false) {
       return <GuideTemplate />;
     }
-    return <ContractPageTemplate />;
+    return <NoSSR />;
   };
 
   return privateRoute();
