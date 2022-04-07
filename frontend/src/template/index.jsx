@@ -17,9 +17,9 @@ const index = () => {
       console.log('sdfasdfsd');
       e.preventDefault();
       if (e.deltaY < 0 && scrollHeight !== 0) {
-        setScrollHeight(scrollHeight + 95);
-      } else if (e.deltaY > 0 && scrollHeight !== -380) {
-        setScrollHeight(scrollHeight - 95);
+        setScrollHeight(scrollHeight + 92);
+      } else if (e.deltaY > 0 && scrollHeight !== -368) {
+        setScrollHeight(scrollHeight - 92);
       }
     },
     [scrollHeight],
@@ -61,15 +61,21 @@ const index = () => {
           </Styled.ContentContainer>
 
           <Styled.ContentContainer scrollHeight={scrollHeight}>
-            <Image src={page3} />
+            <Styled.stylePage3>
+              <Image src={page3} />
+            </Styled.stylePage3>
           </Styled.ContentContainer>
 
           <Styled.ContentContainer scrollHeight={scrollHeight}>
-            <Image src={page4} />
+            <Styled.stylePage4>
+              <Image src={page4} />
+            </Styled.stylePage4>
           </Styled.ContentContainer>
 
           <Styled.ContentContainer scrollHeight={scrollHeight}>
-            <Image src={page5} />
+            <Styled.stylePage5>
+              <Image src={page5} />
+            </Styled.stylePage5>
           </Styled.ContentContainer>
         </Styled.MainContainer>
       </div>

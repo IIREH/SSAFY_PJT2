@@ -3,7 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const MainContainer = styled.div`
   width: 1535px;
-  height: 95vh;
+  height: 92vh;
   overflow: hidden;
 `;
 
