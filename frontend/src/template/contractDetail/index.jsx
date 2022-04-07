@@ -60,13 +60,13 @@ const ContractDetailTemplate = ({ contractId }) => {
             </Typography>
             <Styled.ArticleArea>
               {contractData.data.data.response.participantEmails.map((covenantor) => {
-                return <div key={covenantor}>계약자 : {covenantor}</div>;
+                return <h2 key={covenantor}>계약자 : {covenantor}</h2>;
               })}
               <hr />
-              <div>날짜 : {contractData.data.data.response.createdDate.slice(0, 10)}</div>
+              <h2>날짜 : {contractData.data.data.response.createdDate.slice(0, 10)}</h2>
             </Styled.ArticleArea>
           </Styled.contractContainer>
-          <div style={{ overflow: 'scroll', height: 1000 }}>
+          <div style={{ overflow: 'scroll', height: 300 }}>
             <PDFReader url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`} />
           </div>
           {contractData.data.data.response.establishedDate !== null ? (
@@ -76,7 +76,7 @@ const ContractDetailTemplate = ({ contractId }) => {
               <Styled.warningH>주의 : 계약을 승인하면 기록에서 삭제할 수 없습니다.</Styled.warningH>
               <Button
                 variant="contained"
-                class="label theme-bg text-white f-12"
+                className="label theme-bg text-white f-12"
                 disableElevation
                 onClick={confirm}
               >

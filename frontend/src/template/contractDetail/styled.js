@@ -29,7 +29,7 @@ const ArticleArea = styled.div`
   justify-content: space-between;
 `;
 
-const warningH = styled.h3`
+const warningH = styled.h2`
   padding: 2vh 0 2vh 0;
   color: white;
 `;
