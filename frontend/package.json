@@ -32,7 +32,8 @@
     "react-query": "^3.34.16",
     "react-transition-group": "^4.4.2",
     "reactjs-pdf-reader": "^1.0.12",
-    "sass": "^1.49.11"
+    "sass": "^1.49.11",
+    "sharp": "^0.30.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.7",
