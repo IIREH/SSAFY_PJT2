@@ -173,51 +173,59 @@ const Ongoing = () => {
     <div className={classes.root}>
       {rows.length > 0 ? (
         <Paper className={classes.paper}>
-          <TableContainer>
-            <Table
-              className={classes.table}
-              aria-labelledby="tableTitle"
-              aria-label="enhanced table"
-            >
-              <EnhancedTableHead
-                classes={classes}
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-              />
-              <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    const labelId = `enhanced-table-checkbox-${index}`;
-
-                    return (
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, row.id)}
-                        tabIndex={-1}
-                        key={row.id}
-                        className={classes.tableRow}
-                      >
-                        <TableCell
-                          align="center"
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                          padding="none"
-                        >
-                          {row.id}
-                        </TableCell>
-                        <TableCell align="center">{row.name}</TableCell>
-                        <TableCell align="center">{row.createdDate.slice(0, 10)}</TableCell>
-                        <TableCell align="center">{row.counterpart}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <Box>
+            <Grid container spacing={0}>
+              {stableSort(rows, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const labelId = `enhanced-table-checkbox-${index}`;
+                  return (
+                    <Grid
+                      item
+                      xs={3}
+                      key={row.id}
+                      hover="true"
+                      onClick={(event) => handleClick(event, row.id)}
+                      tabIndex={-1}
+                      className={classes.tableRow}
+                      p={3}
+                    >
+                      <Item>
+                        <CardContent>
+                          <div className="color-test">
+                            <Typography sx={{ fontSize: 14 }} gutterBottom>
+                              <br />
+                              {row.id}
+                              <br />
+                            </Typography>
+                            <Typography variant="h5" component="div">
+                              {bull} {row.name} {bull}
+                            </Typography>
+                            <Typography variant="body2">
+                              <br />
+                              생성일 : {row.createdDate.slice(0, 10)}
+                              <br />
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }}>
+                              <br />
+                              {row.counterpart}
+                              <br />
+                            </Typography>
+                          </div>
+                        </CardContent>
+                        <CardActions>
+                          <Button size="small" className="theme-bg3 text-white btn-round">
+                            button
+                          </Button>
+                        </CardActions>
+                      </Item>
+                    </Grid>
+                  );
+                })}
+            </Grid>
+          </Box>
+          <br />
+          <br />
           <TablePagination
             rowsPerPageOptions={[8, 12, 16, 20]}
             component="div"
