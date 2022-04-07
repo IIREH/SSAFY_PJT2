@@ -29,6 +29,7 @@ public class UserController {
     private final FileStore fileStore;
     private static final String LOGIN_USER = "loginUser";
 
+    // 젠킨스
     @GetMapping("/test")
     public String test(){
         return "test_success";
