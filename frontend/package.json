@@ -1,7 +1,9 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "private": true,
+  "description": "team5_project",
+  "main": "index.js",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -32,8 +34,6 @@
     "reactjs-pdf-reader": "^1.0.12",
     "sass": "^1.49.11"
   },
-  "main": "index.js",
-  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.17.7",
     "@babel/eslint-parser": "^7.17.0",
