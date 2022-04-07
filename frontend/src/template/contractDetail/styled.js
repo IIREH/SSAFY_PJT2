@@ -2,9 +2,15 @@ import styled from '@emotion/styled';
 
 const MainContainer = styled.div`
   display: flex;
-
   flex-flow: column nowrap;
   align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100%;
+`;
+
+const contractContainer = styled.div`
+  padding: 2vh 0 2vh 0;
 `;
 
 const ContentContainer = styled.div`
@@ -19,8 +25,13 @@ const ContentContainer = styled.div`
 const ArticleArea = styled.div`
   display: flex;
   color: white;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   justify-content: space-between;
 `;
 
-export default { MainContainer, ContentContainer, ArticleArea };
+const warningH = styled.h3`
+  padding: 2vh 0 2vh 0;
+  color: white;
+`;
+
+export default { MainContainer, ContentContainer, ArticleArea, warningH, contractContainer };

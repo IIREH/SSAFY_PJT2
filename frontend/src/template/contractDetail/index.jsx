@@ -49,9 +49,9 @@ const ContractDetailTemplate = ({ contractId }) => {
       <div className="navbar">
         <Navbar />
         <Styled.MainContainer>
-          <div>
+          <Styled.contractContainer>
             <Typography
-              variant="h5"
+              variant="h1"
               color="#fff"
               text-shadow="4px 4px 4px rgba(191, 7, 139, 0.7);"
               gutterBottom
@@ -59,21 +59,21 @@ const ContractDetailTemplate = ({ contractId }) => {
               {contractData.data.data.response.name}
             </Typography>
             <Styled.ArticleArea>
-              계약자 :
               {contractData.data.data.response.participantEmails.map((covenantor) => {
-                return <p key={covenantor}>{covenantor}</p>;
+                return <div key={covenantor}>계약자 : {covenantor}</div>;
               })}
-              <span>날짜 : {contractData.data.data.response.createdDate.slice(0, 10)}</span>
+              <hr />
+              <div>날짜 : {contractData.data.data.response.createdDate.slice(0, 10)}</div>
             </Styled.ArticleArea>
-          </div>
-          <div style={{ overflow: 'scroll', height: 600 }}>
+          </Styled.contractContainer>
+          <div style={{ overflow: 'scroll', height: 1000 }}>
             <PDFReader url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`} />
           </div>
           {contractData.data.data.response.establishedDate !== null ? (
             <></>
           ) : (
             <>
-              <h3> 주의 : 계약을 승인하면 기록에서 삭제할 수 없습니다.</h3>
+              <Styled.warningH>주의 : 계약을 승인하면 기록에서 삭제할 수 없습니다.</Styled.warningH>
               <Button
                 variant="contained"
                 class="label theme-bg text-white f-12"

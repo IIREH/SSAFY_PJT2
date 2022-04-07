@@ -129,32 +129,32 @@ const Complete = () => {
     userInfo = sessionStorage.getItem('chainTractLoginInfo');
   }
 
-  // const { isLoading, error, isSuccess, data } = useQuery('completeData', () =>
-  //   api.get('/contracts/complete', { email: userInfo }),
-  // );
-  // if (isLoading)
-  //   return (
-  //     <Styled.ContentContainer>
-  //       <Typography variant="h5" gutterBottom>
-  //         Loading...
-  //       </Typography>
-  //       <Image src={image__loading} alt="image__loading" className="image__loading" />
-  //     </Styled.ContentContainer>
-  //   );
-  // if (error) return 'An error has occurred: ' + error.message;
-  // if (isSuccess) {
-  //   data.data.response.map((contract) => {
-  //     rows.push(
-  //       createData(
-  //         contract.id,
-  //         contract.name,
-  //         contract.createdDate,
-  //         contract.establishedDate,
-  //         contract.participantEmails,
-  //       ),
-  //     );
-  //   });
-  // }
+  const { isLoading, error, isSuccess, data } = useQuery('completeData', () =>
+    api.get('/contracts/complete', { email: userInfo }),
+  );
+  if (isLoading)
+    return (
+      <Styled.ContentContainer>
+        <Typography variant="h5" gutterBottom>
+          Loading...
+        </Typography>
+        <Image src={image__loading} alt="image__loading" className="image__loading" />
+      </Styled.ContentContainer>
+    );
+  if (error) return 'An error has occurred: ' + error.message;
+  if (isSuccess) {
+    data.data.response.map((contract) => {
+      rows.push(
+        createData(
+          contract.id,
+          contract.name,
+          contract.createdDate,
+          contract.establishedDate,
+          contract.participantEmails,
+        ),
+      );
+    });
+  }
 
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
