@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Navbar } from '@/components/organisms';
 import Styled from './styled';
 import Image from 'next/image';
@@ -11,14 +11,20 @@ import page5 from '/public/page5.png';
 
 const index = () => {
   const [scrollHeight, setScrollHeight] = useState(0);
-  const onWheel = (e) => {
-    e.preventDefault();
-    if (e.deltaY < 0 && scrollHeight !== 0) {
-      setScrollHeight(scrollHeight + 95);
-    } else if (e.deltaY > 0 && scrollHeight !== -380) {
-      setScrollHeight(scrollHeight - 95);
-    }
-  };
+
+  const onWheel = useCallback(
+    (e) => {
+      console.log('sdfasdfsd');
+      e.preventDefault();
+      if (e.deltaY < 0 && scrollHeight !== 0) {
+        setScrollHeight(scrollHeight + 95);
+      } else if (e.deltaY > 0 && scrollHeight !== -380) {
+        setScrollHeight(scrollHeight - 95);
+      }
+    },
+    [scrollHeight],
+  );
+
   useEffect(() => {
     window.addEventListener('wheel', onWheel, { passive: false });
     return () => {

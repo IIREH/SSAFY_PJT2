@@ -9,10 +9,6 @@ const MainContainer = styled.div`
   height: 100%;
 `;
 
-const contractContainer = styled.div`
-  padding: 2vh 0 2vh 0;
-`;
-
 const ContentContainer = styled.div`
   width: 200px;
   height: 100px;
@@ -20,6 +16,10 @@ const ContentContainer = styled.div`
   position: absolute;
   color: white;
   transition: all 1.5s;
+`;
+
+const contractContainer = styled.div`
+  padding: 2vh 5vw 2vh 0;
 `;
 
 const ArticleArea = styled.div`
@@ -38,6 +38,7 @@ const layoutBox = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+  margin-top: 2vh;
 `;
 
 export default {

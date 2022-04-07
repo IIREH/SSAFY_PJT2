@@ -65,6 +65,7 @@ const ContractDetailTemplate = ({ contractId }) => {
                 })}
                 <hr />
                 <h2>날짜 : {contractData.data.data.response.createdDate.slice(0, 10)}</h2>
+                <h2>계약 해쉬값 : {contractData.data.data.response.txHash}</h2>
               </Styled.ArticleArea>
               {contractData.data.data.response.establishedDate !== null ? (
                 <></>
@@ -84,7 +85,7 @@ const ContractDetailTemplate = ({ contractId }) => {
                 </>
               )}
             </Styled.contractContainer>
-            <div style={{ overflow: 'scroll', height: 400 }}>
+            <div style={{ overflow: 'scroll', height: 600 }}>
               <PDFReader url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`} />
             </div>
           </Styled.layoutBox>
