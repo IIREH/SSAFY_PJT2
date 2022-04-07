@@ -73,9 +73,11 @@ const ContractDetailTemplate = ({ contractId }) => {
               <h2>날짜 : {contractData.data.data.response.createdDate.slice(0, 10)}</h2>
               <hr />
               {contractData.data.data.response.establishedDate !== null ? (
-                <h2>계약 체결 날짜 : {contractData.data.data.response.establishedDate}</h2>
+                <h2>
+                  계약 체결 날짜 : {contractData.data.data.response.establishedDate.slice(0, 10)}
+                </h2>
               ) : (
-                <></>
+                <div></div>
               )}
               <hr />
               {contractData.data.data.response.txHashes.length > 0 ? (
@@ -86,7 +88,7 @@ const ContractDetailTemplate = ({ contractId }) => {
                   })}
                 </>
               ) : (
-                <></>
+                <div></div>
               )}
             </Styled.ArticleArea>
 
@@ -107,7 +109,7 @@ const ContractDetailTemplate = ({ contractId }) => {
                 </Button>
               </>
             ) : (
-              <></>
+              <div></div>
             )}
 
             {contractData.data.data.response.establishedDate !== null &&
@@ -134,7 +136,7 @@ const ContractDetailTemplate = ({ contractId }) => {
                 </Button>
               </>
             ) : (
-              <></>
+              <div></div>
             )}
           </Styled.contractContainer>
           <div style={{ overflow: 'scroll', height: '80vh', width: '55vw' }}>
