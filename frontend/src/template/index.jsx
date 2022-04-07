@@ -12,7 +12,6 @@ import page5 from '/public/page5.png';
 const index = () => {
   const [scrollHeight, setScrollHeight] = useState(0);
   const onWheel = (e) => {
-    console.log('ggg');
     e.preventDefault();
     if (e.deltaY < 0 && scrollHeight !== 0) {
       setScrollHeight(scrollHeight + 95);
