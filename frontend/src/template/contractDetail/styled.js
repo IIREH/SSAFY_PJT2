@@ -34,4 +34,17 @@ const warningH = styled.h2`
   color: white;
 `;
 
-export default { MainContainer, ContentContainer, ArticleArea, warningH, contractContainer };
+const layoutBox = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+`;
+
+export default {
+  MainContainer,
+  ContentContainer,
+  ArticleArea,
+  warningH,
+  contractContainer,
+  layoutBox,
+};
