@@ -78,10 +78,10 @@ const ContractDetailTemplate = ({ contractId }) => {
                 <></>
               )}
               <hr />
-              {contractData.data.data.response.txHash !== null ? (
+              {contractData.data.data.response.txHashes.length > 0 ? (
                 <>
                   <h2>계약 해쉬값 : </h2>
-                  {contractData.data.data.response.txHash.map((hash) => {
+                  {contractData.data.data.response.txHashes.map((hash) => {
                     return <h2>{hash}</h2>;
                   })}
                 </>
@@ -111,7 +111,7 @@ const ContractDetailTemplate = ({ contractId }) => {
             )}
 
             {contractData.data.data.response.establishedDate !== null &&
-            contractData.data.data.response.txHash === null ? (
+            contractData.data.data.response.txHashes.length === 0 ? (
               <>
                 <hr />
                 <Styled.warningH>
@@ -139,7 +139,8 @@ const ContractDetailTemplate = ({ contractId }) => {
           </Styled.contractContainer>
           <div style={{ overflow: 'scroll', height: '80vh', width: '55vw' }}>
             <PDFReader
-              url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`}
+              url={`http://localhost:8080/api/contract/${contractId}/file`}
+              // url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`}
               showAllPage={true}
             />
           </div>
