@@ -24,7 +24,7 @@ spring:
   servlet:
     multipart:
       file-size-threshold: 1MB
-      location: ~/imageUpload/
+      location: /hone/ubuntu/imageUpload/
       max-file-size: 100MB
       max-request-size: 100MB
 
