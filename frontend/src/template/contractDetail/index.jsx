@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Styled from './styled';
 import Button from '@material-ui/core/Button';
 import { useRouter } from 'next/router';
@@ -38,17 +38,17 @@ const ContractDetailTemplate = ({ contractId }) => {
       </Styled.ContentContainer>
     );
 
-  const confirmServer = useCallback(() => {
+  const confirmServer = () => {
     api.put(`/contract/sign/${contractId}`);
     alert('계약을 승인했습니다');
     router.replace('/contractpage');
-  }, [contractId]);
+  };
 
-  const confirmBlock = useCallback(() => {
+  const confirmBlock = () => {
     api.put(`/contract/${contractId}/block`);
     alert('계약을 승인했습니다');
     router.replace('/contractpage');
-  }, [contractId]);
+  };
 
   return (
     <div className="navbar">

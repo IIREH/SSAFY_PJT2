@@ -15,6 +15,10 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import image__loading from '/public/Spinner-1s-200px.svg';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
