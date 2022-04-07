@@ -1,4 +1,4 @@
-lsdfserver:
+server:
   servlet:
     context-path: /api
 
@@ -31,3 +31,4 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
+
