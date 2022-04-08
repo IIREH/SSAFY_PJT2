@@ -109,7 +109,10 @@ public class ContractService {
         String dec = Encryption.decrypt(enc);
 
         if(plainBase64.equals(dec)) {
-            smartContractService.uploadContract(contract.getId(), enc);
+            if(smartContractService.uploadContract(contract.getId(), enc) == false) {
+                // TODO 업로드 중 중단된 경우 총 몇 tx를 보내야하며 몇 개의 tx가 올라갔는지 표시
+                return;
+            }
             Date date = new Date();
             contractRepository.uploadContract(contract.getId(), date);
             // TODO: 블록체인에 올리지 못한 경우를 표현하는 계약의 상태정보?
