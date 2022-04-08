@@ -46,7 +46,7 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
     @Query("select c from contract c, participant p " +
             "where c.id = p.contract.id " +
             "AND p.user.id = :userId " +
-            "AND c.estDate is not null" +
+            "AND c.estDate is not null " +
             "AND c.uploadedDate is null")
     Optional<List<Contract>> getEstablishedContracts(long userId);
     @Query("SELECT c " +
