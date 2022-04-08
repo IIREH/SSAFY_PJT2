@@ -139,8 +139,7 @@ const ContractDetailTemplate = ({ contractId }) => {
           </Styled.contractContainer>
           <div style={{ overflow: 'scroll', height: '80vh', width: '55vw' }}>
             <PDFReader
-              url={`http://localhost:8080/api/contract/${contractId}/file`}
-              // url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`}
+              url={`https://j6c105.p.ssafy.io/api/contract/${contractId}/file`}
               showAllPage={true}
             />
           </div>
