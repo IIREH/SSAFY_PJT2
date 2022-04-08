@@ -90,6 +90,13 @@ const ContractDetailTemplate = ({ contractId }) => {
               ) : (
                 <></>
               )}
+              {contractData.data.data.response.uploadedDate === null ? (
+                <>
+                  <h2>(블록체인에 완전히 반영되지 않음) </h2>
+                </>
+              ) : (
+                <></>
+              )}
             </Styled.ArticleArea>
 
             {contractData.data.data.response.establishedDate === null ? (
@@ -112,7 +119,7 @@ const ContractDetailTemplate = ({ contractId }) => {
             )}
 
             {contractData.data.data.response.establishedDate !== null &&
-            contractData.data.data.response.txHashes.length === 0 ? (
+            contractData.data.data.response.uploadedDate === null ? (
               <>
                 <Styled.warningH>
                   주의 : 계약을 승인하면 기록에서 삭제할 수 없습니다.
