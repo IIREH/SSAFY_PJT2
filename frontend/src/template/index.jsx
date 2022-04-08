@@ -1,38 +1,83 @@
-import React from 'react';
-import { useQuery } from 'react-query';
-import { useRecoilState } from 'recoil';
-import { userState } from '@/states/user';
-
-import { Navbar } from '@/components/molecules';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Navbar } from '@/components/organisms';
+import Styled from './styled';
+import Image from 'next/image';
+import illustration__security from '/public/secure_image.gif';
+import illustration__main from '/public/main.png';
+import page2 from '/public/page2.png';
+import page3 from '/public/page3.png';
+import page4 from '/public/page4.png';
+import page5 from '/public/page5.png';
 
 const index = () => {
-  // recoil 사용 예시
-  const [user, setUser] = useRecoilState(userState);
-  // react쿼리 예시
-  const { isLoading, error, data } = useQuery('repoData', () =>
-    fetch('https://api.github.com/repos/tannerlinsley/react-query').then((res) => res.json()),
+  const [scrollHeight, setScrollHeight] = useState(0);
+
+  const onWheel = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (e.deltaY < 0 && scrollHeight !== 0) {
+        setScrollHeight(scrollHeight + 92);
+      } else if (e.deltaY > 0 && scrollHeight !== -368) {
+        setScrollHeight(scrollHeight - 92);
+      }
+    },
+    [scrollHeight],
   );
 
-  if (isLoading) return 'Loading...';
-
-  if (error) return 'An error has occurred: ' + error.message;
-
-  const addBtn = (e) => {
-    const word = user;
-    setUser(word + '1');
-  };
+  useEffect(() => {
+    window.addEventListener('wheel', onWheel, { passive: false });
+    return () => {
+      window.removeEventListener('wheel', onWheel);
+    };
+  }, [scrollHeight]);
 
   return (
     <>
-      <Navbar />
-      <div>
-        <h1>{data.name}</h1>
-        <p>{data.description}</p>
-        <strong>👀 {data.subscribers_count}</strong> <strong>✨ {data.stargazers_count}</strong>{' '}
-        <strong>🍴 {data.forks_count}</strong>
+      <div className="navbar">
+        <Navbar />
+        <Styled.MainContainer>
+          <Styled.ContentContainer scrollHeight={scrollHeight}>
+            <Styled.stylePage1>
+              <Styled.imageStyle>
+                <Image src={illustration__main} />
+              </Styled.imageStyle>
+              <Styled.styleP>
+                스크롤을 아래로 내려주세요
+                <Styled.MovingArrow />
+              </Styled.styleP>
+            </Styled.stylePage1>
+          </Styled.ContentContainer>
+
+          <Styled.ContentContainer scrollHeight={scrollHeight}>
+            <Styled.stylePage2>
+              <Styled.imageStyle2>
+                <Image src={illustration__security} width={550} height={550} />
+              </Styled.imageStyle2>
+              <Styled.imageStyleChaintract>
+                <Image src={page2} />
+              </Styled.imageStyleChaintract>
+            </Styled.stylePage2>
+          </Styled.ContentContainer>
+
+          <Styled.ContentContainer scrollHeight={scrollHeight}>
+            <Styled.stylePage3>
+              <Image src={page3} />
+            </Styled.stylePage3>
+          </Styled.ContentContainer>
+
+          <Styled.ContentContainer scrollHeight={scrollHeight}>
+            <Styled.stylePage4>
+              <Image src={page4} />
+            </Styled.stylePage4>
+          </Styled.ContentContainer>
+
+          <Styled.ContentContainer scrollHeight={scrollHeight}>
+            <Styled.stylePage5>
+              <Image src={page5} />
+            </Styled.stylePage5>
+          </Styled.ContentContainer>
+        </Styled.MainContainer>
       </div>
-      <div>recoil state = {user}</div>
-      <button onClick={addBtn}>추가버튼</button>
     </>
   );
 };

@@ -7,18 +7,12 @@ const GlobalStyle = () => (
     styles={css`
       ${reset}
 
-      /* @font-face {
-        font-family: 'IBMPlexSansKR';
-        src: url('/fonts/IBMPlexSansKR/IBMPlexSansKR-Regular.ttf');
-      } */
-
       html {
         font-size: 16px;
         margin: 0 auto;
       }
 
       body {
-        font-family: 'IBMPlexSansKR';
         letter-spacing: 0.08rem;
       }
 
@@ -28,6 +22,9 @@ const GlobalStyle = () => (
       }
 
       button {
+        cursor: pointer;
+      }
+      input {
         cursor: pointer;
       }
     `}

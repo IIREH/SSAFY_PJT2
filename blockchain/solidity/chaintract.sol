@@ -2,32 +2,24 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
-
-contract Chaintract_001 {
+contract Chaintract_002 {
 
     uint256[] chaintractSerialNumbers;
     address manager;
     constructor () {
         manager = msg.sender;
     }
-    mapping(uint256 => bytes32) serialNumberToEncryptedCode;
+    
+    mapping(uint256 => string) serialNumberToEncryptedCode;
 
-
-    modifier onlyManagerRegister() {
-        require(msg.sender == manager, "Only manager can register constracts.");
-        _;
-    }
-    function register(uint256 serialNum, bytes32 encrypted) public onlyManagerRegister {
-        require(serialNumberToEncryptedCode[serialNum] == 0);
+    function register(uint256 serialNum, string memory encrypted) public {
+        require(keccak256(abi.encodePacked(serialNumberToEncryptedCode[serialNum])) == keccak256(abi.encodePacked("")));
         chaintractSerialNumbers.push(serialNum);
         serialNumberToEncryptedCode[serialNum] = encrypted;
     }
 
-
-    function verify(uint256 serialNum) public view returns(bytes32) {
+    function verify(uint256 serialNum) public view returns(string memory) {
         return serialNumberToEncryptedCode[serialNum];
     }
-
-
 
 }

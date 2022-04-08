@@ -3,7 +3,8 @@ module.exports = {
   parserOptions: {
     requireConfigFile: false,
     babelOptions: {
-      presets: ['@babel/preset-react'],
+      // presets: ['@babel/preset-react'],
+      presets: ['@babel/react'],
     },
   },
   plugins: ['react', 'react-hooks'],
@@ -15,6 +16,7 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:prettier/recommended',
+    'eslint:recommended',
   ],
   rules: {
     'prettier/prettier': 0,
@@ -41,5 +43,9 @@ module.exports = {
         map: [['@', './src']],
       },
     },
+  },
+  globals: {
+    window: false,
+    sessionStorage: false,
   },
 };

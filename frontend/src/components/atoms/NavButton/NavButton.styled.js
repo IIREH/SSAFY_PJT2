@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 
-const NavButton = styled.button`
+const NavButton = styled.a`
   border: none;
   outline: none;
   cursor: pointer;
+  font-size: 1.3rem;
+  font-family: arial;
   background-color: ${(props) => props.bgColor};
   color: ${(props) => props.color};
   :hover {
